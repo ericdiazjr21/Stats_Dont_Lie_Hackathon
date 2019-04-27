@@ -31,10 +31,11 @@ public class BDLRepository {
 
     public void initRetrofitCall(int playerId) {
         RetrofitSingleton.getSingleService()
-                .getResponse(playerId, 2018)
+                .getResponse(playerId, 2018,100)
                 .enqueue(new Callback<BDLResponse>() {
                     @Override
                     public void onResponse(Call<BDLResponse> call, Response<BDLResponse> response) {
+                        Log.d(BDLAppConstants.BDLREPOSITORY_TAG, "onResponse: " + call.request().toString());
                         computePlayerAverage(response.body());
                     }
 
