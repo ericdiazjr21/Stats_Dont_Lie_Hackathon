@@ -1,6 +1,7 @@
 package com.example.statsdontlie.view.fragments;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.statsdontlie.OnFragmentInteractionListener;
 import com.example.statsdontlie.R;
 
 public class ResultFragment
@@ -23,15 +25,16 @@ public class ResultFragment
     private TextView result;
     private Button menu;
     private Button restart;
+    private OnFragmentInteractionListener listener;
 
     public ResultFragment() {}
 
-    public static ResultFragment newInstance(final int correctAnswers, final int wrongAnswers) {
+    public static ResultFragment newInstance() {
         ResultFragment resultFragment = new ResultFragment();
         Bundle bundle = new Bundle();
 
-        bundle.putInt(CORRECT, correctAnswers);
-        bundle.putInt(WRONG, wrongAnswers);
+//        bundle.putInt(CORRECT, correctAnswers);
+//        bundle.putInt(WRONG, wrongAnswers);
         resultFragment.setArguments(bundle);
 
         return resultFragment;
@@ -43,6 +46,14 @@ public class ResultFragment
         if (getArguments() != null) {
             correct = getArguments().getInt(CORRECT);
             wrong = getArguments().getInt(WRONG);
+        }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if(context instanceof OnFragmentInteractionListener){
+            listener = (OnFragmentInteractionListener) context;
         }
     }
 
@@ -75,7 +86,7 @@ public class ResultFragment
 
             @Override
             public void onClick(View v) {
-
+                listener.displayMenuFragment();
             }
         });
 
@@ -83,8 +94,16 @@ public class ResultFragment
 
             @Override
             public void onClick(View v) {
-
+                listener.displayGameFragment();
             }
         });
     }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        listener = null;
+    }
+
+
 }
