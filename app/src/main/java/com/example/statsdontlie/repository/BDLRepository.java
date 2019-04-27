@@ -25,9 +25,7 @@ public class BDLRepository {
                 .enqueue(new Callback<BDLResponse>() {
                     @Override
                     public void onResponse(Call<BDLResponse> call, Response<BDLResponse> response) {
-
                     }
-
                     @Override
                     public void onFailure(Call<BDLResponse> call, Throwable t) {
                         Log.d(BDLAppConstants.BDLREPOSITORY_TAG, "onFailure: " + t.toString());
