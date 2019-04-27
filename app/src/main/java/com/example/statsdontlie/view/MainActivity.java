@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.example.statsdontlie.OnFragmentInteractionListener;
 import com.example.statsdontlie.R;
 import com.example.statsdontlie.repository.BDLRepository;
+import com.example.statsdontlie.view.fragments.GameFragment;
 import com.example.statsdontlie.view.fragments.MenuFragment;
 import com.example.statsdontlie.view.fragments.ResultFragment;
 
@@ -16,6 +17,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         new BDLRepository().initRetrofitCall(237);
+        displayMenuFragment();
     }
 
     @Override
@@ -27,7 +29,12 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
     }
 
     @Override
-    public void displayGameFragment() {}
+    public void displayGameFragment() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.main_container, GameFragment.newInstance())
+                .commit();
+    }
 
     @Override
     public void displayResultFragment() {
