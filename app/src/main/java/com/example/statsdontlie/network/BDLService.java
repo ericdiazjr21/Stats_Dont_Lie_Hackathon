@@ -11,5 +11,6 @@ public interface BDLService {
 
     @GET(BDLAppConstants.ENDPOINT)
     Call<BDLResponse> getResponse(@Query("player_ids[]") Integer player_ids,
-                                  @Query("seasons[]") Integer seasons);
+                                  @Query("seasons[]") Integer seasons,
+                                    @Query("per_page") Integer perPage);
 }

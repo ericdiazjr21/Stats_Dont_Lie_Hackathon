@@ -7,6 +7,7 @@ import com.example.statsdontlie.OnFragmentInteractionListener;
 import com.example.statsdontlie.R;
 import com.example.statsdontlie.repository.BDLRepository;
 import com.example.statsdontlie.view.fragments.MenuFragment;
+import com.example.statsdontlie.view.fragments.ResultFragment;
 
 public class MainActivity extends AppCompatActivity implements OnFragmentInteractionListener {
 
@@ -14,7 +15,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        new BDLRepository().initReftofitCall(237);
+        new BDLRepository().initRetrofitCall(237);
     }
 
     @Override
@@ -27,4 +28,12 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
 
     @Override
     public void displayGameFragment() {}
+
+    @Override
+    public void displayResultFragment() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.main_container, ResultFragment.newInstance())
+                .commit();
+    }
 }
