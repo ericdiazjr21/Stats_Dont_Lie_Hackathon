@@ -1,5 +1,6 @@
 package com.example.statsdontlie.repository;
 
+import android.annotation.SuppressLint;
 import android.arch.lifecycle.MutableLiveData;
 import android.util.Log;
 
@@ -12,8 +13,8 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
@@ -28,13 +29,15 @@ public class BDLRepository {
         bdlResponseMutableLiveData = new MutableLiveData<>();
     }
 
-    public void initReftofitCall(int playerId) {
+    public void initRetrofitCall(int playerId) {
         RetrofitSingleton.getSingleService()
                 .getResponse(playerId, 2018)
                 .enqueue(new Callback<BDLResponse>() {
                     @Override
                     public void onResponse(Call<BDLResponse> call, Response<BDLResponse> response) {
+                        computePlayerAverage(response.body());
                     }
+
                     @Override
                     public void onFailure(Call<BDLResponse> call, Throwable t) {
                         Log.d(BDLAppConstants.BDLREPOSITORY_TAG, "onFailure: " + t.toString());
@@ -42,7 +45,8 @@ public class BDLRepository {
                 });
     }
 
-    public void computePlayerAverage(BDLResponse response){
+    @SuppressLint("CheckResult")
+    private void computePlayerAverage(BDLResponse response) {
         List<BDLResponse.GameStats> playerSeasonAverages = response.getData();
         Observable.just(playerSeasonAverages)
                 .subscribeOn(Schedulers.computation())
@@ -50,15 +54,23 @@ public class BDLRepository {
                     @Override
                     public ObservableSource<PlayerAverageModel> apply(List<BDLResponse.GameStats> gameStats) throws Exception {
                         double pointsAverage = 0;
-                        for (BDLResponse.GameStats gameStat: gameStats) {
-                           pointsAverage += gameStat.getPts();
+                        for (BDLResponse.GameStats gameStat : gameStats) {
+                            pointsAverage += gameStat.getPts();
                         }
-                        pointsAverage = pointsAverage/gameStats.size();
+                        pointsAverage = pointsAverage / gameStats.size();
 
-                        PlayerAverageModel newPlayer = new PlayerAverageModel()
+                        PlayerAverageModel newPlayer = new PlayerAverageModel(gameStats.get(0).getPlayer().getFirstName(),
+                                gameStats.get(0).getPlayer().getLastName(), pointsAverage);
+                        return Observable.just(newPlayer);
                     }
                 }).observeOn(AndroidSchedulers.mainThread())
-                .subscribe();
+                .subscribe(new Consumer<PlayerAverageModel>() {
+                    @Override
+                    public void accept(PlayerAverageModel playerAverageModel) throws Exception {
+                        Log.d(BDLAppConstants.BDLREPOSITORY_TAG, "accept: " + playerAverageModel.getFirstName() +
+                                playerAverageModel.getLastName() + playerAverageModel.getPlayerPointAverage());
+                    }
+                });
 
     }
 

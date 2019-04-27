@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        new BDLRepository().initReftofitCall(237);
+        new BDLRepository().initRetrofitCall(237);
     }
 
     @Override

@@ -1,12 +1,14 @@
 package com.example.statsdontlie.model;
 
+import io.reactivex.ObservableSource;
+
 public final class PlayerAverageModel {
 
     private final String firstName;
     private final String lastName;
-    private final int playerPointAverage;
+    private final double playerPointAverage;
 
-    public PlayerAverageModel(String firstName, String lastName, int playerPointAverage) {
+    public PlayerAverageModel(String firstName, String lastName, double playerPointAverage) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.playerPointAverage = playerPointAverage;
@@ -20,7 +22,7 @@ public final class PlayerAverageModel {
         return lastName;
     }
 
-    public int getPlayerPointAverage() {
+    public double getPlayerPointAverage() {
         return playerPointAverage;
     }
 }
