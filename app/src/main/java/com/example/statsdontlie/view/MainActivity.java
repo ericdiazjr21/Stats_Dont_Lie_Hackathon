@@ -1,7 +1,7 @@
 package com.example.statsdontlie.view;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import com.example.statsdontlie.R;
 
@@ -12,5 +12,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //added packages
+
     }
 }
