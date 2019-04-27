@@ -1,5 +1,6 @@
 package com.example.statsdontlie.repository;
 
+import android.arch.lifecycle.MutableLiveData;
 import android.util.Log;
 
 import com.example.statsdontlie.constants.BDLAppConstants;
@@ -12,14 +13,19 @@ import retrofit2.Response;
 
 public class BDLRepository {
 
-    public void makeResponse() {
+    private MutableLiveData<BDLResponse> bdlResponseMutableLiveData;
+
+    public BDLRepository() {
+        bdlResponseMutableLiveData = new MutableLiveData<>();
+    }
+
+    public void initReftofitCall(int playerId) {
         RetrofitSingleton.getSingleService()
-                .getResponse(237,2018)
+                .getResponse(playerId, 2018)
                 .enqueue(new Callback<BDLResponse>() {
                     @Override
                     public void onResponse(Call<BDLResponse> call, Response<BDLResponse> response) {
-                        Log.d(BDLAppConstants.BDLREPOSITORY_TAG, "onResponse: " + response.isSuccessful());
-                        Log.d(BDLAppConstants.BDLREPOSITORY_TAG, "onResponse: " + call.request().toString());
+
                     }
 
                     @Override
@@ -28,4 +34,11 @@ public class BDLRepository {
                     }
                 });
     }
+
+    public void computePlayerAverage(BDLResponse response){
+
+
+    }
+
+
 }
