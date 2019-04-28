@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.util.Log;
 
 import com.example.statsdontlie.OnFragmentInteractionListener;
 import com.example.statsdontlie.R;
@@ -39,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         viewModel.getPlayerList().observe(this, playerAverageModels ->
                 Log.d(BDLAppConstants.MAIN_ACTIVITY_TAG, "onChanged: " + playerAverageModels.toString()));
 
+        Animation shake = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.shake);
         Animation shakePieceLeft = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.shake_pieces);
         Animation shakePieceRight = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.shake_pieces);
         Animation shakePieceTop = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.shake_pieces);
@@ -121,7 +121,10 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
 
             }
         });
+
     }
+
+
 
     @Override
     public void displayMenuFragment() {

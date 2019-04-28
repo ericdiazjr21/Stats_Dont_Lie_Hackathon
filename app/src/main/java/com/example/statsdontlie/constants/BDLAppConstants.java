@@ -37,7 +37,7 @@ public class BDLAppConstants {
     private static final int JULIUS_RANDLE = 387;
     private static final int LAMARCUS_ALDRIDGE = 6;
     private static final int DEMAR_DEROZAN = 125;
-    private static final int LUKA_DONCIC = 132;
+    private static final int LEBRON_JAMES = 237;
     private static final int JRUE_HOLIDAY = 214;
     private static final int D_ANGELO_RUSSELL = 405;
     private static final int MIKE_CONLEY = 104;
@@ -46,7 +46,18 @@ public class BDLAppConstants {
             GIANNIS_ANTETOKOUNMPO, JOEL_EMBIID, STEPHEN_CURRY, KAWHI_LEONARD, DEVIN_BOOKER,
             KEVIN_DURANT, DAMIAN_LILLARD, KEMBA_WALKER, BRADLEY_BEAL, BLAKE_GRIFFIN, KARL_ANTHONY_TOWNS,
             KYRIE_IRVING, DONOVAN_MITCHELL, ZACH_LAVINE, RUSSELL_WESTBROOK, KLAY_THOMPSON,
-            JULIUS_RANDLE, LAMARCUS_ALDRIDGE, DEMAR_DEROZAN, LUKA_DONCIC, JRUE_HOLIDAY, D_ANGELO_RUSSELL,
+            JULIUS_RANDLE, LAMARCUS_ALDRIDGE, DEMAR_DEROZAN, LEBRON_JAMES, JRUE_HOLIDAY, D_ANGELO_RUSSELL,
             MIKE_CONLEY};
 
+
+    public static final String[] QUESTIONS_ARRAY = {
+            "Who has a higher point-per-game average?",
+            "Who has a higher assist-per-game average?",
+            "Who averages more blocks per game?",
+            "Who averages more defensive rebounds per game ?",
+            "Who has a higher 3 point shooting average ?",
+            "Who has a higher field-goal-percentage?",
+            "Who averages more rebound per game?",
+            "Who has a higher point-per-game average?"
+    };
 }

@@ -6,4 +6,12 @@
     <string name="answer_results_sample_text">Correct Answers: 15 \n Wrong Answers: 5</string>
     <string name="play_again_text">Play Again?</string>
     <string name="menu_text">Go Back To Main Menu</string>
+    <string name="higher_points">Who has a higher point-per-game average?</string>
+    <string name="higher_assist">Who has a higher assist-per-game average?</string>
+    <string name="higher_block">Who averages more blocks per game?</string>
+    <string name="higher_defenseRebound">Who averages more defensive rebounds per game ?</string>
+    <string name="higher_3fg">Who has a higher 3 point shooting average ?</string>
+    <string name="higher_fgp">Who has a higher field-goal-percentage?</string>
+    <string name="higher_rpg">Who averages more rebound per game?</string>
+    <string name="higher_ftp">Who has a higher point-per-game average?</string>
 </resources>

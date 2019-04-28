@@ -1,6 +1,5 @@
 package com.example.statsdontlie.viewmodel;
 
-import android.app.Activity;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
@@ -28,7 +27,7 @@ public class BDLViewModel extends AndroidViewModel {
     }
 
 
-    public BDLViewModel getInstance(Fragment fragment){
+    public static BDLViewModel getInstance(Fragment fragment){
         return ViewModelProviders.of(fragment).get(BDLViewModel.class);
     }
 
