@@ -1,5 +1,6 @@
 package com.example.statsdontlie.view;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -53,7 +54,8 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         shatterTop.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-
+                MediaPlayer mp = MediaPlayer.create(getApplicationContext(),R.raw.balldontlie);
+                mp.start();
             }
 
             @Override

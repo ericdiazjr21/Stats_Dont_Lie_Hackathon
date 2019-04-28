@@ -2,6 +2,7 @@ package com.example.statsdontlie.view.fragments;
 
 
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -47,6 +48,9 @@ public class ResultFragment
             correct = getArguments().getInt(BDLAppConstants.CORRECT, -1);
             wrong = getArguments().getInt(BDLAppConstants.WRONG, -1);
         }
+
+        MediaPlayer mp = MediaPlayer.create(getContext(),R.raw.balldontlie);
+        mp.start();
     }
 
     @Override
