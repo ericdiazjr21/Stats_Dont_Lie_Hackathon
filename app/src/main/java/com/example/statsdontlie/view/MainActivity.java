@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
     public void displayGameFragment() {
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.main_container, GameFragment.newInstance())
+                .replace(R.id.main_container, GameFragment.newInstance(),"game")
                 .commit();
     }
 
