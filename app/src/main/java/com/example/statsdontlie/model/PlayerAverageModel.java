@@ -25,6 +25,9 @@ public final class PlayerAverageModel {
     }
 
     public String createPlayerPhoto(){
+        if(getFirstName().equals("D'Angelo")){
+            return "https://nba-players.herokuapp.com/players/" + getLastName() + "/" + "dangelo";
+        }
         return "https://nba-players.herokuapp.com/players/" + getLastName() + "/" + getFirstName();
 
     }
