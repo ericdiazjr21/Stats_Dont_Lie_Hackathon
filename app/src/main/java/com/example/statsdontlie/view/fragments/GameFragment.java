@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.statsdontlie.OnFragmentInteractionListener;
@@ -78,8 +77,6 @@ public class GameFragment extends Fragment {
         findViews(view);
         setCountDownTimer();
         setViewModel();
-        randomQuestionPosition = RandomNumberGenerator.getRandomNumber1();
-//        displayQuestionTextView.setText(BDLAppConstants.QUESTIONS_ARRAY[randomQuestionPosition]);
         observeViewModel();
         playerOneCardView.startAnimation(getFadeIn());
         playerTwoCardView.startAnimation(getFadeIn());
@@ -100,10 +97,10 @@ public class GameFragment extends Fragment {
         correct = view.findViewById(R.id.right);
         handler = new Handler();
         handler2 = new Handler();
-        if(playerTwoCardView.isClickable() == false){
+        if (playerTwoCardView.isClickable() == false) {
             playerTwoCardView.setClickable(true);
         }
-        if(playerOneCardView.isClickable() == false){
+        if (playerOneCardView.isClickable() == false) {
             playerOneCardView.setClickable(true);
         }
     }
@@ -161,8 +158,8 @@ public class GameFragment extends Fragment {
     }
 
     private void flipViews() {
-        Animation flip = AnimationUtils.loadAnimation(getActivity(),R.anim.card);
-        Animation flip_two = AnimationUtils.loadAnimation(getActivity(),R.anim.card);
+        Animation flip = AnimationUtils.loadAnimation(getActivity(), R.anim.card);
+        Animation flip_two = AnimationUtils.loadAnimation(getActivity(), R.anim.card);
 
         playerOneCardView.startAnimation(flip);
         playerOneCardView.setClickable(false);
@@ -195,20 +192,19 @@ public class GameFragment extends Fragment {
             public void onAnimationEnd(Animation animation) {
 
 
-
                 handler.postDelayed(() -> {
-                    if(getFragmentManager().findFragmentByTag("game").isVisible()) {
+                    if (getFragmentManager().findFragmentByTag("game").isVisible()) {
                         playerOneCardView.startAnimation(getFadeOut());
                         playerTwoCardView.startAnimation(getFadeOut());
                     }
-                },800);
+                }, 800);
 
-                handler2.postDelayed(() ->{
-                    if(getContext().getResources() != null) {
+                handler2.postDelayed(() -> {
+                    if (getContext().getResources() != null) {
                         reloadPlayersAndViews();
 
                     }
-                },1500);
+                }, 1500);
 
             }
 
@@ -235,34 +231,40 @@ public class GameFragment extends Fragment {
     }
 
     private void roundResults(int i) {
-        if (new GameJudger(player1, player2, i,randomQuestionPosition).isPlayerChoiceCorrect()) {
+        if (new GameJudger(player1, player2, i, randomQuestionPosition).isPlayerChoiceCorrect()) {
             correct.setVisibility(View.VISIBLE);
             correct.startAnimation(getChecker());
             correct.setVisibility(View.INVISIBLE);
             playerCorrectGuesses++;
-        }else{
+        } else {
             incorrect.setVisibility(View.VISIBLE);
             incorrect.startAnimation(getChecker());
             incorrect.setVisibility(View.INVISIBLE);
-            playerInCorrectGuesses++;
         }
     }
 
-    private Animation getChecker(){
-        return AnimationUtils.loadAnimation(getActivity(),R.anim.right_or_wrong);
-    }
+        private Animation getChecker () {
+            return AnimationUtils.loadAnimation(getActivity(), R.anim.right_or_wrong);
+        }
 
-    private Animation getFadeIn(){
+        private Animation getFadeIn () {
             return AnimationUtils.loadAnimation(getActivity(), R.anim.fade_in);
-    }
-    private Animation getFadeOut(){
-            return AnimationUtils.loadAnimation(getActivity(), R.anim.fade_out);
-    }
+        }
 
-    private void reloadPlayersAndViews(){
+        private Animation getFadeOut () {
+            return AnimationUtils.loadAnimation(getActivity(), R.anim.fade_out);
+        }
+
+        private void reloadPlayersAndViews () {
+            getRandomQuestion();
             playerOneCardView.startAnimation(getFadeIn());
             playerTwoCardView.startAnimation(getFadeIn());
             setRandomPlayers(playerAverageModels);
             setViews();
+        }
+
+        private void getRandomQuestion () {
+            randomQuestionPosition = RandomNumberGenerator.getRandomNumber();
+            displayQuestionTextView.setText(BDLAppConstants.QUESTIONS_ARRAY[randomQuestionPosition]);
+        }
     }
-}
