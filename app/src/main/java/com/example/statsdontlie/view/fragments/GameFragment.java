@@ -47,6 +47,10 @@ public class GameFragment extends Fragment {
     private CountDownTimer countDownTimer;
     private List<PlayerAverageModel> playerAverageModels;
     private int randomQuestionPosition;
+    private ImageView correct;
+    private ImageView incorrect;
+    private Handler handler;
+    private Handler handler2;
 
     public GameFragment() {
     }
@@ -92,6 +96,16 @@ public class GameFragment extends Fragment {
         playerTwoTextView = view.findViewById(R.id.player_two_text_view);
         displayQuestionTextView = view.findViewById(R.id.question_display_text_view);
         countDownView = view.findViewById(R.id.count_down_timer);
+        incorrect = view.findViewById(R.id.wrong);
+        correct = view.findViewById(R.id.right);
+        handler = new Handler();
+        handler2 = new Handler();
+        if(playerTwoCardView.isClickable() == false){
+            playerTwoCardView.setClickable(true);
+        }
+        if(playerOneCardView.isClickable() == false){
+            playerOneCardView.setClickable(true);
+        }
     }
 
     private void setCountDownTimer() {
@@ -103,6 +117,12 @@ public class GameFragment extends Fragment {
 
             @Override
             public void onFinish() {
+                playerOneCardView.clearAnimation();
+                playerTwoCardView.clearAnimation();
+                incorrect.clearAnimation();
+                correct.clearAnimation();
+                handler.removeCallbacksAndMessages(null);
+                handler2.removeCallbacksAndMessages(null);
                 listener.displayResultFragment(playerCorrectGuesses, playerInCorrectGuesses);
             }
         };
@@ -136,6 +156,8 @@ public class GameFragment extends Fragment {
         Picasso.get()
                 .load(player2.createPlayerPhoto())
                 .into(playerTwoImage);
+        playerOneCardView.setClickable(true);
+        playerTwoCardView.setClickable(true);
     }
 
     private void flipViews() {
@@ -143,6 +165,8 @@ public class GameFragment extends Fragment {
         Animation flip_two = AnimationUtils.loadAnimation(getActivity(),R.anim.card);
 
         playerOneCardView.startAnimation(flip);
+        playerOneCardView.setClickable(false);
+        playerTwoCardView.setClickable(false);
 
         flip.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -170,24 +194,21 @@ public class GameFragment extends Fragment {
             @Override
             public void onAnimationEnd(Animation animation) {
 
-                final Handler handler = new Handler();
-                final Handler handler2 = new Handler();
+
+
                 handler.postDelayed(() -> {
-                    if(getContext().getResources() != null) {
+                    if(getFragmentManager().findFragmentByTag("game").isVisible()) {
                         playerOneCardView.startAnimation(getFadeOut());
                         playerTwoCardView.startAnimation(getFadeOut());
                     }
-
                 },800);
 
                 handler2.postDelayed(() ->{
                     if(getContext().getResources() != null) {
                         reloadPlayersAndViews();
+
                     }
                 },1500);
-
-
-
 
             }
 
@@ -215,10 +236,20 @@ public class GameFragment extends Fragment {
 
     private void roundResults(int i) {
         if (new GameJudger(player1, player2, i,randomQuestionPosition).isPlayerChoiceCorrect()) {
+            correct.setVisibility(View.VISIBLE);
+            correct.startAnimation(getChecker());
+            correct.setVisibility(View.INVISIBLE);
             playerCorrectGuesses++;
         }else{
+            incorrect.setVisibility(View.VISIBLE);
+            incorrect.startAnimation(getChecker());
+            incorrect.setVisibility(View.INVISIBLE);
             playerInCorrectGuesses++;
         }
+    }
+
+    private Animation getChecker(){
+        return AnimationUtils.loadAnimation(getActivity(),R.anim.right_or_wrong);
     }
 
     private Animation getFadeIn(){
