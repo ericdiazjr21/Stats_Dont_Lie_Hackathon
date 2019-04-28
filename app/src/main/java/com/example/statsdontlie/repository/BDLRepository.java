@@ -44,8 +44,8 @@ public class BDLRepository {
                     .enqueue(new Callback<BDLResponse>() {
                         @Override
                         public void onResponse(Call<BDLResponse> call, Response<BDLResponse> response) {
-                            Log.d(BDLAppConstants.BDLREPOSITORY_TAG, "onResponse: " + call.request().toString());
-                            Log.d(BDLAppConstants.BDLREPOSITORY_TAG, "onResponse: " + response.body().getData().get(0).getPts());
+                            Log.d(BDLAppConstants.BDLREPOSITORY_TAG, "onResponse1: " + call.request().toString());
+                            Log.d(BDLAppConstants.BDLREPOSITORY_TAG, "onResponse1: " + response.body().getData().get(0).getPts());
                             computePlayerAverage(response.body());
                         }
 
