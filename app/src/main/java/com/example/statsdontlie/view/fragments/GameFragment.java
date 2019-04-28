@@ -75,7 +75,7 @@ public class GameFragment extends Fragment {
         setCountDownTimer();
         setViewModel();
         randomQuestionPosition = RandomNumberGenerator.getRandomNumber1();
-        displayQuestionTextView.setText(BDLAppConstants.QUESTIONS_ARRAY[randomQuestionPosition]);
+//        displayQuestionTextView.setText(BDLAppConstants.QUESTIONS_ARRAY[randomQuestionPosition]);
         observeViewModel();
         playerOneCardView.startAnimation(getFadeIn());
         playerTwoCardView.startAnimation(getFadeIn());
@@ -173,13 +173,17 @@ public class GameFragment extends Fragment {
                 final Handler handler = new Handler();
                 final Handler handler2 = new Handler();
                 handler.postDelayed(() -> {
-                    playerOneCardView.startAnimation(getFadeOut());
-                    playerTwoCardView.startAnimation(getFadeOut());
+                    if(getContext().getResources() != null) {
+                        playerOneCardView.startAnimation(getFadeOut());
+                        playerTwoCardView.startAnimation(getFadeOut());
+                    }
 
                 },800);
 
                 handler2.postDelayed(() ->{
-                    reloadPlayersAndViews();
+                    if(getContext().getResources() != null) {
+                        reloadPlayersAndViews();
+                    }
                 },1500);
 
 
@@ -210,7 +214,7 @@ public class GameFragment extends Fragment {
     }
 
     private void roundResults(int i) {
-        if (new GameJudger(player1, player2, i).isPlayerChoiceCorrect()) {
+        if (new GameJudger(player1, player2, i,randomQuestionPosition).isPlayerChoiceCorrect()) {
             playerCorrectGuesses++;
         }else{
             playerInCorrectGuesses++;
@@ -225,11 +229,9 @@ public class GameFragment extends Fragment {
     }
 
     private void reloadPlayersAndViews(){
-        if(getContext().getResources() != null) {
             playerOneCardView.startAnimation(getFadeIn());
             playerTwoCardView.startAnimation(getFadeIn());
             setRandomPlayers(playerAverageModels);
             setViews();
-        }
     }
 }

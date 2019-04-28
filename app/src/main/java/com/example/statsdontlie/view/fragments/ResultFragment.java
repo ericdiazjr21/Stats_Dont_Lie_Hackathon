@@ -75,7 +75,7 @@ public class ResultFragment
         super.onViewCreated(view, savedInstanceState);
         initializeViews(view);
 
-        final String concat_results = "Correct Answers: " + correct + "\n" + "Wrong Answers: " + wrong;
+        final String concat_results = "Correct Answers: " + correct + "\n" + "\n" + "Wrong Answers: " + wrong;
         result.setText(concat_results);
 
         clickEvents();

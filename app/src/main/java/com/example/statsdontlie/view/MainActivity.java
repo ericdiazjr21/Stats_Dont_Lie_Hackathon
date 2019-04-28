@@ -2,6 +2,7 @@ package com.example.statsdontlie.view;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -38,7 +39,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         viewModel.getPlayerList().observe(this, playerAverageModels ->
                 Log.d(BDLAppConstants.MAIN_ACTIVITY_TAG, "onChanged: " + playerAverageModels.toString()));
 
-        Animation shake = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.shake);
         Animation shakePieceLeft = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.shake_pieces);
         Animation shakePieceRight = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.shake_pieces);
         Animation shakePieceTop = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.shake_pieces);
