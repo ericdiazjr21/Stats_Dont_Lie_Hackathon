@@ -202,7 +202,8 @@ public class GameFragment extends Fragment {
 
 
                 handler.postDelayed(() -> {
-                    if (getFragmentManager().findFragmentByTag("game").isVisible()) {
+                    if (getFragmentManager().findFragmentByTag("game") != null &&
+                            getFragmentManager().findFragmentByTag("game").isVisible()) {
                         playerOneCardView.startAnimation(getFadeOut());
                         playerTwoCardView.startAnimation(getFadeOut());
                     }
