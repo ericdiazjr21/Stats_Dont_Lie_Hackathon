@@ -21,4 +21,10 @@ public final class RandomNumberGenerator {
         while (random2 == random1) random2 = random.nextInt(25);
         return random2;
     }
+
+    public static int getRandomNumber() {
+        Random random = new Random();
+        random1 = random.nextInt(6);
+        return random1;
+    }
 }

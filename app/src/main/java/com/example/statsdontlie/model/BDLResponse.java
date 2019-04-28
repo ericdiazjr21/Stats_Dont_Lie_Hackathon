@@ -18,6 +18,8 @@ public class BDLResponse {
         private int dreb;
         private int blk;
         private int ast;
+        private int fg3a;
+        private int fg3m;
         private Player player;
 
         public int getPts() {
@@ -42,6 +44,14 @@ public class BDLResponse {
 
         public int getAst() {
             return ast;
+        }
+
+        public int getFg3a() {
+            return fg3a;
+        }
+
+        public int getFg3m() {
+            return fg3m;
         }
 
         public Player getPlayer() {

@@ -60,7 +60,7 @@ public class BDLRepository {
     public void setPlayerAverageModelListFromSharedPrefs() {
         List<PlayerAverageModel> playerAverageModelsFromSharedPrefs = getPlayerAverageModelsFromSharedPrefs();
         bdlResponseMutableLiveData.setValue(playerAverageModelsFromSharedPrefs);
-        Log.d(BDLAppConstants.BDLREPOSITORY_TAG, "setPlayerAverageModelListFromSharedPrefs: " +playerAverageModelsFromSharedPrefs.toString());
+        Log.d(BDLAppConstants.BDLREPOSITORY_TAG, "setPlayerAverageModelListFromSharedPrefs: " + playerAverageModelsFromSharedPrefs.toString());
     }
 
     @SuppressLint("CheckResult")
@@ -70,34 +70,37 @@ public class BDLRepository {
                 .subscribeOn(Schedulers.computation())
                 .flatMap((Function<List<BDLResponse.GameStats>, ObservableSource<PlayerAverageModel>>) gameStats -> {
                     double pointsAverage = 0;
-                    double playerAssistAvg= 0;
-                    double playerBlocksAvg= 0;
-                    double playerDefRebAvg= 0;
-                    double player3pAvg= 0;
-                    double playerFpgAvg= 0;
+                    double playerAssistAvg = 0;
+                    double playerBlocksAvg = 0;
+                    double playerDefRebAvg = 0;
+                    double player3pMade = 0;
+                    double player3pAttempted = 0;
+                    double playerFpgAvg = 0;
                     for (BDLResponse.GameStats gameStat : gameStats) {
                         pointsAverage += gameStat.getPts();
                         playerAssistAvg += gameStat.getAst();
                         playerBlocksAvg += gameStat.getBlk();
                         playerDefRebAvg += gameStat.getDreb();
-                        player3pAvg += gameStat.getFg3_pct();
-                        playerFpgAvg += gameStat.getFg_pct();
+                        player3pMade += gameStat.getFg3m();
+                        player3pAttempted += gameStat.getFg3a();
                     }
                     pointsAverage = pointsAverage / gameStats.size();
                     playerAssistAvg = playerAssistAvg / gameStats.size();
                     playerBlocksAvg = playerBlocksAvg / gameStats.size();
                     playerDefRebAvg = playerDefRebAvg / gameStats.size();
-                    player3pAvg = player3pAvg / gameStats.size();
-                    playerFpgAvg = playerFpgAvg / gameStats.size();
+                    player3pMade = player3pMade / gameStats.size();
+                    player3pAttempted = player3pAttempted/ gameStats.size();
 
-                    return Observable.just(new PlayerAverageModel(gameStats.get(0).getPlayer().getFirstName(),
-                                                                  gameStats.get(0).getPlayer().getLastName(),
-                                                                  pointsAverage,
-                                                                  playerAssistAvg,
-                                                                  playerBlocksAvg,
-                                                                  playerDefRebAvg,
-                                                                  player3pAvg,
-                                                                  playerFpgAvg));
+                    PlayerAverageModel item = new PlayerAverageModel(gameStats.get(0).getPlayer().getFirstName(),
+                            gameStats.get(0).getPlayer().getLastName(),
+                            pointsAverage,
+                            playerAssistAvg,
+                            playerBlocksAvg,
+                            playerDefRebAvg,
+                            player3pMade,
+                            player3pAttempted);
+                    Log.d(BDLAppConstants.BDLREPOSITORY_TAG, "computePlayerAverage: " + item.toString());
+                    return Observable.just(item);
                 }).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(playerAverageModel ->
                 {

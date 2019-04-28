@@ -31,9 +31,9 @@ public final class GameJudger {
             case 3:
                 return playerDefRebAvgComp();
             case 4:
-                return player3pAvgComp();
+                return player3PM();
             case 5:
-                return playerFgpAvgComp();
+                return player3PA();
             default:
                 return false;
         }
@@ -50,48 +50,48 @@ public final class GameJudger {
     }
 
     private boolean playerAssistAvgComp(){
-        if (player1.getPlayerPointAvg() > player2.getPlayerAssistAvg () &&
+        if (player1.getPlayerAssistAvg() > player2.getPlayerAssistAvg () &&
             playerChoice == 1) {
             return true;
         }
-        return player2.getPlayerPointAvg() > player1.getPlayerAssistAvg() &&
+        return player2.getPlayerAssistAvg() > player1.getPlayerAssistAvg() &&
                playerChoice == 2;
     }
 
 
     private boolean playerBlocksAvgComp() {
-        if (player1.getPlayerPointAvg() > player2.getPlayerBlocksAvg() &&
+        if (player1.getPlayerBlocksAvg() > player2.getPlayerBlocksAvg() &&
             playerChoice == 1) {
             return true;
         }
-        return player2.getPlayerPointAvg() > player1.getPlayerBlocksAvg() &&
+        return player2.getPlayerBlocksAvg() > player1.getPlayerBlocksAvg() &&
                playerChoice == 2;
     }
 
     private boolean playerDefRebAvgComp() {
-        if (player1.getPlayerPointAvg() > player2.getPlayerDefRebAvg() &&
+        if (player1.getPlayerDefRebAvg() > player2.getPlayerDefRebAvg() &&
             playerChoice == 1) {
             return true;
         }
-        return player2.getPlayerPointAvg() > player1.getPlayerDefRebAvg() &&
+        return player2.getPlayerDefRebAvg() > player1.getPlayerDefRebAvg() &&
                playerChoice == 2;
     }
 
-    private boolean player3pAvgComp() {
-        if (player1.getPlayerPointAvg() > player2.getPlayer3pAvg() &&
+    private boolean player3PM() {
+        if (player1.getPlayer3PM() > player2.getPlayer3PM()&&
             playerChoice == 1) {
             return true;
         }
-        return player2.getPlayerPointAvg() > player1.getPlayer3pAvg() &&
+        return player2.getPlayer3PM() > player1.getPlayer3PM() &&
                playerChoice == 2;
     }
 
-    private boolean playerFgpAvgComp() {
-        if (player1.getPlayerPointAvg() > player2.getPlayerFgpAvg() &&
+    private boolean player3PA() {
+        if (player1.getPlayer3PA() > player2.getPlayer3PA() &&
             playerChoice == 1) {
             return true;
         }
-        return player2.getPlayerPointAvg() > player1.getPlayerFgpAvg() &&
+        return player2.getPlayer3PA() > player1.getPlayer3PA() &&
                playerChoice == 2;
     }
 

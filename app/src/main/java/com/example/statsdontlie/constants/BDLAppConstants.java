@@ -55,7 +55,7 @@ public class BDLAppConstants {
             "Who has a higher assist-per-game average?",
             "Who averages more blocks per game?",
             "Who averages more defensive rebounds per game?",
-            "Who has a higher 3 point shooting average?",
-            "Who has a higher field-goal-percentage?",
+            "Who makes more 3 point shots on average?",
+            "Who attempts more 3 point shots on average?",
     };
 }
