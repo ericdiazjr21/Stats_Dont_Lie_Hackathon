@@ -14,8 +14,6 @@ public class BDLResponse {
     public class GameStats{
         private int pts;
         private double fg_pct;
-        private String min;
-        private double ft_pct;
         private double fg3_pct;
         private int dreb;
         private int blk;
@@ -28,14 +26,6 @@ public class BDLResponse {
 
         public double getFg_pct() {
             return fg_pct;
-        }
-
-        public String getMin() {
-            return min;
-        }
-
-        public double getFt_pct() {
-            return ft_pct;
         }
 
         public double getFg3_pct() {

@@ -147,7 +147,7 @@ public class GameFragment extends Fragment {
         flip.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-                playerOneTextView.setText("" + player1.getPlayerPointAverage());
+                playerOneTextView.setText("" + player1.getPlayerPointAvg());
             }
 
             @Override
@@ -164,7 +164,7 @@ public class GameFragment extends Fragment {
         flip_two.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-                playerTwoTextView.setText("" + player2.getPlayerPointAverage());
+                playerTwoTextView.setText("" + player2.getPlayerPointAvg());
             }
 
             @Override
