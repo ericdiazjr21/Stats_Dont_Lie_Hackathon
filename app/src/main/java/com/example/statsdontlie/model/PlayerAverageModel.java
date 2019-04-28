@@ -1,7 +1,5 @@
 package com.example.statsdontlie.model;
 
-import io.reactivex.ObservableSource;
-
 public final class PlayerAverageModel {
 
     private final String firstName;

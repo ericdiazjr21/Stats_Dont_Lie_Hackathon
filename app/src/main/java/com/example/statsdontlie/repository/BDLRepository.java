@@ -1,13 +1,17 @@
 package com.example.statsdontlie.repository;
 
 import android.annotation.SuppressLint;
+import android.app.Application;
 import android.arch.lifecycle.MutableLiveData;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.example.statsdontlie.constants.BDLAppConstants;
 import com.example.statsdontlie.model.BDLResponse;
 import com.example.statsdontlie.model.PlayerAverageModel;
 import com.example.statsdontlie.network.RetrofitSingleton;
+import com.example.statsdontlie.utils.PlayerAverageModelConverter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,27 +29,37 @@ public class BDLRepository {
 
     private MutableLiveData<List<PlayerAverageModel>> bdlResponseMutableLiveData;
     private List<PlayerAverageModel> playerAverageModels;
+    private SharedPreferences sharedPreferences;
 
-    public BDLRepository() {
-        bdlResponseMutableLiveData = new MutableLiveData<>();
+    public BDLRepository(Application application) {
+        this.bdlResponseMutableLiveData = new MutableLiveData<>();
         this.playerAverageModels = new ArrayList<>();
+        this.sharedPreferences = application.getSharedPreferences(BDLAppConstants.SHARED_PREFS, Context.MODE_PRIVATE);
     }
 
     public void initRetrofitCall(int playerId) {
-        RetrofitSingleton.getSingleService()
-                .getResponse(playerId, 2018, 100)
-                .enqueue(new Callback<BDLResponse>() {
-                    @Override
-                    public void onResponse(Call<BDLResponse> call, Response<BDLResponse> response) {
-                        Log.d(BDLAppConstants.BDLREPOSITORY_TAG, "onResponse: " + call.request().toString());
-                        computePlayerAverage(response.body());
-                    }
+        if (checkSharedPrefs()) {
+            RetrofitSingleton.getSingleService()
+                    .getResponse(playerId, 2018, 100)
+                    .enqueue(new Callback<BDLResponse>() {
+                        @Override
+                        public void onResponse(Call<BDLResponse> call, Response<BDLResponse> response) {
+                            Log.d(BDLAppConstants.BDLREPOSITORY_TAG, "onResponse: " + call.request().toString());
+                            computePlayerAverage(response.body());
+                        }
 
-                    @Override
-                    public void onFailure(Call<BDLResponse> call, Throwable t) {
-                        Log.d(BDLAppConstants.BDLREPOSITORY_TAG, "onFailure: " + t.toString());
-                    }
-                });
+                        @Override
+                        public void onFailure(Call<BDLResponse> call, Throwable t) {
+                            Log.d(BDLAppConstants.BDLREPOSITORY_TAG, "onFailure: " + t.toString());
+                        }
+                    });
+        }
+    }
+
+    public void setPlayerAverageModelListFromSharedPrefs() {
+        List<PlayerAverageModel> playerAverageModelsFromSharedPrefs = getPlayerAverageModelsFromSharedPrefs();
+        bdlResponseMutableLiveData.setValue(playerAverageModelsFromSharedPrefs);
+        Log.d(BDLAppConstants.BDLREPOSITORY_TAG, "setPlayerAverageModelListFromSharedPrefs: " +playerAverageModelsFromSharedPrefs.toString());
     }
 
     @SuppressLint("CheckResult")
@@ -65,14 +79,29 @@ public class BDLRepository {
                 .subscribe(playerAverageModel ->
                 {
                     playerAverageModels.add(playerAverageModel);
-                    bdlResponseMutableLiveData.setValue(playerAverageModels);
-                    Log.d(BDLAppConstants.BDLREPOSITORY_TAG, "accept: " + playerAverageModel.getFirstName() +
-                            playerAverageModel.getLastName() + playerAverageModel.getPlayerPointAverage());
+                    if (playerAverageModels.size() == 25) {
+                        bdlResponseMutableLiveData.setValue(playerAverageModels);
+                        savePlayerAverageModelList();
+                    }
                 });
 
     }
 
     public MutableLiveData<List<PlayerAverageModel>> getBdlResponseMutableLiveData() {
         return bdlResponseMutableLiveData;
+    }
+
+    private void savePlayerAverageModelList() {
+        sharedPreferences.edit().putString(BDLAppConstants.PLAYER_KEY_SHARED_PREFS, PlayerAverageModelConverter.playerAverageSerializer(playerAverageModels))
+                .apply();
+    }
+
+    private List<PlayerAverageModel> getPlayerAverageModelsFromSharedPrefs() {
+        String playerAverageModelJson = sharedPreferences.getString(BDLAppConstants.PLAYER_KEY_SHARED_PREFS, "");
+        return PlayerAverageModelConverter.playerAverageDeserializer(playerAverageModelJson);
+    }
+
+    public boolean checkSharedPrefs() {
+        return sharedPreferences.getString(BDLAppConstants.PLAYER_KEY_SHARED_PREFS, "").equals("");
     }
 }

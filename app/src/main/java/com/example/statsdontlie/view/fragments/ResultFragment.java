@@ -14,12 +14,12 @@ import android.widget.TextView;
 
 import com.example.statsdontlie.OnFragmentInteractionListener;
 import com.example.statsdontlie.R;
+import com.example.statsdontlie.constants.BDLAppConstants;
 
 public class ResultFragment
         extends Fragment {
 
-    public static final String CORRECT = "CORRECT";
-    public static final String WRONG = "WRONG";
+
     private int correct;
     private int wrong;
     private TextView result;
@@ -27,14 +27,14 @@ public class ResultFragment
     private Button restart;
     private OnFragmentInteractionListener listener;
 
-    public ResultFragment() {}
+    public ResultFragment() {
+    }
 
-    public static ResultFragment newInstance() {
+    public static ResultFragment newInstance(int correct, int incorrect) {
         ResultFragment resultFragment = new ResultFragment();
         Bundle bundle = new Bundle();
-
-//        bundle.putInt(CORRECT, correctAnswers);
-//        bundle.putInt(WRONG, wrongAnswers);
+        bundle.putInt(BDLAppConstants.CORRECT, correct);
+        bundle.putInt(BDLAppConstants.WRONG, incorrect);
         resultFragment.setArguments(bundle);
 
         return resultFragment;
@@ -44,20 +44,20 @@ public class ResultFragment
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            correct = getArguments().getInt(CORRECT);
-            wrong = getArguments().getInt(WRONG);
+            correct = getArguments().getInt(BDLAppConstants.CORRECT, -1);
+            wrong = getArguments().getInt(BDLAppConstants.WRONG, -1);
         }
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if(context instanceof OnFragmentInteractionListener){
+        if (context instanceof OnFragmentInteractionListener) {
             listener = (OnFragmentInteractionListener) context;
         }
     }
 
-    public void initializeViews(View view){
+    public void initializeViews(View view) {
         result = view.findViewById(R.id.answer_results);
         menu = view.findViewById(R.id.menu_btn);
         restart = view.findViewById(R.id.restart_btn);
@@ -81,7 +81,7 @@ public class ResultFragment
         clickEvents();
     }
 
-    public void clickEvents(){
+    public void clickEvents() {
         menu.setOnClickListener(new View.OnClickListener() {
 
             @Override

@@ -1,6 +1,5 @@
 package com.example.statsdontlie.view;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -11,7 +10,6 @@ import android.util.Log;
 
 import com.example.statsdontlie.OnFragmentInteractionListener;
 import com.example.statsdontlie.R;
-import com.example.statsdontlie.repository.BDLRepository;
 import com.example.statsdontlie.view.fragments.GameFragment;
 import com.example.statsdontlie.constants.BDLAppConstants;
 import com.example.statsdontlie.view.fragments.MenuFragment;
@@ -35,7 +33,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         titleImage = findViewById(R.id.splash_title);
         leftCornerImage = findViewById(R.id.splash_left);
         rightCornerImage = findViewById(R.id.splash_right);
-        new BDLRepository().initRetrofitCall(237);
 
         Animation shake = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.shake);
         Animation shakePieceLeft = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.shake_pieces);
@@ -162,10 +159,12 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
     }
 
     @Override
-    public void displayResultFragment() {
+    public void displayResultFragment(int playerCorrectGuesses, int playerIncorrectGuesses) {
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.main_container, ResultFragment.newInstance())
+                .replace(R.id.main_container, ResultFragment.newInstance(playerCorrectGuesses, playerIncorrectGuesses))
                 .commit();
     }
+
+
 }

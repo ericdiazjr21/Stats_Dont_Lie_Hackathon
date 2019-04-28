@@ -2,6 +2,8 @@ package com.example.statsdontlie;
 
 public interface OnFragmentInteractionListener {
     void displayMenuFragment();
+
     void displayGameFragment();
-    void displayResultFragment();
+
+    void displayResultFragment(int playerCorrectGuesses, int playerIncorrectGuesses);
 }
