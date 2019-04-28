@@ -24,7 +24,7 @@ public final class RandomNumberGenerator {
 
     public static int getRandomNumber() {
         Random random = new Random();
-        random1 = random.nextInt(8);
+        random1 = random.nextInt(6);
         return random1;
     }
 }

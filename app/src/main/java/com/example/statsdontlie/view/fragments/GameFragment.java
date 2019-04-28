@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +52,7 @@ public class GameFragment extends Fragment {
     private ImageView incorrect;
     private Handler handler;
     private Handler handler2;
+    private static final String TAG = "GameFragment";
 
     public GameFragment() {
     }
@@ -169,7 +171,7 @@ public class GameFragment extends Fragment {
         flip.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-                playerOneTextView.setText("" + new DecimalFormat("#.##").format(player1.getPlayerPointAvg()));
+                playerOneTextView.setText("" + new DecimalFormat("#.##").format(player1.getStat(randomQuestionPosition)));
 
             }
 
@@ -187,7 +189,9 @@ public class GameFragment extends Fragment {
         flip_two.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-                playerTwoTextView.setText("" + new DecimalFormat("#.##").format(player2.getPlayerPointAvg()));
+                double stat = player2.getStat(randomQuestionPosition);
+                Log.d(TAG, "onAnimationStart: " + stat);
+                playerTwoTextView.setText("" + new DecimalFormat("#.##").format(stat));
 
             }
 

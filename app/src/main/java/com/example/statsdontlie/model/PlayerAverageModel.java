@@ -62,11 +62,44 @@ public final class PlayerAverageModel {
         return playerPointAvg;
     }
 
-    public String createPlayerPhoto(){
-        if(getFirstName().equals("D'Angelo")){
+    public String createPlayerPhoto() {
+        if (getFirstName().equals("D'Angelo")) {
             return "https://nba-players.herokuapp.com/players/" + getLastName() + "/" + "dangelo";
         }
         return "https://nba-players.herokuapp.com/players/" + getLastName() + "/" + getFirstName();
 
+    }
+
+    public double getStat(int position) {
+        switch (position) {
+            case 0:
+                return getPlayerPointAvg();
+            case 1:
+                return getPlayerAssistAvg();
+            case 2:
+                return getPlayerBlocksAvg();
+            case 3:
+                return getPlayerDefRebAvg();
+            case 4:
+                return getPlayer3pAvg();
+            case 5:
+                return getPlayerFgpAvg();
+            default:
+                return 23.34;
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "PlayerAverageModel{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", playerPointAvg=" + playerPointAvg +
+                ", playerAssistAvg=" + playerAssistAvg +
+                ", playerBlocksAvg=" + playerBlocksAvg +
+                ", playerDefRebAvg=" + playerDefRebAvg +
+                ", player3pAvg=" + player3pAvg +
+                ", playerFpgAvg=" + playerFpgAvg +
+                '}';
     }
 }
