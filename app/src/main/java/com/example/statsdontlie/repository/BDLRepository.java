@@ -45,6 +45,7 @@ public class BDLRepository {
                         @Override
                         public void onResponse(Call<BDLResponse> call, Response<BDLResponse> response) {
                             Log.d(BDLAppConstants.BDLREPOSITORY_TAG, "onResponse: " + call.request().toString());
+                            Log.d(BDLAppConstants.BDLREPOSITORY_TAG, "onResponse: " + response.body().getData().get(0).getMin());
                             computePlayerAverage(response.body());
                         }
 
