@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import com.example.statsdontlie.OnFragmentInteractionListener;
 import com.example.statsdontlie.R;
 import com.example.statsdontlie.view.fragments.GameFragment;
+import com.example.statsdontlie.constants.BDLAppConstants;
 import com.example.statsdontlie.view.fragments.MenuFragment;
 import com.example.statsdontlie.view.fragments.ResultFragment;
 import com.example.statsdontlie.viewmodel.BDLViewModel;
@@ -19,7 +20,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
     private ImageView titleImage;
     private ImageView leftCornerImage;
     private ImageView rightCornerImage;
-
 
 
     private BDLViewModel viewModel;
@@ -49,23 +49,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         titleImage.startAnimation(shakePieceTop);
         leftCornerImage.startAnimation(shakePieceLeft);
         rightCornerImage.startAnimation(shakePieceRight);
-
-        shake.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
 
         shatterTop.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -153,7 +136,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
 
     @Override
     public void displayGameFragment() {
-
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.main_container, GameFragment.newInstance())

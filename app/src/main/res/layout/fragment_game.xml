@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true">
 
     <TextView
         android:id="@+id/count_down_timer"
@@ -27,7 +28,6 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        app:cardBackgroundColor="@color/colorPrimary"
         app:cardCornerRadius="8dp"
         app:layout_constraintBottom_toTopOf="@+id/player_two"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,9 +36,12 @@
         app:layout_constraintTop_toBottomOf="@+id/count_down_timer">
 
         <LinearLayout
+            android:id="@+id/layout_one"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:animateLayoutChanges="true"
+            android:orientation="vertical"
+            android:background="@color/colorPrimary">
 
             <ImageView
                 android:id="@+id/playerOne_imageView"
@@ -61,7 +64,6 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        app:cardBackgroundColor="@color/colorPrimary"
         app:cardCornerRadius="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -70,9 +72,12 @@
         app:layout_constraintTop_toBottomOf="@+id/player_one">
 
         <LinearLayout
+            android:id="@+id/layout_two"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:animateLayoutChanges="true"
+            android:orientation="vertical"
+            android:background="@color/colorPrimary">
 
             <ImageView
                 android:id="@+id/playerTwo_imageView"

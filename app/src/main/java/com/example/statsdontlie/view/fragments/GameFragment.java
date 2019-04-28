@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,7 +12,10 @@ import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.statsdontlie.OnFragmentInteractionListener;
@@ -73,6 +77,8 @@ public class GameFragment extends Fragment {
         randomQuestionPosition = RandomNumberGenerator.getRandomNumber1();
         displayQuestionTextView.setText(BDLAppConstants.QUESTIONS_ARRAY[randomQuestionPosition]);
         observeViewModel();
+        playerOneCardView.startAnimation(getFadeIn());
+        playerTwoCardView.startAnimation(getFadeIn());
         setPlayer1CardView();
         setPlayer2CardView();
     }
@@ -122,8 +128,8 @@ public class GameFragment extends Fragment {
     }
 
     private void setViews() {
-        playerOneTextView.setText(player1.getFirstName() + "\n" + "\n" + player1.getPlayerPointAverage());
-        playerTwoTextView.setText(player2.getFirstName() + "\n" + "\n" + player2.getPlayerPointAverage());
+        playerOneTextView.setText(player1.getFirstName());
+        playerTwoTextView.setText(player2.getFirstName());
         Picasso.get()
                 .load(player1.createPlayerPhoto())
                 .into(playerOneImage);
@@ -132,25 +138,98 @@ public class GameFragment extends Fragment {
                 .into(playerTwoImage);
     }
 
+    private void flipViews() {
+        Animation flip = AnimationUtils.loadAnimation(getActivity(),R.anim.card);
+        Animation flip_two = AnimationUtils.loadAnimation(getActivity(),R.anim.card);
+
+        playerOneCardView.startAnimation(flip);
+
+        flip.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                playerOneTextView.setText("" + player1.getPlayerPointAverage());
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                playerTwoCardView.startAnimation(flip_two);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+        flip_two.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                playerTwoTextView.setText("" + player2.getPlayerPointAverage());
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+
+                final Handler handler = new Handler();
+                final Handler handler2 = new Handler();
+                handler.postDelayed(() -> {
+                    playerOneCardView.startAnimation(getFadeOut());
+                    playerTwoCardView.startAnimation(getFadeOut());
+
+                },800);
+
+                handler2.postDelayed(() ->{
+                    reloadPlayersAndViews();
+                },1500);
+
+
+
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+    }
+
     private void setPlayer1CardView() {
-        playerOneCardView.setOnClickListener(v -> roundResults(1));
+        playerOneCardView.setOnClickListener(v -> {
+            roundResults(1);
+            flipViews();
+        });
     }
 
     private void setPlayer2CardView() {
-        playerTwoCardView.setOnClickListener(v -> roundResults(2));
+        playerTwoCardView.setOnClickListener(v -> {
+            roundResults(2);
+            flipViews();
+        });
     }
 
     private void roundResults(int i) {
-        if (new GameJudger(player1, player2, i, questionPosition).isPlayerChoiceCorrect()) {
+        if (new GameJudger(player1, player2, i).isPlayerChoiceCorrect()) {
             playerCorrectGuesses++;
-        } else {
+        }else{
             playerInCorrectGuesses++;
         }
-        reloadPlayersAndViews();
     }
 
-    private void reloadPlayersAndViews() {
-        setRandomPlayers(playerAverageModels);
-        setViews();
+    private Animation getFadeIn(){
+            return AnimationUtils.loadAnimation(getActivity(), R.anim.fade_in);
+    }
+    private Animation getFadeOut(){
+            return AnimationUtils.loadAnimation(getActivity(), R.anim.fade_out);
+    }
+
+    private void reloadPlayersAndViews(){
+        if(getContext().getResources() != null) {
+            playerOneCardView.startAnimation(getFadeIn());
+            playerTwoCardView.startAnimation(getFadeIn());
+            setRandomPlayers(playerAverageModels);
+            setViews();
+        }
     }
 }
