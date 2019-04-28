@@ -26,6 +26,7 @@ import com.example.statsdontlie.utils.RandomNumberGenerator;
 import com.example.statsdontlie.viewmodel.BDLViewModel;
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class GameFragment extends Fragment {
@@ -168,7 +169,8 @@ public class GameFragment extends Fragment {
         flip.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-                playerOneTextView.setText("" + player1.getPlayerPointAvg());
+                playerOneTextView.setText("" + new DecimalFormat("#.##").format(player1.getPlayerPointAvg()));
+
             }
 
             @Override
@@ -185,7 +187,8 @@ public class GameFragment extends Fragment {
         flip_two.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-                playerTwoTextView.setText("" + player2.getPlayerPointAvg());
+                playerTwoTextView.setText("" + new DecimalFormat("#.##").format(player2.getPlayerPointAvg()));
+
             }
 
             @Override
