@@ -9,12 +9,12 @@ import com.example.statsdontlie.model.BDLResponse;
 import com.example.statsdontlie.model.PlayerAverageModel;
 import com.example.statsdontlie.network.RetrofitSingleton;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
@@ -23,15 +23,17 @@ import retrofit2.Response;
 
 public class BDLRepository {
 
-    private MutableLiveData<BDLResponse> bdlResponseMutableLiveData;
+    private MutableLiveData<List<PlayerAverageModel>> bdlResponseMutableLiveData;
+    private List<PlayerAverageModel> playerAverageModels;
 
     public BDLRepository() {
         bdlResponseMutableLiveData = new MutableLiveData<>();
+        this.playerAverageModels = new ArrayList<>();
     }
 
     public void initRetrofitCall(int playerId) {
         RetrofitSingleton.getSingleService()
-                .getResponse(playerId, 2018,100)
+                .getResponse(playerId, 2018, 100)
                 .enqueue(new Callback<BDLResponse>() {
                     @Override
                     public void onResponse(Call<BDLResponse> call, Response<BDLResponse> response) {
@@ -51,29 +53,26 @@ public class BDLRepository {
         List<BDLResponse.GameStats> playerSeasonAverages = response.getData();
         Observable.just(playerSeasonAverages)
                 .subscribeOn(Schedulers.computation())
-                .flatMap(new Function<List<BDLResponse.GameStats>, ObservableSource<PlayerAverageModel>>() {
-                    @Override
-                    public ObservableSource<PlayerAverageModel> apply(List<BDLResponse.GameStats> gameStats) throws Exception {
-                        double pointsAverage = 0;
-                        for (BDLResponse.GameStats gameStat : gameStats) {
-                            pointsAverage += gameStat.getPts();
-                        }
-                        pointsAverage = pointsAverage / gameStats.size();
-
-                        PlayerAverageModel newPlayer = new PlayerAverageModel(gameStats.get(0).getPlayer().getFirstName(),
-                                gameStats.get(0).getPlayer().getLastName(), pointsAverage);
-                        return Observable.just(newPlayer);
+                .flatMap((Function<List<BDLResponse.GameStats>, ObservableSource<PlayerAverageModel>>) gameStats -> {
+                    double pointsAverage = 0;
+                    for (BDLResponse.GameStats gameStat : gameStats) {
+                        pointsAverage += gameStat.getPts();
                     }
+                    pointsAverage = pointsAverage / gameStats.size();
+                    return Observable.just(new PlayerAverageModel(gameStats.get(0).getPlayer().getFirstName(),
+                            gameStats.get(0).getPlayer().getLastName(), pointsAverage));
                 }).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<PlayerAverageModel>() {
-                    @Override
-                    public void accept(PlayerAverageModel playerAverageModel) throws Exception {
-                        Log.d(BDLAppConstants.BDLREPOSITORY_TAG, "accept: " + playerAverageModel.getFirstName() +
-                                playerAverageModel.getLastName() + playerAverageModel.getPlayerPointAverage());
-                    }
+                .subscribe(playerAverageModel ->
+                {
+                    playerAverageModels.add(playerAverageModel);
+                    bdlResponseMutableLiveData.setValue(playerAverageModels);
+                    Log.d(BDLAppConstants.BDLREPOSITORY_TAG, "accept: " + playerAverageModel.getFirstName() +
+                            playerAverageModel.getLastName() + playerAverageModel.getPlayerPointAverage());
                 });
 
     }
 
-
+    public MutableLiveData<List<PlayerAverageModel>> getBdlResponseMutableLiveData() {
+        return bdlResponseMutableLiveData;
+    }
 }
