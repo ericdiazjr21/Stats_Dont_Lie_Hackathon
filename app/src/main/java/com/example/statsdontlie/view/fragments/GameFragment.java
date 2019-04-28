@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.example.statsdontlie.OnFragmentInteractionListener;
 import com.example.statsdontlie.R;
+import com.example.statsdontlie.constants.BDLAppConstants;
 import com.example.statsdontlie.model.PlayerAverageModel;
 import com.example.statsdontlie.utils.GameJudger;
 import com.example.statsdontlie.utils.RandomNumberGenerator;
@@ -33,6 +34,7 @@ public class GameFragment extends Fragment {
     private TextView playerOneTextView;
     private TextView playerTwoTextView;
     private TextView countDownView;
+    private TextView displayQuestionTextView;
     private PlayerAverageModel player1;
     private PlayerAverageModel player2;
     private BDLViewModel viewModel;
@@ -40,6 +42,7 @@ public class GameFragment extends Fragment {
     private int playerInCorrectGuesses = 0;
     private CountDownTimer countDownTimer;
     private List<PlayerAverageModel> playerAverageModels;
+    private int randomQuestionPosition;
 
     public GameFragment() {
     }
@@ -67,6 +70,8 @@ public class GameFragment extends Fragment {
         findViews(view);
         setCountDownTimer();
         setViewModel();
+        randomQuestionPosition = RandomNumberGenerator.getRandomNumber1();
+        displayQuestionTextView.setText(BDLAppConstants.QUESTIONS_ARRAY[randomQuestionPosition]);
         observeViewModel();
         setPlayer1CardView();
         setPlayer2CardView();
@@ -79,14 +84,15 @@ public class GameFragment extends Fragment {
         playerTwoImage = view.findViewById(R.id.playerTwo_imageView);
         playerOneTextView = view.findViewById(R.id.player_one_text_view);
         playerTwoTextView = view.findViewById(R.id.player_two_text_view);
+        displayQuestionTextView = view.findViewById(R.id.question_display_text_view);
         countDownView = view.findViewById(R.id.count_down_timer);
     }
 
     private void setCountDownTimer() {
-        countDownTimer = new CountDownTimer(30000,1000) {
+        countDownTimer = new CountDownTimer(30000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                countDownView.setText(String.valueOf(millisUntilFinished/1000));
+                countDownView.setText(String.valueOf(millisUntilFinished / 1000));
             }
 
             @Override
@@ -119,11 +125,11 @@ public class GameFragment extends Fragment {
         playerOneTextView.setText(player1.getFirstName() + "\n" + "\n" + player1.getPlayerPointAverage());
         playerTwoTextView.setText(player2.getFirstName() + "\n" + "\n" + player2.getPlayerPointAverage());
         Picasso.get()
-               .load(player1.createPlayerPhoto())
-               .into(playerOneImage);
+                .load(player1.createPlayerPhoto())
+                .into(playerOneImage);
         Picasso.get()
-               .load(player2.createPlayerPhoto())
-               .into(playerTwoImage);
+                .load(player2.createPlayerPhoto())
+                .into(playerTwoImage);
     }
 
     private void setPlayer1CardView() {
@@ -135,14 +141,15 @@ public class GameFragment extends Fragment {
     }
 
     private void roundResults(int i) {
-        if (new GameJudger(player1, player2, i).isPlayerChoiceCorrect()) {
+        if (new GameJudger(player1, player2, i, questionPosition).isPlayerChoiceCorrect()) {
             playerCorrectGuesses++;
-        }else{
+        } else {
             playerInCorrectGuesses++;
-        }reloadPlayersAndViews();
+        }
+        reloadPlayersAndViews();
     }
 
-    private void reloadPlayersAndViews(){
+    private void reloadPlayersAndViews() {
         setRandomPlayers(playerAverageModels);
         setViews();
     }

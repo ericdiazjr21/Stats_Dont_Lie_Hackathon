@@ -49,4 +49,15 @@ public class BDLAppConstants {
             JULIUS_RANDLE, LAMARCUS_ALDRIDGE, DEMAR_DEROZAN, LEBRON_JAMES, JRUE_HOLIDAY, D_ANGELO_RUSSELL,
             MIKE_CONLEY};
 
+
+    public static final String[] QUESTIONS_ARRAY = {
+            "Who has a higher point-per-game average?",
+            "Who has a higher assist-per-game average?",
+            "Who averages more blocks per game?",
+            "Who averages more defensive rebounds per game ?",
+            "Who has a higher 3 point shooting average ?",
+            "Who has a higher field-goal-percentage?",
+            "Who averages more rebound per game?",
+            "Who has a higher point-per-game average?"
+    };
 }

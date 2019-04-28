@@ -33,6 +33,11 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         leftCornerImage = findViewById(R.id.splash_left);
         rightCornerImage = findViewById(R.id.splash_right);
 
+        viewModel = BDLViewModel.getInstance(this);
+        viewModel.makeNetworkCall();
+        viewModel.getPlayerList().observe(this, playerAverageModels ->
+                Log.d(BDLAppConstants.MAIN_ACTIVITY_TAG, "onChanged: " + playerAverageModels.toString()));
+
         Animation shake = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.shake);
         Animation shakePieceLeft = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.shake_pieces);
         Animation shakePieceRight = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.shake_pieces);
