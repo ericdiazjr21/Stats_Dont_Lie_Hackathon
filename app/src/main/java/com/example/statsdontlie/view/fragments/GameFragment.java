@@ -279,4 +279,10 @@ public class GameFragment extends Fragment {
             Log.d(TAG, "getRandomQuestion: "+ randomQuestionPosition);
             displayQuestionTextView.setText(BDLAppConstants.QUESTIONS_ARRAY[randomQuestionPosition]);
         }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        countDownTimer.cancel();
     }
+}

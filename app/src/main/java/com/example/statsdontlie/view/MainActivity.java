@@ -141,6 +141,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.main_container, GameFragment.newInstance(),"game")
+                .addToBackStack(null)
                 .commit();
     }
 
@@ -151,6 +152,5 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
                 .replace(R.id.main_container, ResultFragment.newInstance(playerCorrectGuesses, playerIncorrectGuesses))
                 .commit();
     }
-
 
 }
