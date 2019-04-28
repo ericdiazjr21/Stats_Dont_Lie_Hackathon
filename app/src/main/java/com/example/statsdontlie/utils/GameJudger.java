@@ -31,9 +31,9 @@ public final class GameJudger {
             case 3:
                 return playerDefRebAvgComp();
             case 4:
-                return player3pAvgComp();
+                return player3PM();
             case 5:
-                return playerFgpAvgComp();
+                return player3PA();
             default:
                 return false;
         }
@@ -77,21 +77,21 @@ public final class GameJudger {
                playerChoice == 2;
     }
 
-    private boolean player3pAvgComp() {
-        if (player1.getPlayer3pAvg() > player2.getPlayer3pAvg() &&
+    private boolean player3PM() {
+        if (player1.getPlayer3PM() > player2.getPlayer3PM()&&
             playerChoice == 1) {
             return true;
         }
-        return player2.getPlayer3pAvg() > player1.getPlayer3pAvg() &&
+        return player2.getPlayer3PM() > player1.getPlayer3PM() &&
                playerChoice == 2;
     }
 
-    private boolean playerFgpAvgComp() {
-        if (player1.getPlayerFgpAvg() > player2.getPlayerFgpAvg() &&
+    private boolean player3PA() {
+        if (player1.getPlayer3PA() > player2.getPlayer3PA() &&
             playerChoice == 1) {
             return true;
         }
-        return player2.getPlayerFgpAvg() > player1.getPlayerFgpAvg() &&
+        return player2.getPlayer3PA() > player1.getPlayer3PA() &&
                playerChoice == 2;
     }
 

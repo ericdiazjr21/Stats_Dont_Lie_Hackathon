@@ -73,7 +73,6 @@ public class BDLRepository {
                     double playerAssistAvg = 0;
                     double playerBlocksAvg = 0;
                     double playerDefRebAvg = 0;
-                    double player3pAvg = 0;
                     double player3pMade = 0;
                     double player3pAttempted = 0;
                     double playerFpgAvg = 0;
@@ -82,17 +81,15 @@ public class BDLRepository {
                         playerAssistAvg += gameStat.getAst();
                         playerBlocksAvg += gameStat.getBlk();
                         playerDefRebAvg += gameStat.getDreb();
-                        player3pAvg += gameStat.getFg3_pct();
-                        playerFpgAvg += gameStat.getFg_pct();
                         player3pMade += gameStat.getFg3m();
                         player3pAttempted += gameStat.getFg3a();
                     }
-                    pointsAverage = (player3pMade/player3pAttempted) / gameStats.size();
+                    pointsAverage = pointsAverage / gameStats.size();
                     playerAssistAvg = playerAssistAvg / gameStats.size();
                     playerBlocksAvg = playerBlocksAvg / gameStats.size();
                     playerDefRebAvg = playerDefRebAvg / gameStats.size();
-                    player3pAvg = player3pAvg / gameStats.size();
-                    playerFpgAvg = playerFpgAvg / gameStats.size();
+                    player3pMade = player3pMade / gameStats.size();
+                    player3pAttempted = player3pAttempted/ gameStats.size();
 
                     PlayerAverageModel item = new PlayerAverageModel(gameStats.get(0).getPlayer().getFirstName(),
                             gameStats.get(0).getPlayer().getLastName(),
@@ -100,8 +97,8 @@ public class BDLRepository {
                             playerAssistAvg,
                             playerBlocksAvg,
                             playerDefRebAvg,
-                            player3pAvg,
-                            playerFpgAvg);
+                            player3pMade,
+                            player3pAttempted);
                     Log.d(BDLAppConstants.BDLREPOSITORY_TAG, "computePlayerAverage: " + item.toString());
                     return Observable.just(item);
                 }).observeOn(AndroidSchedulers.mainThread())

@@ -150,12 +150,15 @@ public class GameFragment extends Fragment {
     private void setViews() {
         playerOneTextView.setText(player1.getFirstName());
         playerTwoTextView.setText(player2.getFirstName());
+        Log.d(TAG, "setViews: "+ player1.toString());
+        Log.d(TAG, "setViews: " + player2.toString());
         Picasso.get()
                 .load(player1.createPlayerPhoto())
                 .into(playerOneImage);
         Picasso.get()
                 .load(player2.createPlayerPhoto())
                 .into(playerTwoImage);
+        getRandomQuestion();
         playerOneCardView.setClickable(true);
         playerTwoCardView.setClickable(true);
     }
@@ -190,7 +193,6 @@ public class GameFragment extends Fragment {
             @Override
             public void onAnimationStart(Animation animation) {
                 double stat = player2.getStat(randomQuestionPosition);
-                Log.d(TAG, "onAnimationStart: " + stat);
                 playerTwoTextView.setText("" + new DecimalFormat("#.##").format(stat));
 
             }
@@ -247,6 +249,7 @@ public class GameFragment extends Fragment {
             incorrect.setVisibility(View.VISIBLE);
             incorrect.startAnimation(getChecker());
             incorrect.setVisibility(View.INVISIBLE);
+            playerInCorrectGuesses++;
         }
     }
 
@@ -272,6 +275,7 @@ public class GameFragment extends Fragment {
 
         private void getRandomQuestion () {
             randomQuestionPosition = RandomNumberGenerator.getRandomNumber();
+            Log.d(TAG, "getRandomQuestion: "+ randomQuestionPosition);
             displayQuestionTextView.setText(BDLAppConstants.QUESTIONS_ARRAY[randomQuestionPosition]);
         }
     }
