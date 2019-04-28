@@ -45,7 +45,7 @@ public class BDLRepository {
                         @Override
                         public void onResponse(Call<BDLResponse> call, Response<BDLResponse> response) {
                             Log.d(BDLAppConstants.BDLREPOSITORY_TAG, "onResponse: " + call.request().toString());
-                            Log.d(BDLAppConstants.BDLREPOSITORY_TAG, "onResponse: " + response.body().getData().get(0).getMin());
+                            Log.d(BDLAppConstants.BDLREPOSITORY_TAG, "onResponse: " + response.body().getData().get(0).getPts());
                             computePlayerAverage(response.body());
                         }
 
@@ -70,12 +70,34 @@ public class BDLRepository {
                 .subscribeOn(Schedulers.computation())
                 .flatMap((Function<List<BDLResponse.GameStats>, ObservableSource<PlayerAverageModel>>) gameStats -> {
                     double pointsAverage = 0;
+                    double playerAssistAvg= 0;
+                    double playerBlocksAvg= 0;
+                    double playerDefRebAvg= 0;
+                    double player3pAvg= 0;
+                    double playerFpgAvg= 0;
                     for (BDLResponse.GameStats gameStat : gameStats) {
                         pointsAverage += gameStat.getPts();
+                        playerAssistAvg += gameStat.getAst();
+                        playerBlocksAvg += gameStat.getBlk();
+                        playerDefRebAvg += gameStat.getDreb();
+                        player3pAvg += gameStat.getFg3_pct();
+                        playerFpgAvg += gameStat.getFg_pct();
                     }
                     pointsAverage = pointsAverage / gameStats.size();
+                    playerAssistAvg = playerAssistAvg / gameStats.size();
+                    playerBlocksAvg = playerBlocksAvg / gameStats.size();
+                    playerDefRebAvg = playerDefRebAvg / gameStats.size();
+                    player3pAvg = player3pAvg / gameStats.size();
+                    playerFpgAvg = playerFpgAvg / gameStats.size();
+
                     return Observable.just(new PlayerAverageModel(gameStats.get(0).getPlayer().getFirstName(),
-                            gameStats.get(0).getPlayer().getLastName(), pointsAverage));
+                                                                  gameStats.get(0).getPlayer().getLastName(),
+                                                                  pointsAverage,
+                                                                  playerAssistAvg,
+                                                                  playerBlocksAvg,
+                                                                  playerDefRebAvg,
+                                                                  player3pAvg,
+                                                                  playerFpgAvg));
                 }).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(playerAverageModel ->
                 {

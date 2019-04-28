@@ -10,8 +10,8 @@ import android.widget.ImageView;
 
 import com.example.statsdontlie.OnFragmentInteractionListener;
 import com.example.statsdontlie.R;
-import com.example.statsdontlie.view.fragments.GameFragment;
 import com.example.statsdontlie.constants.BDLAppConstants;
+import com.example.statsdontlie.view.fragments.GameFragment;
 import com.example.statsdontlie.view.fragments.MenuFragment;
 import com.example.statsdontlie.view.fragments.ResultFragment;
 import com.example.statsdontlie.viewmodel.BDLViewModel;
