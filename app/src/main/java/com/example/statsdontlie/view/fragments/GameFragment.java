@@ -20,6 +20,7 @@ import com.example.statsdontlie.model.PlayerAverageModel;
 import com.example.statsdontlie.utils.GameJudger;
 import com.example.statsdontlie.utils.RandomNumberGenerator;
 import com.example.statsdontlie.viewmodel.BDLViewModel;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -117,6 +118,12 @@ public class GameFragment extends Fragment {
     private void setViews() {
         playerOneTextView.setText(player1.getFirstName() + "\n" + "\n" + player1.getPlayerPointAverage());
         playerTwoTextView.setText(player2.getFirstName() + "\n" + "\n" + player2.getPlayerPointAverage());
+        Picasso.get()
+               .load(player1.createPlayerPhoto())
+               .into(playerOneImage);
+        Picasso.get()
+               .load(player2.createPlayerPhoto())
+               .into(playerTwoImage);
     }
 
     private void setPlayer1CardView() {

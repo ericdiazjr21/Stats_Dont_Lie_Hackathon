@@ -23,4 +23,9 @@ public final class PlayerAverageModel {
     public double getPlayerPointAverage() {
         return playerPointAverage;
     }
+
+    public String createPlayerPhoto(){
+        return "https://nba-players.herokuapp.com/players/" + getLastName() + "/" + getFirstName();
+
+    }
 }
