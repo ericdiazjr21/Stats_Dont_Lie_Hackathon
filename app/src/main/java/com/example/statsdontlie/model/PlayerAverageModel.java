@@ -25,4 +25,13 @@ public final class PlayerAverageModel {
     public double getPlayerPointAverage() {
         return playerPointAverage;
     }
+
+    @Override
+    public String toString() {
+        return "PlayerAverageModel{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", playerPointAverage=" + playerPointAverage +
+                '}';
+    }
 }
