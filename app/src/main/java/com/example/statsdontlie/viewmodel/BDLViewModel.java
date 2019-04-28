@@ -1,10 +1,12 @@
 package com.example.statsdontlie.viewmodel;
 
 import android.app.Activity;
+import android.app.Application;
+import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProviders;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
@@ -14,29 +16,33 @@ import com.example.statsdontlie.repository.BDLRepository;
 
 import java.util.List;
 
-public class BDLViewModel extends ViewModel {
+public class BDLViewModel extends AndroidViewModel {
 
     private final MutableLiveData<List<PlayerAverageModel>> playerAverageModelMutableLiveData;
     private final BDLRepository bdlRepository;
 
-    public BDLViewModel() {
-        this.bdlRepository = new BDLRepository();
+    public BDLViewModel(@NonNull Application application) {
+        super(application);
+        this.bdlRepository = new BDLRepository(application);
         playerAverageModelMutableLiveData = bdlRepository.getBdlResponseMutableLiveData();
     }
 
+
     public BDLViewModel getInstance(Fragment fragment){
-        BDLViewModel bdlViewModel = ViewModelProviders.of(fragment).get(BDLViewModel.class);
-        return bdlViewModel;
+        return ViewModelProviders.of(fragment).get(BDLViewModel.class);
     }
 
     public static BDLViewModel getInstance(AppCompatActivity activity){
-        BDLViewModel bdlViewModel = ViewModelProviders.of(activity).get(BDLViewModel.class);
-        return bdlViewModel;
+        return ViewModelProviders.of(activity).get(BDLViewModel.class);
     }
 
     public void makeNetworkCall() {
-        for (Integer player_id : BDLAppConstants.PLAYER_ARRAY_CONSTANTS) {
-            bdlRepository.initRetrofitCall(player_id);
+        if (bdlRepository.checkSharedPrefs()) {
+            for (Integer player_id : BDLAppConstants.PLAYER_ARRAY_CONSTANTS) {
+                bdlRepository.initRetrofitCall(player_id);
+            }
+        }else{
+            bdlRepository.setPlayerAverageModelListFromSharedPrefs();
         }
     }
 

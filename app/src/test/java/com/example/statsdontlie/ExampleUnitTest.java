@@ -1,8 +1,9 @@
 package com.example.statsdontlie;
 
-import org.junit.Test;
+import com.example.statsdontlie.utils.RandomNumberGenerator;
 
-import static org.junit.Assert.*;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -11,7 +12,13 @@ import static org.junit.Assert.*;
  */
 public class ExampleUnitTest {
     @Test
-    public void addition_isCorrect() {
-        assertEquals(4, 2 + 2);
+    public void NoRepeatNumbers() {
+        for (int i = 0; i < 1000; i++) {
+            int player1 = RandomNumberGenerator.getRandomNumber1();
+            int player2 = RandomNumberGenerator.getRandomNumber2();
+            Assert.assertNotEquals(player1, player2);
+        }
+
+
     }
 }

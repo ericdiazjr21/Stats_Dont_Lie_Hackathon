@@ -6,8 +6,14 @@ public class BDLAppConstants {
     public static final String ENDPOINT = "/api/v1/stats";
     public static final String BDLREPOSITORY_TAG = "BDLRepository";
     public static final String MAIN_ACTIVITY_TAG = "MainActivity";
+    public static final String EXAMPLE_UNIT_TEST_TAG = "ExampleUnitTest";
 
+    //Result Fragment Constants
+    public static final String CORRECT = "CORRECT";
+    public static final String WRONG = "WRONG";
 
+    public static final String SHARED_PREFS = "com.example.statsdontlie.sharedPrefsKey";
+    public static final String PLAYER_KEY_SHARED_PREFS = "com.example.statsdontlie.playerAverageModelListKey";
     //player_ids for API call
 
     private static final int JAMES_HARDEN = 192;
