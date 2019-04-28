@@ -6,12 +6,10 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.util.Log;
 
 import com.example.statsdontlie.OnFragmentInteractionListener;
 import com.example.statsdontlie.R;
 import com.example.statsdontlie.view.fragments.GameFragment;
-import com.example.statsdontlie.constants.BDLAppConstants;
 import com.example.statsdontlie.view.fragments.MenuFragment;
 import com.example.statsdontlie.view.fragments.ResultFragment;
 import com.example.statsdontlie.viewmodel.BDLViewModel;
@@ -21,6 +19,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
     private ImageView titleImage;
     private ImageView leftCornerImage;
     private ImageView rightCornerImage;
+
 
 
     private BDLViewModel viewModel;
@@ -135,12 +134,9 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
             }
         });
 
-
-        viewModel = BDLViewModel.getInstance(this);
-        viewModel.makeNetworkCall();
-        viewModel.getPlayerList().observe(this, playerAverageModels ->
-                Log.d(BDLAppConstants.MAIN_ACTIVITY_TAG, "onChanged: " + playerAverageModels.toString()));
     }
+
+
 
     @Override
     public void displayMenuFragment() {
@@ -152,6 +148,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
 
     @Override
     public void displayGameFragment() {
+
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.main_container, GameFragment.newInstance())
