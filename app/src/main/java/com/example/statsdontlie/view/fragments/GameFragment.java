@@ -79,7 +79,7 @@ public class GameFragment extends Fragment {
         playerTwoImage = view.findViewById(R.id.playerTwo_imageView);
         playerOneTextView = view.findViewById(R.id.player_one_text_view);
         playerTwoTextView = view.findViewById(R.id.player_two_text_view);
-        countDownView = view.findViewById(R.id.gamePrompt_textView);
+        countDownView = view.findViewById(R.id.count_down_timer);
     }
 
     private void setCountDownTimer() {
