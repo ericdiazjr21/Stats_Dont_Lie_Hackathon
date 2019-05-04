@@ -6,4 +6,4 @@ Main Screen            |  Game
 
 Results            |  END
 :-------------------------:|:-------------------------:
-<img src=“images/results.png” width=“250" height=“500”>  | 
+<img src=“images/results.png” width=“250" height=“500”>  
