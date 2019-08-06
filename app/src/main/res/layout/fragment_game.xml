@@ -14,8 +14,8 @@
         android:elevation="100dp"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/player_two"
-        app:layout_constraintEnd_toEndOf="@+id/player_one"
-        app:layout_constraintStart_toStartOf="@+id/player_one"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/player_one"
         app:srcCompat="@drawable/correct" />
 
@@ -28,7 +28,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/player_two"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/count_down_timer"
+        app:layout_constraintTop_toTopOf="@+id/player_one"
         app:srcCompat="@drawable/incorrect" />
 
     <TextView
