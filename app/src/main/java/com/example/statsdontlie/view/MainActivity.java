@@ -30,15 +30,10 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mainImage = findViewById(R.id.splash_main);
-        titleImage = findViewById(R.id.splash_title);
-        leftCornerImage = findViewById(R.id.splash_left);
-        rightCornerImage = findViewById(R.id.splash_right);
+        initializeViews();
+        viewModelSetUp();
 
-        viewModel = BDLViewModel.getInstance(this);
-        viewModel.makeNetworkCall();
-        viewModel.getPlayerList().observe(this, playerAverageModels ->
-                Log.d(BDLAppConstants.MAIN_ACTIVITY_TAG, "onChanged: " + playerAverageModels.toString()));
+
 
         Animation shakePieceLeft = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.shake_pieces);
         Animation shakePieceRight = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.shake_pieces);
@@ -126,6 +121,19 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
 
     }
 
+    private void initializeViews(){
+        mainImage = findViewById(R.id.splash_main);
+        titleImage = findViewById(R.id.splash_title);
+        leftCornerImage = findViewById(R.id.splash_left);
+        rightCornerImage = findViewById(R.id.splash_right);
+    }
+
+    private void viewModelSetUp(){
+        viewModel = BDLViewModel.getInstance(this);
+        viewModel.makeNetworkCall();
+        viewModel.getPlayerList().observe(this, playerAverageModels ->
+                Log.d(BDLAppConstants.MAIN_ACTIVITY_TAG, "onChanged: " + playerAverageModels.toString()));
+    }
 
 
     @Override
