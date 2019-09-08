@@ -29,6 +29,7 @@ public class BDLRepository {
 
     private MutableLiveData<List<PlayerAverageModel>> bdlResponseMutableLiveData;
     private List<PlayerAverageModel> playerAverageModels;
+    //TODO: Create a SharedPreferencesManager Object to hand reading and writing to Prefs
     private SharedPreferences sharedPreferences;
 
     public BDLRepository(Application application) {
