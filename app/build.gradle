@@ -46,6 +46,8 @@ dependencies {
     // For Networking
     implementation 'com.squareup.retrofit2:retrofit:2.6.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.0'
+
 
     //For Test
     testImplementation 'junit:junit:4.12'
