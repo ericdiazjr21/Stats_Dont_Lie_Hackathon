@@ -18,6 +18,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.statsdontlie.Animations;
 import com.example.statsdontlie.OnFragmentInteractionListener;
 import com.example.statsdontlie.R;
 import com.example.statsdontlie.constants.BDLAppConstants;
@@ -81,8 +82,8 @@ public class GameFragment extends Fragment {
         setCountDownTimer();
         setViewModel();
         observeViewModel();
-        playerOneCardView.startAnimation(getFadeIn());
-        playerTwoCardView.startAnimation(getFadeIn());
+        playerOneCardView.startAnimation(Animations.getFadeIn(playerOneCardView));
+        playerTwoCardView.startAnimation(Animations.getFadeIn(playerTwoCardView));
         setPlayer1CardView();
         setPlayer2CardView();
     }
@@ -100,12 +101,6 @@ public class GameFragment extends Fragment {
         correct = view.findViewById(R.id.right);
         handler = new Handler();
         handler2 = new Handler();
-        if (playerTwoCardView.isClickable() == false) {
-            playerTwoCardView.setClickable(true);
-        }
-        if (playerOneCardView.isClickable() == false) {
-            playerOneCardView.setClickable(true);
-        }
     }
 
     private void setCountDownTimer() {
@@ -159,8 +154,8 @@ public class GameFragment extends Fragment {
                 .load(player2.createPlayerPhoto())
                 .into(playerTwoImage);
         getRandomQuestion();
-        playerOneCardView.setClickable(true);
-        playerTwoCardView.setClickable(true);
+        playerOneCardView.startAnimation(Animations.getFadeIn(playerOneCardView));
+        playerTwoCardView.startAnimation(Animations.getFadeIn(playerTwoCardView));
     }
 
     private void flipViews() {
@@ -174,7 +169,7 @@ public class GameFragment extends Fragment {
         flip.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-                playerOneTextView.setText("" + new DecimalFormat("#.##").format(player1.getStat(randomQuestionPosition)));
+                playerOneTextView.setText("" + new DecimalFormat("#.#").format(player1.getStat(randomQuestionPosition)));
 
             }
 
@@ -193,19 +188,18 @@ public class GameFragment extends Fragment {
             @Override
             public void onAnimationStart(Animation animation) {
                 double stat = player2.getStat(randomQuestionPosition);
-                playerTwoTextView.setText("" + new DecimalFormat("#.##").format(stat));
+                playerTwoTextView.setText("" + new DecimalFormat("#.#").format(stat));
 
             }
 
             @Override
             public void onAnimationEnd(Animation animation) {
 
-
                 handler.postDelayed(() -> {
                     if (getFragmentManager().findFragmentByTag("game") != null &&
                             getFragmentManager().findFragmentByTag("game").isVisible()) {
-                        playerOneCardView.startAnimation(getFadeOut());
-                        playerTwoCardView.startAnimation(getFadeOut());
+                        playerOneCardView.startAnimation(Animations.getFadeOut(playerOneCardView));
+                        playerTwoCardView.startAnimation(Animations.getFadeOut(playerTwoCardView));
                     }
                 }, 800);
 
@@ -241,35 +235,19 @@ public class GameFragment extends Fragment {
     }
 
     private void roundResults(int i) {
+
         if (new GameJudger(player1, player2, i, randomQuestionPosition).isPlayerChoiceCorrect()) {
-            correct.setVisibility(View.VISIBLE);
-            correct.startAnimation(getChecker());
-            correct.setVisibility(View.INVISIBLE);
+            correct.startAnimation(Animations.getChecker(correct));
             playerCorrectGuesses++;
         } else {
-            incorrect.setVisibility(View.VISIBLE);
-            incorrect.startAnimation(getChecker());
-            incorrect.setVisibility(View.INVISIBLE);
+            incorrect.startAnimation(Animations.getChecker(incorrect));
             playerInCorrectGuesses++;
         }
     }
 
-        private Animation getChecker () {
-            return AnimationUtils.loadAnimation(getActivity(), R.anim.right_or_wrong);
-        }
-
-        private Animation getFadeIn () {
-            return AnimationUtils.loadAnimation(getActivity(), R.anim.fade_in);
-        }
-
-        private Animation getFadeOut () {
-            return AnimationUtils.loadAnimation(getActivity(), R.anim.fade_out);
-        }
 
         private void reloadPlayersAndViews () {
             getRandomQuestion();
-            playerOneCardView.startAnimation(getFadeIn());
-            playerTwoCardView.startAnimation(getFadeIn());
             setRandomPlayers(playerAverageModels);
             setViews();
         }
