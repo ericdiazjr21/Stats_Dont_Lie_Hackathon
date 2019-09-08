@@ -2,6 +2,7 @@ package com.example.statsdontlie.view;
 
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -19,10 +20,6 @@ import com.example.statsdontlie.viewmodel.BDLViewModel;
 
 public class MainActivity extends AppCompatActivity implements OnFragmentInteractionListener {
     private ImageView mainImage;
-    private ImageView titleImage;
-    private ImageView leftCornerImage;
-    private ImageView rightCornerImage;
-
 
     private BDLViewModel viewModel;
 
@@ -30,102 +27,31 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initializeViews();
-        viewModelSetUp();
 
-
-
-        Animation shakePieceLeft = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.shake_pieces);
-        Animation shakePieceRight = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.shake_pieces);
-        Animation shakePieceTop = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.shake_pieces);
-        final Animation shatterLeft = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.shatter_left);
-        final Animation shatterRight = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.shatter_right);
-        final Animation shatterTop = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.shatter_top);
-
-        titleImage.startAnimation(shakePieceTop);
-        leftCornerImage.startAnimation(shakePieceLeft);
-        rightCornerImage.startAnimation(shakePieceRight);
-
-        shatterTop.setAnimationListener(new Animation.AnimationListener() {
+        CountDownTimer timer = new CountDownTimer(2000, 1000) {
             @Override
-            public void onAnimationStart(Animation animation) {
-                MediaPlayer mp = MediaPlayer.create(getApplicationContext(),R.raw.balldontlie);
-                mp.start();
+            public void onTick(long millisUntilFinished) {
+
             }
 
             @Override
-            public void onAnimationEnd(Animation animation) {
+            public void onFinish() {
                 displayMenuFragment();
-                mainImage.setVisibility(View.INVISIBLE);
-                titleImage.setVisibility(View.INVISIBLE);
-                leftCornerImage.setVisibility(View.INVISIBLE);
-                rightCornerImage.setVisibility(View.INVISIBLE);
             }
+        };
 
-            @Override
-            public void onAnimationRepeat(Animation animation) {
+        timer.start();
+        viewModel = BDLViewModel.getInstance(this);
+        viewModel.makeNetworkCall();
+        viewModel.getPlayerList().observe(this, playerAverageModels ->
+                Log.d(BDLAppConstants.MAIN_ACTIVITY_TAG, "onChanged: " + playerAverageModels.toString()));
 
-            }
-        });
 
-        shakePieceLeft.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                leftCornerImage.startAnimation(shatterLeft);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-
-        shakePieceRight.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                rightCornerImage.startAnimation(shatterRight);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-
-        shakePieceTop.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                titleImage.startAnimation(shatterTop);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
 
     }
 
     private void initializeViews(){
         mainImage = findViewById(R.id.splash_main);
-        titleImage = findViewById(R.id.splash_title);
-        leftCornerImage = findViewById(R.id.splash_left);
-        rightCornerImage = findViewById(R.id.splash_right);
     }
 
     private void viewModelSetUp(){
