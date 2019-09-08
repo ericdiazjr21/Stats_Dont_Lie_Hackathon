@@ -35,6 +35,10 @@ public class MenuFragment extends Fragment {
         if(context instanceof OnFragmentInteractionListener){
             listener = (OnFragmentInteractionListener) context;
         }
+
+        if(getFragmentManager().findFragmentByTag("game") != null){
+            getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentByTag("game"));
+        }
     }
 
     @Nullable
@@ -53,12 +57,7 @@ public class MenuFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         playButton = view.findViewById(R.id.play_button);
-        playButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v){
-                listener.displayGameFragment();
-            }
-        });
+        playButton.setOnClickListener(v -> listener.displayGameFragment());
     }
 
     public void showProgressDialog() {
