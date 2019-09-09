@@ -24,6 +24,7 @@ import com.example.statsdontlie.R;
 import com.example.statsdontlie.constants.BDLAppConstants;
 import com.example.statsdontlie.model.PlayerAverageModel;
 import com.example.statsdontlie.utils.GameJudger;
+import com.example.statsdontlie.utils.PlayerUtil;
 import com.example.statsdontlie.utils.RandomNumberGenerator;
 import com.example.statsdontlie.viewmodel.BDLViewModel;
 import com.squareup.picasso.Picasso;
@@ -148,10 +149,10 @@ public class GameFragment extends Fragment {
         Log.d(TAG, "setViews: "+ player1.toString());
         Log.d(TAG, "setViews: " + player2.toString());
         Picasso.get()
-                .load(player1.createPlayerPhoto())
+                .load(PlayerUtil.createPlayerPhoto(player1.getFirstName(), player1.getLastName()))
                 .into(playerOneImage);
         Picasso.get()
-                .load(player2.createPlayerPhoto())
+                .load(PlayerUtil.createPlayerPhoto(player2.getFirstName(), player2.getFirstName()))
                 .into(playerTwoImage);
         getRandomQuestion();
         playerOneCardView.startAnimation(Animations.getFadeIn(playerOneCardView));

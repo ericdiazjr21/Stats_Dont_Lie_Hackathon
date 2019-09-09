@@ -1,5 +1,7 @@
 package com.example.statsdontlie.model;
 
+import com.example.statsdontlie.utils.PlayerUtil;
+
 public final class PlayerAverageModel {
 
     private final String firstName;
@@ -59,14 +61,6 @@ public final class PlayerAverageModel {
 
     public double getPlayer3PA() {
         return player3PA;
-    }
-
-    public String createPlayerPhoto() {
-        if (getFirstName().equals("D'Angelo")) {
-            return "https://nba-players.herokuapp.com/players/" + getLastName() + "/" + "dangelo";
-        }
-        return "https://nba-players.herokuapp.com/players/" + getLastName() + "/" + getFirstName();
-
     }
 
     public double getStat(int position) {
