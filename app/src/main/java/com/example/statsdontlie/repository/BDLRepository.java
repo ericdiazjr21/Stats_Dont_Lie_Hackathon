@@ -12,6 +12,7 @@ import com.example.statsdontlie.model.BDLResponse;
 import com.example.statsdontlie.model.PlayerAverageModel;
 import com.example.statsdontlie.network.RetrofitSingleton;
 import com.example.statsdontlie.utils.PlayerAverageModelConverter;
+import com.example.statsdontlie.utils.SharedPrefUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,16 +31,14 @@ public class BDLRepository {
     private MutableLiveData<List<PlayerAverageModel>> bdlResponseMutableLiveData;
     private List<PlayerAverageModel> playerAverageModels;
     //TODO: Create a SharedPreferencesManager Object to hand reading and writing to Prefs
-    private SharedPreferences sharedPreferences;
 
-    public BDLRepository(Application application) {
+    public BDLRepository() {
         this.bdlResponseMutableLiveData = new MutableLiveData<>();
         this.playerAverageModels = new ArrayList<>();
-        this.sharedPreferences = application.getSharedPreferences(BDLAppConstants.SHARED_PREFS, Context.MODE_PRIVATE);
     }
 
     public void initRetrofitCall(int playerId) {
-        if (checkSharedPrefs()) {
+        if (SharedPrefUtil.checkSharedPrefs()) {
             RetrofitSingleton.getSingleService()
                     .getResponse(playerId, 2018, 100)
                     .enqueue(new Callback<BDLResponse>() {
@@ -108,7 +107,7 @@ public class BDLRepository {
                     playerAverageModels.add(playerAverageModel);
                     if (playerAverageModels.size() == 25) {
                         bdlResponseMutableLiveData.setValue(playerAverageModels);
-                        savePlayerAverageModelList();
+                        SharedPrefUtil.savePlayerAverageModelList(playerAverageModels);
                     }
                 });
 
@@ -118,17 +117,13 @@ public class BDLRepository {
         return bdlResponseMutableLiveData;
     }
 
-    private void savePlayerAverageModelList() {
-        sharedPreferences.edit().putString(BDLAppConstants.PLAYER_KEY_SHARED_PREFS, PlayerAverageModelConverter.playerAverageSerializer(playerAverageModels))
-                .apply();
-    }
+
 
     private List<PlayerAverageModel> getPlayerAverageModelsFromSharedPrefs() {
-        String playerAverageModelJson = sharedPreferences.getString(BDLAppConstants.PLAYER_KEY_SHARED_PREFS, "");
+        String playerAverageModelJson = SharedPrefUtil
+                .getSharedPreferences()
+                .getString(BDLAppConstants.PLAYER_KEY_SHARED_PREFS, "");
         return PlayerAverageModelConverter.playerAverageDeserializer(playerAverageModelJson);
     }
 
-    public boolean checkSharedPrefs() {
-        return sharedPreferences.getString(BDLAppConstants.PLAYER_KEY_SHARED_PREFS, "").equals("");
-    }
 }
