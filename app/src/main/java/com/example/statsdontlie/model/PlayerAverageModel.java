@@ -63,10 +63,6 @@ public final class PlayerAverageModel {
         return player3PA;
     }
 
-    public String createPlayerPhoto() {
-        return PlayerUtil.createPlayerPhoto(getFirstName(), getLastName());
-    }
-
     public double getStat(int position) {
         switch (position) {
             case 0:
