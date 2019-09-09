@@ -109,7 +109,7 @@ public class GameFragment extends Fragment {
     }
 
     private void setCountDownTimer() {
-        countDownTimer = new CountDownTimer(30000, 1000) {
+        countDownTimer = new CountDownTimer(20000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 countDownView.setText(String.valueOf(millisUntilFinished / 1000));
@@ -151,9 +151,6 @@ public class GameFragment extends Fragment {
         playerOneTextView.setText(player1.getFirstName());
         playerTwoTextView.setText(player2.getFirstName());
 
-        playerOneStatTextView.setText("" + new DecimalFormat("#.#").format(player1.getStat(randomQuestionPosition)));
-        playerTwoStatTextView.setText("" + new DecimalFormat("#.#").format(player2.getStat(randomQuestionPosition)));
-
         Log.d(TAG, "setViews: "+ player1.toString());
         Log.d(TAG, "setViews: " + player2.toString());
         Picasso.get()
@@ -165,6 +162,9 @@ public class GameFragment extends Fragment {
         getRandomQuestion();
 //        playerOneCardView.startAnimation(Animations.getFadeIn(playerOneCardView));
 //        playerTwoCardView.startAnimation(Animations.getFadeIn(playerTwoCardView));
+
+        playerOneStatTextView.setText("" + new DecimalFormat("#.#").format(player1.getStat(randomQuestionPosition)));
+        playerTwoStatTextView.setText("" + new DecimalFormat("#.#").format(player2.getStat(randomQuestionPosition)));
     }
 
     private void flipViews() {
