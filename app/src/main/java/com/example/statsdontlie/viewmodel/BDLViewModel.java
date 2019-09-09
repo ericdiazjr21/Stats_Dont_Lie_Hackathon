@@ -12,6 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import com.example.statsdontlie.constants.BDLAppConstants;
 import com.example.statsdontlie.model.PlayerAverageModel;
 import com.example.statsdontlie.repository.BDLRepository;
+import com.example.statsdontlie.utils.PlayerUtil;
+import com.example.statsdontlie.utils.SharedPrefUtil;
 
 import java.util.List;
 
@@ -36,7 +38,7 @@ public class BDLViewModel extends AndroidViewModel {
     }
 
     public void makeNetworkCall() {
-        if (bdlRepository.checkSharedPrefs()) {
+        if (SharedPrefUtil.checkSharedPrefs()) {
             for (Integer player_id : BDLAppConstants.PLAYER_ARRAY_CONSTANTS) {
                 bdlRepository.initRetrofitCall(player_id);
             }

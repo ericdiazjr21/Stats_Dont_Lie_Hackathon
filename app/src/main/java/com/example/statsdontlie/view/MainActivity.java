@@ -39,9 +39,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
 
         timer.start();
         viewModelSetUp();
-
-
-
     }
 
     private void viewModelSetUp(){
