@@ -40,6 +40,8 @@ public class GameFragment extends Fragment {
     private ImageView playerTwoImage;
     private TextView playerOneTextView;
     private TextView playerTwoTextView;
+    private TextView playerOneStatTextView;
+    private TextView playerTwoStatTextView;
     private TextView countDownView;
     private TextView displayQuestionTextView;
     private PlayerAverageModel player1;
@@ -52,8 +54,8 @@ public class GameFragment extends Fragment {
     private int randomQuestionPosition;
     private ImageView correct;
     private ImageView incorrect;
-    private Handler handler;
-    private Handler handler2;
+//    private Handler handler;
+//    private Handler handler2;
     private static final String TAG = "GameFragment";
 
     public GameFragment() {
@@ -83,8 +85,8 @@ public class GameFragment extends Fragment {
         setCountDownTimer();
         setViewModel();
         observeViewModel();
-        playerOneCardView.startAnimation(Animations.getFadeIn(playerOneCardView));
-        playerTwoCardView.startAnimation(Animations.getFadeIn(playerTwoCardView));
+//        playerOneCardView.startAnimation(Animations.getFadeIn(playerOneCardView));
+//        playerTwoCardView.startAnimation(Animations.getFadeIn(playerTwoCardView));
         setPlayer1CardView();
         setPlayer2CardView();
     }
@@ -96,16 +98,18 @@ public class GameFragment extends Fragment {
         playerTwoImage = view.findViewById(R.id.playerTwo_imageView);
         playerOneTextView = view.findViewById(R.id.player_one_text_view);
         playerTwoTextView = view.findViewById(R.id.player_two_text_view);
+        playerOneStatTextView = view.findViewById(R.id.player_one_stat_text_view);
+        playerTwoStatTextView = view.findViewById(R.id.player_two_stat_text_view);
         displayQuestionTextView = view.findViewById(R.id.question_display_text_view);
         countDownView = view.findViewById(R.id.count_down_timer);
         incorrect = view.findViewById(R.id.wrong);
         correct = view.findViewById(R.id.right);
-        handler = new Handler();
-        handler2 = new Handler();
+//        handler = new Handler();
+//        handler2 = new Handler();
     }
 
     private void setCountDownTimer() {
-        countDownTimer = new CountDownTimer(30000, 1000) {
+        countDownTimer = new CountDownTimer(20000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 countDownView.setText(String.valueOf(millisUntilFinished / 1000));
@@ -113,12 +117,12 @@ public class GameFragment extends Fragment {
 
             @Override
             public void onFinish() {
-                playerOneCardView.clearAnimation();
-                playerTwoCardView.clearAnimation();
-                incorrect.clearAnimation();
-                correct.clearAnimation();
-                handler.removeCallbacksAndMessages(null);
-                handler2.removeCallbacksAndMessages(null);
+//                playerOneCardView.clearAnimation();
+//                playerTwoCardView.clearAnimation();
+//                incorrect.clearAnimation();
+//                correct.clearAnimation();
+//                handler.removeCallbacksAndMessages(null);
+//                handler2.removeCallbacksAndMessages(null);
                 listener.displayResultFragment(playerCorrectGuesses, playerInCorrectGuesses);
             }
         };
@@ -146,6 +150,7 @@ public class GameFragment extends Fragment {
     private void setViews() {
         playerOneTextView.setText(player1.getFirstName());
         playerTwoTextView.setText(player2.getFirstName());
+
         Log.d(TAG, "setViews: "+ player1.toString());
         Log.d(TAG, "setViews: " + player2.toString());
         Picasso.get()
@@ -155,69 +160,85 @@ public class GameFragment extends Fragment {
                 .load(PlayerUtil.createPlayerPhoto(player2.getFirstName(), player2.getFirstName()))
                 .into(playerTwoImage);
         getRandomQuestion();
-        playerOneCardView.startAnimation(Animations.getFadeIn(playerOneCardView));
-        playerTwoCardView.startAnimation(Animations.getFadeIn(playerTwoCardView));
+//        playerOneCardView.startAnimation(Animations.getFadeIn(playerOneCardView));
+//        playerTwoCardView.startAnimation(Animations.getFadeIn(playerTwoCardView));
+
+        playerOneStatTextView.setText("" + new DecimalFormat("#.#").format(player1.getStat(randomQuestionPosition)));
+        playerTwoStatTextView.setText("" + new DecimalFormat("#.#").format(player2.getStat(randomQuestionPosition)));
     }
 
     private void flipViews() {
-        Animation flip = AnimationUtils.loadAnimation(getActivity(), R.anim.card);
-        Animation flip_two = AnimationUtils.loadAnimation(getActivity(), R.anim.card);
+//        Animation flip = AnimationUtils.loadAnimation(getActivity(), R.anim.card);
+//        Animation flip_two = AnimationUtils.loadAnimation(getActivity(), R.anim.card);
 
-        playerOneCardView.startAnimation(flip);
-        playerOneCardView.setClickable(false);
-        playerTwoCardView.setClickable(false);
+//        playerOneCardView.startAnimation(flip);
+//        playerOneCardView.setClickable(false);
+//        playerTwoCardView.setClickable(false);
 
-        flip.setAnimationListener(new Animation.AnimationListener() {
+        CountDownTimer timer = new CountDownTimer(2000,1000) {
             @Override
-            public void onAnimationStart(Animation animation) {
-                playerOneTextView.setText("" + new DecimalFormat("#.#").format(player1.getStat(randomQuestionPosition)));
+            public void onTick(long millisUntilFinished) {
 
             }
 
             @Override
-            public void onAnimationEnd(Animation animation) {
-                playerTwoCardView.startAnimation(flip_two);
+            public void onFinish() {
+                reloadPlayersAndViews();
             }
+        };
+        timer.start();
 
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-
-        flip_two.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-                double stat = player2.getStat(randomQuestionPosition);
-                playerTwoTextView.setText("" + new DecimalFormat("#.#").format(stat));
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-
-                handler.postDelayed(() -> {
-                    if (getFragmentManager().findFragmentByTag("game") != null &&
-                            getFragmentManager().findFragmentByTag("game").isVisible()) {
-                        playerOneCardView.startAnimation(Animations.getFadeOut(playerOneCardView));
-                        playerTwoCardView.startAnimation(Animations.getFadeOut(playerTwoCardView));
-                    }
-                }, 800);
-
-                handler2.postDelayed(() -> {
-                    if (getContext().getResources() != null) {
-                        reloadPlayersAndViews();
-
-                    }
-                }, 1500);
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
+//        flip.setAnimationListener(new Animation.AnimationListener() {
+//            @Override
+//            public void onAnimationStart(Animation animation) {
+//                playerOneTextView.setText("" + new DecimalFormat("#.#").format(player1.getStat(randomQuestionPosition)));
+//
+//            }
+//
+//            @Override
+//            public void onAnimationEnd(Animation animation) {
+//                playerTwoCardView.startAnimation(flip_two);
+//            }
+//
+//            @Override
+//            public void onAnimationRepeat(Animation animation) {
+//
+//            }
+//        });
+//
+//        flip_two.setAnimationListener(new Animation.AnimationListener() {
+//            @Override
+//            public void onAnimationStart(Animation animation) {
+//                double stat = player2.getStat(randomQuestionPosition);
+//                playerTwoTextView.setText("" + new DecimalFormat("#.#").format(stat));
+//
+//            }
+//
+//            @Override
+//            public void onAnimationEnd(Animation animation) {
+//
+//                handler.postDelayed(() -> {
+//                    if (getFragmentManager().findFragmentByTag("game") != null &&
+//                            getFragmentManager().findFragmentByTag("game").isVisible()) {
+//                        playerOneCardView.startAnimation(Animations.getFadeOut(playerOneCardView));
+//                        playerTwoCardView.startAnimation(Animations.getFadeOut(playerTwoCardView));
+//                    }
+//                }, 800);
+//
+//                handler2.postDelayed(() -> {
+//                    if (getContext().getResources() != null) {
+//                        reloadPlayersAndViews();
+//
+//                    }
+//                }, 1500);
+//
+//            }
+//
+//            @Override
+//            public void onAnimationRepeat(Animation animation) {
+//
+//            }
+//        });
 
     }
 
