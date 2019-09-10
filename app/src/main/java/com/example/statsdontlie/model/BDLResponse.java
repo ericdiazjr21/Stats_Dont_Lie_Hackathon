@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class BDLResponse {
-    List<GameStats> data;
+    private List<GameStats> data;
 
     public List<GameStats> getData() {
         return data;
