@@ -129,6 +129,7 @@ public class GameFragment extends Fragment {
         countDownTimer.start();
     }
 
+<<<<<<< HEAD
 //    private void setViewModel() {
 //        viewModel = ViewModelProviders.of(this).get(BDLViewModel.class);
 //        viewModel.makeNetworkCall();
@@ -141,6 +142,20 @@ public class GameFragment extends Fragment {
 //            setViews();
 //        });
 //    }
+=======
+    private void setViewModel() {
+        viewModel = ViewModelProviders.of(this).get(BDLViewModel.class);
+//        viewModel.makeNetworkCall();
+    }
+
+    private void observeViewModel() {
+        viewModel.getPlayerList().observe(this, playerAverageModels -> {
+            this.playerAverageModels = playerAverageModels;
+            setRandomPlayers(playerAverageModels);
+            setViews();
+        });
+    }
+>>>>>>> tested sqldelight implementation, app not working
 
     private void setRandomPlayers(List<PlayerAverageModel> playerAverageModels) {
         player1 = playerAverageModels.get(RandomNumberGenerator.getRandomNumber1());

@@ -13,7 +13,7 @@ import java.util.Objects;
 public class SharedPrefUtil {
     private static SharedPreferences sharedPreferences;
 
-    SharedPrefUtil(Application application){
+    public SharedPrefUtil(Application application){
         sharedPreferences = application.getSharedPreferences(BDLAppConstants.SHARED_PREFS, Context.MODE_PRIVATE);
     }
 

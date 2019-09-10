@@ -37,19 +37,4 @@ public class BDLViewModel extends AndroidViewModel {
         return ViewModelProviders.of(activity).get(BDLViewModel.class);
     }
 
-//    public void makeNetworkCall() {
-//        if (SharedPrefUtil.checkSharedPrefs()) {
-//            for (Integer player_id : BDLAppConstants.PLAYER_ARRAY_CONSTANTS) {
-//                bdlRepository.initRetrofitCall(player_id);
-//            }
-//        }else{
-//            bdlRepository.setPlayerAverageModelListFromSharedPrefs();
-//        }
-//    }
-
-//    public LiveData<List<PlayerAverageModel>> getPlayerList() {
-//        return playerAverageModelMutableLiveData;
-//    }
-
-
 }

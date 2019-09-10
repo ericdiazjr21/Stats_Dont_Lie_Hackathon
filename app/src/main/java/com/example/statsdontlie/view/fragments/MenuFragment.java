@@ -15,6 +15,8 @@ import android.widget.Button;
 import com.example.statsdontlie.OnFragmentInteractionListener;
 import com.example.statsdontlie.R;
 import com.example.statsdontlie.constants.BDLAppConstants;
+import com.example.statsdontlie.utils.SharedPrefUtil;
+import com.example.statsdontlie.view.MainActivity;
 import com.example.statsdontlie.viewmodel.BDLViewModel;
 
 public class MenuFragment extends Fragment {
@@ -41,6 +43,7 @@ public class MenuFragment extends Fragment {
         }
     }
 
+<<<<<<< HEAD
 //    @Nullable
 //    @Override
 //    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -53,6 +56,20 @@ public class MenuFragment extends Fragment {
 //        });
 //        return inflater.inflate(R.layout.fragment_menu,container,false);
 //    }
+=======
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        viewModel = BDLViewModel.getInstance(this);
+//        viewModel.makeNetworkCall();
+        showProgressDialog();
+        viewModel.getPlayerList().observe(this, playerAverageModels -> {
+            Log.d(BDLAppConstants.MAIN_ACTIVITY_TAG, "onChanged: " + playerAverageModels.toString());
+            progressDialog.dismiss();
+        });
+        return inflater.inflate(R.layout.fragment_menu,container,false);
+    }
+>>>>>>> tested sqldelight implementation, app not working
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
