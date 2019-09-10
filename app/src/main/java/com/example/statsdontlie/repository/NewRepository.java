@@ -22,9 +22,9 @@ public final class NewRepository implements BaseRepository {
         this.bdlService = bdlService;
     }
 
-    public Single<BDLResponse> getPlayerData(@NonNull final int player_ids,
-                                             @NonNull final int perPage,
-                                             @NonNull final int seasons) {
-        return bdlService.getPlayerData(player_ids, perPage, seasons);
-    }
+//    public Single<BDLResponse> getPlayerData(@NonNull final int player_ids,
+//                                             @NonNull final int perPage,
+//                                             @NonNull final int seasons) {
+////        return bdlService.getPlayerData(player_ids, perPage, seasons);
+//    }
 }

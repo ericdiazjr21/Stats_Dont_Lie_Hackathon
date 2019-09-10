@@ -22,11 +22,13 @@ import com.example.statsdontlie.view.fragments.ResultFragment;
 import com.example.statsdontlie.viewmodel.BDLViewModel;
 import com.example.statsdontlie.viewmodel.NewViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.functions.Consumer;
 
 public class MainActivity extends AppCompatActivity implements OnFragmentInteractionListener {
+    private List<PlayerAverageModel> playerAverageModels = new ArrayList<>();
 
 
     @Override
@@ -52,15 +54,26 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
     }
 
     @SuppressLint("CheckResult")
-    private void viewModelSetUp(){
+    private void viewModelSetUp() {
         NewViewModel viewModel = NewViewModel.getInstance(this);
-        viewModel.callBDLResponseClient()
-                .subscribe(new Consumer<List<PlayerAverageModel>>() {
-                    @Override
-                    public void accept(List<PlayerAverageModel> playerAverageModels) throws Exception {
-                            Log.d("TAG","List Size: " + playerAverageModels.size());
-                    }
-                }, throwable -> Log.d("TAG", "onFailure: " + throwable));
+        viewModel.callBDLResponseClient();
+        Log.d("TAG", "List<Single<PlayerAverageModel>> size: " + viewModel.getPlayerAverageModels().size());
+
+
+        for (int i = 0; i < viewModel.getPlayerAverageModels().size(); i++) {
+            viewModel.getPlayerAverageModels().get(i)
+                    .subscribe(new Consumer<PlayerAverageModel>() {
+                        @Override
+                        public void accept(PlayerAverageModel playerAverageModel) throws Exception {
+                            playerAverageModels.add(playerAverageModel);
+                            Log.d("TAG", "List<PlayerAverageModel> size: " + playerAverageModels.size());
+                        }
+                    }, throwable -> Log.d("TAG", "onFailure: " + throwable));
+
+            Log.d("TAG", "iteration: " + i);
+        }
+
+
     }
 
 
