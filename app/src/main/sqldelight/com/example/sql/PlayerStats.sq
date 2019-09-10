@@ -1,0 +1,31 @@
+CREATE TABLE PlayerStats (
+    player_id NOT NULL UNIQUE PRIMARY KEY,
+    pts INTEGER as Double,
+    fg_pct INTEGER as Double,
+    fg3_pct INTEGER as Double,
+    dreb INTEGER as Double,
+    blk INTEGER as Double,
+    ast INTEGER as Double,
+    fg3a INTEGER as Double,
+    fg3m INTEGER as Double
+);
+
+selectAll:
+SELECT * FROM PlayerStats;
+
+insertOrReplace:
+INSERT OR REPLACE INTO PlayerStats(
+    player_id,
+    pts,
+    fg_pct,
+    fg3_pct,
+    dreb,
+    blk,
+    ast,
+    fg3a,
+    fg3
+)
+VALUES(?,?,?,?,?,?,?,?,?);
+
+selectById:
+SELECT * FROM PlayerStats WHERE player_id = ?;

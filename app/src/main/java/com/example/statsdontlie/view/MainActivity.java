@@ -1,10 +1,6 @@
 package com.example.statsdontlie.view;
 
-<<<<<<< HEAD
 import android.annotation.SuppressLint;
-=======
-import android.content.Intent;
->>>>>>> tested sqldelight implementation, app not working
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -18,12 +14,7 @@ import android.widget.ImageView;
 import com.example.statsdontlie.OnFragmentInteractionListener;
 import com.example.statsdontlie.R;
 import com.example.statsdontlie.constants.BDLAppConstants;
-<<<<<<< HEAD
 import com.example.statsdontlie.model.PlayerAverageModel;
-import com.example.statsdontlie.repository.BDLRepository;
-=======
-import com.example.statsdontlie.utils.SharedPrefUtil;
->>>>>>> tested sqldelight implementation, app not working
 import com.example.statsdontlie.view.fragments.GameFragment;
 import com.example.statsdontlie.view.fragments.MenuFragment;
 import com.example.statsdontlie.view.fragments.ResultFragment;
@@ -38,12 +29,8 @@ import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 
 public class MainActivity extends AppCompatActivity implements OnFragmentInteractionListener {
-<<<<<<< HEAD
     private List<PlayerAverageModel> playerAverageModels = new ArrayList<>();
 
-=======
-    SharedPrefUtil sharedPrefUtil;
->>>>>>> tested sqldelight implementation, app not working
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,25 +67,9 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
             Log.d("TAG", "iteration: " + i);
         }
 
-<<<<<<< HEAD
-
-=======
-        timer.start();
-
-        sharedPrefUtil = new SharedPrefUtil(getApplication());
-        viewModelSetUp(sharedPrefUtil);
 
 
     }
-
-    private void viewModelSetUp(SharedPrefUtil sharedPrefUtil){
-        BDLViewModel viewModel = BDLViewModel.getInstance(this);
-        viewModel.makeNetworkCall(sharedPrefUtil);
-        viewModel.getPlayerList().observe(this, playerAverageModels ->
-                Log.d(BDLAppConstants.MAIN_ACTIVITY_TAG, "onChanged: " + playerAverageModels.toString()));
->>>>>>> tested sqldelight implementation, app not working
-    }
-
 
     @Override
     public void displayMenuFragment() {

@@ -61,7 +61,7 @@ public class MenuFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         viewModel = BDLViewModel.getInstance(this);
-//        viewModel.makeNetworkCall();
+        viewModel.makeNetworkCall();
         showProgressDialog();
         viewModel.getPlayerList().observe(this, playerAverageModels -> {
             Log.d(BDLAppConstants.MAIN_ACTIVITY_TAG, "onChanged: " + playerAverageModels.toString());
