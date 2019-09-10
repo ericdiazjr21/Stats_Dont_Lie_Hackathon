@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: "com.squareup.sqldelight"
 
 android {
     compileSdkVersion 28
@@ -48,9 +50,13 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.0'
 
+    //For SQLDelight
+    implementation "com.squareup.sqldelight:android-driver:1.2.0"
 
     //For Test
     testImplementation 'junit:junit:4.12'
+    testImplementation "com.squareup.sqldelight:sqlite-driver:1.2.0"
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
 }
