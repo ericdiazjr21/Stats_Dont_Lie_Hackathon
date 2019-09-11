@@ -15,33 +15,32 @@ public class GameStatUtil {
     private BDLResponse response;
 
 
-
-    public GameStatUtil(BDLResponse response){
+    public GameStatUtil(BDLResponse response) {
         this.response = response;
     }
 
 
-    public void calculatePtsAvg(){
+    public void calculatePtsAvg() {
         pointsAverage = pointsAverage / playerSeasonAverages().size();
     }
 
-    public void calculatePlayerAssistAvg(){
+    public void calculatePlayerAssistAvg() {
         playerAssistAvg = playerAssistAvg / playerSeasonAverages().size();
     }
 
-    public void calculatePlayerBlkAvg(){
+    public void calculatePlayerBlkAvg() {
         playerBlocksAvg = playerBlocksAvg / playerSeasonAverages().size();
     }
 
-    public void calculateDefRbnAvg(){
+    public void calculateDefRbnAvg() {
         playerDefRebAvg = playerDefRebAvg / playerSeasonAverages().size();
     }
 
-    public void calculatePlayer3pMade(){
+    public void calculatePlayer3pMade() {
         player3pMade = player3pMade / playerSeasonAverages().size();
     }
 
-    public void calculatePlayer3pAttempted(){
+    public void calculatePlayer3pAttempted() {
         player3pAttempted = player3pAttempted / playerSeasonAverages().size();
     }
 
@@ -49,7 +48,7 @@ public class GameStatUtil {
         return response.getData();
     }
 
-    public void calculateOverallStats(){
+    public void calculateOverallStats() {
         for (BDLResponse.GameStats gameStat : playerSeasonAverages()) {
             pointsAverage += gameStat.getPts();
             playerAssistAvg += gameStat.getAst();

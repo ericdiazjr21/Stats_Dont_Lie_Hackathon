@@ -21,8 +21,8 @@ public class RetrofitSingleton {
     private static Retrofit getSingleInstance() {
         if (singleInstance == null) {
             OkHttpClient client = new OkHttpClient.Builder()
-                    .connectTimeout(100, TimeUnit.SECONDS)
-                    .readTimeout(100,TimeUnit.SECONDS).build();
+              .connectTimeout(100, TimeUnit.SECONDS)
+              .readTimeout(100, TimeUnit.SECONDS).build();
 
             singleInstance = new Retrofit.Builder()
               .baseUrl(BDLAppConstants.BASE_URL).client(client)

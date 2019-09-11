@@ -6,17 +6,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.statsdontlie.OnFragmentInteractionListener;
 import com.example.statsdontlie.R;
-import com.example.statsdontlie.constants.BDLAppConstants;
-import com.example.statsdontlie.utils.SharedPrefUtil;
-import com.example.statsdontlie.view.MainActivity;
 import com.example.statsdontlie.viewmodel.BDLViewModel;
 
 public class MenuFragment extends Fragment {
@@ -25,20 +19,21 @@ public class MenuFragment extends Fragment {
     private ProgressDialog progressDialog;
     private BDLViewModel viewModel;
 
-    public MenuFragment() {}
+    public MenuFragment() {
+    }
 
-    public static MenuFragment newInstance(){
+    public static MenuFragment newInstance() {
         return new MenuFragment();
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if(context instanceof OnFragmentInteractionListener){
+        if (context instanceof OnFragmentInteractionListener) {
             listener = (OnFragmentInteractionListener) context;
         }
 
-        if(getFragmentManager().findFragmentByTag("game") != null){
+        if (getFragmentManager().findFragmentByTag("game") != null) {
             getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentByTag("game"));
         }
     }
@@ -59,9 +54,8 @@ public class MenuFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         playButton = view.findViewById(R.id.play_button);
-        playButton.setOnClickListener(v -> {
-            listener.displayGameFragment();
-        });
+
+        playButton.setOnClickListener(v -> listener.displayGameFragment());
     }
 
     public void showProgressDialog() {

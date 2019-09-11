@@ -1,10 +1,8 @@
 package com.example.statsdontlie.view.fragments;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,8 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -54,7 +50,7 @@ public class GameFragment extends Fragment {
     private int randomQuestionPosition;
     private ImageView correct;
     private ImageView incorrect;
-//    private Handler handler;
+    //    private Handler handler;
 //    private Handler handler2;
     private static final String TAG = "GameFragment";
 
@@ -128,7 +124,7 @@ public class GameFragment extends Fragment {
         };
         countDownTimer.start();
     }
-    
+
 //    private void setViewModel() {
 //        viewModel = ViewModelProviders.of(this).get(BDLViewModel.class);
 //        viewModel.makeNetworkCall();
@@ -151,14 +147,14 @@ public class GameFragment extends Fragment {
         playerOneTextView.setText(player1.getFirstName());
         playerTwoTextView.setText(player2.getFirstName());
 
-        Log.d(TAG, "setViews: "+ player1.toString());
+        Log.d(TAG, "setViews: " + player1.toString());
         Log.d(TAG, "setViews: " + player2.toString());
         Picasso.get()
-                .load(PlayerUtil.createPlayerPhoto(player1.getFirstName(), player1.getLastName()))
-                .into(playerOneImage);
+          .load(PlayerUtil.createPlayerPhoto(player1.getFirstName(), player1.getLastName()))
+          .into(playerOneImage);
         Picasso.get()
-                .load(PlayerUtil.createPlayerPhoto(player2.getFirstName(), player2.getFirstName()))
-                .into(playerTwoImage);
+          .load(PlayerUtil.createPlayerPhoto(player2.getFirstName(), player2.getFirstName()))
+          .into(playerTwoImage);
         getRandomQuestion();
 //        playerOneCardView.startAnimation(Animations.getFadeIn(playerOneCardView));
 //        playerTwoCardView.startAnimation(Animations.getFadeIn(playerTwoCardView));
@@ -175,7 +171,7 @@ public class GameFragment extends Fragment {
 //        playerOneCardView.setClickable(false);
 //        playerTwoCardView.setClickable(false);
 
-        CountDownTimer timer = new CountDownTimer(2000,1000) {
+        CountDownTimer timer = new CountDownTimer(2000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
 
@@ -268,17 +264,17 @@ public class GameFragment extends Fragment {
     }
 
 
-        private void reloadPlayersAndViews () {
-            getRandomQuestion();
-            setRandomPlayers(playerAverageModels);
-            setViews();
-        }
+    private void reloadPlayersAndViews() {
+        getRandomQuestion();
+        setRandomPlayers(playerAverageModels);
+        setViews();
+    }
 
-        private void getRandomQuestion () {
-            randomQuestionPosition = RandomNumberGenerator.getRandomNumber();
-            Log.d(TAG, "getRandomQuestion: "+ randomQuestionPosition);
-            displayQuestionTextView.setText(BDLAppConstants.QUESTIONS_ARRAY[randomQuestionPosition]);
-        }
+    private void getRandomQuestion() {
+        randomQuestionPosition = RandomNumberGenerator.getRandomNumber();
+        Log.d(TAG, "getRandomQuestion: " + randomQuestionPosition);
+        displayQuestionTextView.setText(BDLAppConstants.QUESTIONS_ARRAY[randomQuestionPosition]);
+    }
 
     @Override
     public void onDestroyView() {

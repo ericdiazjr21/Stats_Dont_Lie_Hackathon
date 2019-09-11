@@ -1,7 +1,5 @@
 package com.example.statsdontlie.model;
 
-import com.example.statsdontlie.utils.PlayerUtil;
-
 public final class PlayerAverageModel {
 
     private final Long playerID;
@@ -16,7 +14,7 @@ public final class PlayerAverageModel {
     private final double player3PA;
 
     public PlayerAverageModel(Long playerID,
-                            String firstName,
+                              String firstName,
                               String lastName,
                               String image,
                               double playerPointAvg,
@@ -49,7 +47,9 @@ public final class PlayerAverageModel {
         return playerDefRebAvg;
     }
 
-    public Long getPlayerID() { return getPlayerID(); }
+    public Long getPlayerID() {
+        return getPlayerID();
+    }
 
     public String getFirstName() {
         return firstName;
@@ -97,14 +97,14 @@ public final class PlayerAverageModel {
     @Override
     public String toString() {
         return "PlayerAverageModel{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", playerPointAvg=" + playerPointAvg +
-                ", playerAssistAvg=" + playerAssistAvg +
-                ", playerBlocksAvg=" + playerBlocksAvg +
-                ", playerDefRebAvg=" + playerDefRebAvg +
-                ", player3PM=" + player3PM +
-                ", player3PA=" + player3PA +
-                '}';
+          "firstName='" + firstName + '\'' +
+          ", lastName='" + lastName + '\'' +
+          ", playerPointAvg=" + playerPointAvg +
+          ", playerAssistAvg=" + playerAssistAvg +
+          ", playerBlocksAvg=" + playerBlocksAvg +
+          ", playerDefRebAvg=" + playerDefRebAvg +
+          ", player3PM=" + player3PM +
+          ", player3PA=" + player3PA +
+          '}';
     }
 }
