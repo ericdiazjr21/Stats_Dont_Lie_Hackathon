@@ -3,6 +3,7 @@ package com.example.statsdontlie.network;
 import com.example.statsdontlie.constants.BDLAppConstants;
 import com.example.statsdontlie.model.BDLResponse;
 
+import io.reactivex.Observable;
 import io.reactivex.Single;
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -26,6 +27,6 @@ public interface BDLService {
      */
     @GET(BDLAppConstants.ENDPOINT)
     Single<BDLResponse> getPlayerData(@Query("player_ids[]") int player_ids,
-                                      @Query("per_page") int perPage,
-                                      @Query("seasons[]") int seasons);
+                                          @Query("seasons[]") int seasons,
+                                          @Query("per_page") int perPage);
 }

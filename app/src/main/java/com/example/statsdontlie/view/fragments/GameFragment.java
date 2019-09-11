@@ -79,17 +79,17 @@ public class GameFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_game, container, false);
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        findViews(view);
-        setCountDownTimer();
-        setViewModel();
-        observeViewModel();
-//        playerOneCardView.startAnimation(Animations.getFadeIn(playerOneCardView));
-//        playerTwoCardView.startAnimation(Animations.getFadeIn(playerTwoCardView));
-        setPlayer1CardView();
-        setPlayer2CardView();
-    }
+//    @Override
+//    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+//        findViews(view);
+//        setCountDownTimer();
+//        setViewModel();
+//        observeViewModel();
+////        playerOneCardView.startAnimation(Animations.getFadeIn(playerOneCardView));
+////        playerTwoCardView.startAnimation(Animations.getFadeIn(playerTwoCardView));
+//        setPlayer1CardView();
+//        setPlayer2CardView();
+//    }
 
     private void findViews(@NonNull View view) {
         playerOneCardView = view.findViewById(R.id.player_one);
@@ -129,18 +129,18 @@ public class GameFragment extends Fragment {
         countDownTimer.start();
     }
 
-    private void setViewModel() {
-        viewModel = ViewModelProviders.of(this).get(BDLViewModel.class);
-        viewModel.makeNetworkCall();
-    }
-
-    private void observeViewModel() {
-        viewModel.getPlayerList().observe(this, playerAverageModels -> {
-            this.playerAverageModels = playerAverageModels;
-            setRandomPlayers(playerAverageModels);
-            setViews();
-        });
-    }
+//    private void setViewModel() {
+//        viewModel = ViewModelProviders.of(this).get(BDLViewModel.class);
+//        viewModel.makeNetworkCall();
+//    }
+//
+//    private void observeViewModel() {
+//        viewModel.getPlayerList().observe(this, playerAverageModels -> {
+//            this.playerAverageModels = playerAverageModels;
+//            setRandomPlayers(playerAverageModels);
+//            setViews();
+//        });
+//    }
 
     private void setRandomPlayers(List<PlayerAverageModel> playerAverageModels) {
         player1 = playerAverageModels.get(RandomNumberGenerator.getRandomNumber1());
