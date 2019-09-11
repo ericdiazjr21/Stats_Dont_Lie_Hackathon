@@ -18,17 +18,20 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements OnFragmentInteractionListener {
     private List<PlayerAverageModel> playerAverageModels = new ArrayList<>();
-
+    NewViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        viewModel = NewViewModel.getInstance(this);
         viewModelSetUp();
+
     }
 
     @SuppressLint("CheckResult")
     private void viewModelSetUp() {
+<<<<<<< HEAD
         NewViewModel viewModel = NewViewModel.getInstance(this);
 
         viewModel.callBDLResponseClient()
@@ -36,10 +39,36 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
           .subscribe(playerAverageModel -> {
                 playerAverageModels.add(playerAverageModel);
                 Log.d("TAG", "List<PlayerAverageModel> size: " + playerAverageModels.size());
+=======
+
+
+
+        if(viewModel.getPlayerAverageModels() == null) {
+            viewModel.callBDLResponseClient()
+                    .subscribe(playerAverageModel -> {
+                        viewModel.getDatabaseRepository().addPlayerData(playerAverageModel);
+                        Log.d("TAG", "List<PlayerAverageModel> size: " + playerAverageModels.size());
+                    },
+                            throwable -> {},
+                            () -> {
+                        Log.d("complete", "OnComplete - List<PlayerAverageModel> size: " + playerAverageModels.size());
+                        displayMenuFragment();
+                    });
+            Log.d("TAG", "List<Single<PlayerAverageModel>> size: " + viewModel.getPlayerAverageModels().size());
+>>>>>>> integrating database, list returns empty
 
             }, throwable -> {},
 
+<<<<<<< HEAD
             () -> Log.d("TAG", "OnComplete - List<PlayerAverageModel> size: " + playerAverageModels.size()));
+=======
+            for (int i = 0; i < viewModel.getPlayerAverageModels().size(); i++) {
+                Log.d("TAG", "iteration: " + i);
+            }
+        }else{
+            displayMenuFragment();
+        }
+>>>>>>> integrating database, list returns empty
     }
 
     @Override

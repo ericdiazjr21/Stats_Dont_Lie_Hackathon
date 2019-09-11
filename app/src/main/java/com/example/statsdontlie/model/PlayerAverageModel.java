@@ -47,9 +47,13 @@ public final class PlayerAverageModel {
         return playerDefRebAvg;
     }
 
+<<<<<<< HEAD
     public Long getPlayerID() {
         return getPlayerID();
     }
+=======
+    public Long getPlayerID() { return playerID; }
+>>>>>>> integrating database, list returns empty
 
     public String getFirstName() {
         return firstName;

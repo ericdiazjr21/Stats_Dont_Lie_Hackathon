@@ -9,7 +9,11 @@ import com.squareup.sqldelight.Query;
 public class BDLDatabaseRepositoryImpl implements BDLDatabaseRepository {
     private static BDLDatabase bdlDatabase;
 
+<<<<<<< HEAD
     private BDLDatabaseRepositoryImpl(Application application) {
+=======
+    public BDLDatabaseRepositoryImpl(Application application){
+>>>>>>> integrating database, list returns empty
 
         bdlDatabase = BDLDatabase.getInstance(application.getApplicationContext());
     }

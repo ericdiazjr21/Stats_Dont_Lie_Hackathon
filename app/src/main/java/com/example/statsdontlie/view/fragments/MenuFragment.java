@@ -1,6 +1,8 @@
 package com.example.statsdontlie.view.fragments;
 
 import android.app.ProgressDialog;
+import android.arch.lifecycle.ViewModel;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,12 +14,13 @@ import android.widget.Button;
 import com.example.statsdontlie.OnFragmentInteractionListener;
 import com.example.statsdontlie.R;
 import com.example.statsdontlie.viewmodel.BDLViewModel;
+import com.example.statsdontlie.viewmodel.NewViewModel;
 
 public class MenuFragment extends Fragment {
     private OnFragmentInteractionListener listener;
     private Button playButton;
     private ProgressDialog progressDialog;
-    private BDLViewModel viewModel;
+    private NewViewModel viewModel;
 
     public MenuFragment() {
     }
@@ -38,18 +41,12 @@ public class MenuFragment extends Fragment {
         }
     }
 
-//    @Nullable
-//    @Override
-//    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-//        viewModel = BDLViewModel.getInstance(this);
-//        viewModel.makeNetworkCall();
-//        showProgressDialog();
-//        viewModel.getPlayerList().observe(this, playerAverageModels -> {
-//            Log.d(BDLAppConstants.MAIN_ACTIVITY_TAG, "onChanged: " + playerAverageModels.toString());
-//            progressDialog.dismiss();
-//        });
-//        return inflater.inflate(R.layout.fragment_menu,container,false);
-//    }
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        viewModel = ViewModelProviders.of(this).get(NewViewModel.class);
+        return inflater.inflate(R.layout.fragment_menu,container,false);
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
