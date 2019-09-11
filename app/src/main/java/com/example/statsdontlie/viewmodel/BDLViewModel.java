@@ -20,20 +20,8 @@ import java.util.List;
 
 public class BDLViewModel extends AndroidViewModel {
 
-//    private final MutableLiveData<List<PlayerAverageModel>> playerAverageModelMutableLiveData;
-//    private final BDLRepository bdlRepository;
-
-
     public BDLViewModel(@NonNull Application application) {
         super(application);
-<<<<<<< HEAD
-//        this.bdlRepository = new BDLRepository(application);
-//        playerAverageModelMutableLiveData = bdlRepository.getBdlResponseMutableLiveData();
-=======
-        this.bdlRepository = new BDLRepository(application);
-
-        playerAverageModelMutableLiveData = bdlRepository.getBdlResponseMutableLiveData();
->>>>>>> adds sql files
     }
 
 
@@ -45,22 +33,4 @@ public class BDLViewModel extends AndroidViewModel {
         return ViewModelProviders.of(activity).get(BDLViewModel.class);
     }
 
-<<<<<<< HEAD
-=======
-    public void makeNetworkCall() {
-        if (SharedPrefUtil.checkSharedPrefs()) {
-            for (Integer player_id : BDLAppConstants.PLAYER_ARRAY_CONSTANTS) {
-                bdlRepository.initRetrofitCall(player_id);
-            }
-        }else{
-            bdlRepository.setPlayerAverageModelListFromSharedPrefs();
-        }
-    }
-
-    public LiveData<List<PlayerAverageModel>> getPlayerList() {
-        return playerAverageModelMutableLiveData;
-    }
-
-
->>>>>>> adds sql files
 }

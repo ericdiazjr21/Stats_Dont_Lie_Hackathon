@@ -43,7 +43,6 @@ public class MenuFragment extends Fragment {
         }
     }
 
-<<<<<<< HEAD
 //    @Nullable
 //    @Override
 //    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -56,20 +55,6 @@ public class MenuFragment extends Fragment {
 //        });
 //        return inflater.inflate(R.layout.fragment_menu,container,false);
 //    }
-=======
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        viewModel = BDLViewModel.getInstance(this);
-        viewModel.makeNetworkCall();
-        showProgressDialog();
-        viewModel.getPlayerList().observe(this, playerAverageModels -> {
-            Log.d(BDLAppConstants.MAIN_ACTIVITY_TAG, "onChanged: " + playerAverageModels.toString());
-            progressDialog.dismiss();
-        });
-        return inflater.inflate(R.layout.fragment_menu,container,false);
-    }
->>>>>>> tested sqldelight implementation, app not working
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

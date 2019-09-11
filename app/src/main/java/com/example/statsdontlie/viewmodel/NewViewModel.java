@@ -47,7 +47,7 @@ public class NewViewModel extends AndroidViewModel {
                 .map(response -> {
                     GameStatUtil gameStatUtil = new GameStatUtil(response.blockingGet());
                     PlayerModelCreator.calculatePlayerAvg(gameStatUtil);
-                    PlayerAverageModel playerAverageModel = PlayerModelCreator.createPlayerModel(gameStatUtil);
+                    PlayerAverageModel playerAverageModel = PlayerModelCreator.createPlayerModel(0,null, gameStatUtil);
                     playerAverageModels.add(playerAverageModel);
 
                     Log.d("TAG", "Season Avg size: " + gameStatUtil.playerSeasonAverages().size());
