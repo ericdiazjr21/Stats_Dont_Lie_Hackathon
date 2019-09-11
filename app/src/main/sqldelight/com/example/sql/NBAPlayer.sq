@@ -1,8 +1,14 @@
 CREATE TABLE NBAPlayer (
-    player_id NOT NULL UNIQUE PRIMARY KEY,
-    first_name TEXT NOT NULL,
-    last_name TEXT NOT NULL,
-    image TEXT NOT NULL
+    playerID INTEGER NOT NULL UNIQUE PRIMARY KEY,
+    firstName TEXT NOT NULL,
+    lastName TEXT NOT NULL,
+    image TEXT NOT NULL,
+    playerPointAvg REAL,
+    playerAssistAvg REAL,
+    playerBlocksAvg REAL,
+    playerDefRebAvg REAL,
+    player3PM REAL,
+    player3PA REAL
     );
 
 selectAll:
@@ -10,14 +16,21 @@ SELECT * FROM NBAPlayer;
 
 insertOrReplace:
 INSERT OR REPLACE INTO NBAPlayer(
-    player_id,
-    first_name,
-    last_name,
-    image
+    playerID,
+    firstName,
+    lastName,
+    image,
+    playerPointAvg,
+    playerAssistAvg,
+    playerBlocksAvg,
+    playerDefRebAvg,
+    player3PM,
+    player3PA
 )
-VALUES(?,?,?,?);
+
+VALUES(?,?,?,?,?,?,?,?,?,?);
 
 selectById:
-SELECT * FROM NBAPlayer WHERE player_id = ?;
+SELECT * FROM NBAPlayer WHERE playerID = ?;
 
 

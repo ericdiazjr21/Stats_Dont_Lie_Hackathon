@@ -4,8 +4,10 @@ import com.example.statsdontlie.utils.PlayerUtil;
 
 public final class PlayerAverageModel {
 
+    private final Long playerID;
     private final String firstName;
     private final String lastName;
+    private final String image;
     private final double playerPointAvg;
     private final double playerAssistAvg;
     private final double playerBlocksAvg;
@@ -13,16 +15,20 @@ public final class PlayerAverageModel {
     private final double player3PM;
     private final double player3PA;
 
-    public PlayerAverageModel(String firstName,
+    public PlayerAverageModel(Long playerID,
+                            String firstName,
                               String lastName,
+                              String image,
                               double playerPointAvg,
                               double playerAssistAvg,
                               double playerBlocksAvg,
                               double playerDefRebAvg,
                               double player3PM,
                               double player3PA) {
+        this.playerID = playerID;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.image = image;
         this.playerPointAvg = playerPointAvg;
         this.playerAssistAvg = playerAssistAvg;
         this.playerBlocksAvg = playerBlocksAvg;
@@ -43,12 +49,18 @@ public final class PlayerAverageModel {
         return playerDefRebAvg;
     }
 
+    public Long getPlayerID() { return getPlayerID(); }
+
     public String getFirstName() {
         return firstName;
     }
 
     public String getLastName() {
         return lastName;
+    }
+
+    public String getImage() {
+        return image;
     }
 
     public double getPlayerPointAvg() {
