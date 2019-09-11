@@ -10,14 +10,6 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public interface BDLService {
-
-    //TODO: Remove this
-    @GET(BDLAppConstants.ENDPOINT)
-    Call<BDLResponse> getResponse(@Query("player_ids[]") Integer player_ids,
-                                  @Query("seasons[]") Integer seasons,
-                                  @Query("per_page") Integer perPage);
-
-
     /**
      *
      * @param player_ids

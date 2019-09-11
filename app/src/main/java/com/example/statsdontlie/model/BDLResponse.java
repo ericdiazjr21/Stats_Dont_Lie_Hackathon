@@ -11,7 +11,7 @@ public class BDLResponse {
         return data;
     }
 
-    public class GameStats{
+    public class GameStats {
         private int pts;
         private double fg_pct;
         private double fg3_pct;
@@ -58,7 +58,7 @@ public class BDLResponse {
             return player;
         }
 
-        public class Player{
+        public class Player {
             @SerializedName("first_name")
             private String firstName;
             @SerializedName("last_name")

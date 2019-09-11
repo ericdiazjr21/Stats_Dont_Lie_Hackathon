@@ -17,13 +17,13 @@ public final class BDLDatabase {
     private static Database database;
     private static NBAPlayerQueries nbaPlayerQueries;
 
-    private BDLDatabase(@NonNull Context context){
+    private BDLDatabase(@NonNull Context context) {
         database = getDatabase(context);
         nbaPlayerQueries = database.getNBAPlayerQueries();
     }
 
-    public static BDLDatabase getInstance(@NonNull Context context){
-        if (instance == null){
+    public static BDLDatabase getInstance(@NonNull Context context) {
+        if (instance == null) {
             instance = new BDLDatabase(context);
         }
         return instance;
@@ -31,14 +31,14 @@ public final class BDLDatabase {
 
     private Database getDatabase(Context context) {
         SqlDriver sqlDriver =
-                new AndroidSqliteDriver(Database.Companion.getSchema(), context,"BDL.db");
-        if (database == null){
-            database = DatabaseImplKt.newInstance(getKotlinClass(Database.class),sqlDriver);
+          new AndroidSqliteDriver(Database.Companion.getSchema(), context, "BDL.db");
+        if (database == null) {
+            database = DatabaseImplKt.newInstance(getKotlinClass(Database.class), sqlDriver);
         }
         return database;
     }
 
-    public final NBAPlayerQueries getNBAPlayerQueries(){
+    public final NBAPlayerQueries getNBAPlayerQueries() {
         return nbaPlayerQueries;
     }
 

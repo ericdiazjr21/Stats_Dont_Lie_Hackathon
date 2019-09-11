@@ -6,10 +6,8 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.ViewModelProviders;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import com.example.statsdontlie.constants.BDLAppConstants;
-import com.example.statsdontlie.model.BDLResponse;
 import com.example.statsdontlie.model.PlayerAverageModel;
 import com.example.statsdontlie.network.RetrofitSingleton;
 import com.example.statsdontlie.repository.BDLRepository;
@@ -43,23 +41,24 @@ public class NewViewModel extends AndroidViewModel {
         }
 
         return Observable.fromIterable(playerIdLists)
-                .map(playerId -> repository.callBDLResponseClient(playerId))
-                .map(response -> {
-                    GameStatUtil gameStatUtil = new GameStatUtil(response.blockingGet());
-                    PlayerModelCreator.calculatePlayerAvg(gameStatUtil);
-                    PlayerAverageModel playerAverageModel = PlayerModelCreator.createPlayerModel(0,null, gameStatUtil);
-                    playerAverageModels.add(playerAverageModel);
+          .map(playerId -> repository.callBDLResponseClient(playerId))
 
-                    Log.d("TAG", "Season Avg size: " + gameStatUtil.playerSeasonAverages().size());
-                    Log.d("TAG", "Response size: " + response.blockingGet().getData().get(0).getPlayer());
+          .map(response -> {
+              GameStatUtil gameStatUtil = new GameStatUtil(response.blockingGet());
 
-                   return playerAverageModel;
+              PlayerModelCreator.calculatePlayerAvg(gameStatUtil);
 
-                });
+              PlayerAverageModel playerAverageModel = PlayerModelCreator.createPlayerModel(0, null, gameStatUtil);
+
+              playerAverageModels.add(playerAverageModel);
+
+              return playerAverageModel;
+
+          });
     }
 
 
-    public List<PlayerAverageModel> getPlayerAverageModels(){
+    public List<PlayerAverageModel> getPlayerAverageModels() {
         return playerAverageModels;
     }
 }

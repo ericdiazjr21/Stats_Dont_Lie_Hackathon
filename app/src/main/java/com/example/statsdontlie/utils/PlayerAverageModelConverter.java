@@ -11,15 +11,17 @@ import java.util.List;
 
 public final class PlayerAverageModelConverter {
 
-    private PlayerAverageModelConverter(){}
+    private PlayerAverageModelConverter() {
+    }
 
-    public static String playerAverageSerializer(List<PlayerAverageModel> playerAverageModels){
+    public static String playerAverageSerializer(List<PlayerAverageModel> playerAverageModels) {
         return new Gson().toJson(playerAverageModels);
     }
 
-    public static List<PlayerAverageModel> playerAverageDeserializer(String json){
-        if(json == null || json.equals("")) return Collections.emptyList();
-        Type listType = new TypeToken<ArrayList<PlayerAverageModel>>() {}.getType();
+    public static List<PlayerAverageModel> playerAverageDeserializer(String json) {
+        if (json == null || json.equals("")) return Collections.emptyList();
+        Type listType = new TypeToken<ArrayList<PlayerAverageModel>>() {
+        }.getType();
         return new Gson().fromJson(json, listType);
     }
 }
