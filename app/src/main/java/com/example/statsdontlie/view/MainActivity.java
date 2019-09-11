@@ -24,7 +24,9 @@ import com.example.statsdontlie.viewmodel.NewViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 
 public class MainActivity extends AppCompatActivity implements OnFragmentInteractionListener {
@@ -35,41 +37,34 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-//        CountDownTimer timer = new CountDownTimer(2000, 1000) {
-//            @Override
-//            public void onTick(long millisUntilFinished) {
-//
-//            }
-//
-//            @Override
-//            public void onFinish() {
-//                displayMenuFragment();
-//            }
-//        };
-//
-//        timer.start();
         viewModelSetUp();
-//        BDLRepository.initRetrofitCall(192);
     }
 
     @SuppressLint("CheckResult")
     private void viewModelSetUp() {
         NewViewModel viewModel = NewViewModel.getInstance(this);
-        viewModel.callBDLResponseClient();
+        viewModel.callBDLResponseClient()
+        .subscribe(new Consumer<PlayerAverageModel>() {
+            @Override
+            public void accept(PlayerAverageModel playerAverageModel) throws Exception {
+                playerAverageModels.add(playerAverageModel);
+                Log.d("TAG", "List<PlayerAverageModel> size: " + playerAverageModels.size());
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+            }
+        }, new Action() {
+            @Override
+            public void run() throws Exception {
+                Log.d("TAG", "OnComplete - List<PlayerAverageModel> size: " + playerAverageModels.size());
+                displayMenuFragment();
+            }
+        });
         Log.d("TAG", "List<Single<PlayerAverageModel>> size: " + viewModel.getPlayerAverageModels().size());
 
 
         for (int i = 0; i < viewModel.getPlayerAverageModels().size(); i++) {
-            viewModel.getPlayerAverageModels().get(i)
-                    .subscribe(new Consumer<PlayerAverageModel>() {
-                        @Override
-                        public void accept(PlayerAverageModel playerAverageModel) throws Exception {
-                            playerAverageModels.add(playerAverageModel);
-                            Log.d("TAG", "List<PlayerAverageModel> size: " + playerAverageModels.size());
-                        }
-                    }, throwable -> Log.d("TAG", "onFailure: " + throwable));
-
             Log.d("TAG", "iteration: " + i);
         }
 

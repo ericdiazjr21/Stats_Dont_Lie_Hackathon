@@ -11,70 +11,58 @@ import android.util.Log;
 import com.example.statsdontlie.constants.BDLAppConstants;
 import com.example.statsdontlie.model.BDLResponse;
 import com.example.statsdontlie.model.PlayerAverageModel;
+import com.example.statsdontlie.network.RetrofitSingleton;
 import com.example.statsdontlie.repository.BDLRepository;
 import com.example.statsdontlie.utils.GameStatUtil;
-import com.example.statsdontlie.utils.SharedPrefUtil;
+import com.example.statsdontlie.utils.PlayerModelCreator;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
-import io.reactivex.Single;
-import io.reactivex.SingleSource;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Function;
 
 public class NewViewModel extends AndroidViewModel {
     private BDLRepository repository;
-    private List<Single<PlayerAverageModel>> playerAverageModels = new ArrayList<>();
+    private List<PlayerAverageModel> playerAverageModels = new ArrayList<>();
 
     public NewViewModel(@NonNull Application application) {
         super(application);
-        repository = BDLRepository.getInstance();
+        repository = new BDLRepository(RetrofitSingleton.getSingleService());
     }
 
-    public static NewViewModel getInstance(AppCompatActivity activity){
+    public static NewViewModel getInstance(AppCompatActivity activity) {
         return ViewModelProviders.of(activity).get(NewViewModel.class);
     }
 
     @SuppressLint("CheckResult")
-    public void callBDLResponseClient() {
+    public Observable<PlayerAverageModel> callBDLResponseClient() {
+        List<Integer> playerIdLists = new ArrayList<>();
 
-        for (Integer player_id : BDLAppConstants.PLAYER_ARRAY_CONSTANTS) {
-
-               playerAverageModels.add(repository.callBDLResponseClient(player_id)
-                    .map(new Function<BDLResponse, PlayerAverageModel>() {
-                        @Override
-                        public PlayerAverageModel apply(BDLResponse response) throws Exception {
-                            GameStatUtil gameStatUtil = new GameStatUtil(response);
-
-                            gameStatUtil.calculateOverallStats();
-
-                            gameStatUtil.calculatePtsAvg();
-                            gameStatUtil.calculatePlayerAssistAvg();
-                            gameStatUtil.calculatePlayerBlkAvg();
-                            gameStatUtil.calculateDefRbnAvg();
-                            gameStatUtil.calculatePlayer3pMade();
-                            gameStatUtil.calculatePlayer3pAttempted();
-
-                            Log.d("TAG", "Season Avg size: " + gameStatUtil.playerSeasonAverages().size());
-                            Log.d("TAG", "Response size: " + response.getData().get(0).getPlayer());
-
-                            return new PlayerAverageModel(gameStatUtil.playerSeasonAverages().get(0).getPlayer().getFirstName(),
-                                    gameStatUtil.playerSeasonAverages().get(0).getPlayer().getLastName(),
-                                    gameStatUtil.getPointsAverage(),
-                                    gameStatUtil.getPlayerAssistAvg(),
-                                    gameStatUtil.getPlayerBlocksAvg(),
-                                    gameStatUtil.getPlayerDefRebAvg(),
-                                    gameStatUtil.getPlayer3pMade(),
-                                    gameStatUtil.getPlayer3pAttempted());
-                        }
-                    })
-                    .observeOn(AndroidSchedulers.mainThread()));
+        for (int playerIds : BDLAppConstants.PLAYER_ARRAY_CONSTANTS) {
+            playerIdLists.add(playerIds);
         }
+
+        return Observable.fromIterable(playerIdLists)
+                .map(playerId -> repository.callBDLResponseClient(playerId))
+                .map(response -> {
+                    GameStatUtil gameStatUtil = new GameStatUtil(response.blockingGet());
+                    PlayerModelCreator.calculatePlayerAvg(gameStatUtil);
+                    PlayerAverageModel playerAverageModel = PlayerModelCreator.createPlayerModel(gameStatUtil);
+                    playerAverageModels.add(playerAverageModel);
+
+                    Log.d("TAG", "Season Avg size: " + gameStatUtil.playerSeasonAverages().size());
+                    Log.d("TAG", "Response size: " + response.blockingGet().getData().get(0).getPlayer());
+
+                   return playerAverageModel;
+
+                });
     }
 
-    public List<Single<PlayerAverageModel>> getPlayerAverageModels(){
+
+    public List<PlayerAverageModel> getPlayerAverageModels(){
         return playerAverageModels;
     }
 }
+
+
+

@@ -57,7 +57,9 @@ public class MenuFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         playButton = view.findViewById(R.id.play_button);
-        playButton.setOnClickListener(v -> listener.displayGameFragment());
+        playButton.setOnClickListener(v -> {
+            listener.displayGameFragment();
+        });
     }
 
     public void showProgressDialog() {
