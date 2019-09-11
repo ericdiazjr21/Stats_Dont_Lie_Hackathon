@@ -14,9 +14,12 @@ public class PlayerModelCreator {
         gameStatUtil.calculatePlayer3pAttempted();
     }
 
-    public static PlayerAverageModel createPlayerModel(GameStatUtil gameStatUtil){
-        return new PlayerAverageModel(gameStatUtil.playerSeasonAverages().get(0).getPlayer().getFirstName(),
+    public static PlayerAverageModel createPlayerModel(int playerID, String image, GameStatUtil gameStatUtil){
+        return new PlayerAverageModel(
+                Long.valueOf(playerID),
+                gameStatUtil.playerSeasonAverages().get(0).getPlayer().getFirstName(),
                 gameStatUtil.playerSeasonAverages().get(0).getPlayer().getLastName(),
+                image,
                 gameStatUtil.getPointsAverage(),
                 gameStatUtil.getPlayerAssistAvg(),
                 gameStatUtil.getPlayerBlocksAvg(),

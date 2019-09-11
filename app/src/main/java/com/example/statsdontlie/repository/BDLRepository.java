@@ -35,8 +35,7 @@ public class BDLRepository {
     }
 
     @SuppressLint("CheckResult")
-    public Single<BDLResponse> callBDLResponseClient(int playerId){
+    public Single<BDLResponse> callBDLResponseClient(int playerId) {
         return service.getPlayerData(playerId, 2018, 100);
     }
-
 }

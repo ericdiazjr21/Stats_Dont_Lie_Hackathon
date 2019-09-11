@@ -15,7 +15,6 @@ import com.example.statsdontlie.OnFragmentInteractionListener;
 import com.example.statsdontlie.R;
 import com.example.statsdontlie.constants.BDLAppConstants;
 import com.example.statsdontlie.model.PlayerAverageModel;
-import com.example.statsdontlie.repository.BDLRepository;
 import com.example.statsdontlie.view.fragments.GameFragment;
 import com.example.statsdontlie.view.fragments.MenuFragment;
 import com.example.statsdontlie.view.fragments.ResultFragment;
@@ -69,8 +68,8 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         }
 
 
-    }
 
+    }
 
     @Override
     public void displayMenuFragment() {

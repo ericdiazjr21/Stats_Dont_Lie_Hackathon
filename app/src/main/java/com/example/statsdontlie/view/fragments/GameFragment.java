@@ -128,7 +128,7 @@ public class GameFragment extends Fragment {
         };
         countDownTimer.start();
     }
-
+    
 //    private void setViewModel() {
 //        viewModel = ViewModelProviders.of(this).get(BDLViewModel.class);
 //        viewModel.makeNetworkCall();

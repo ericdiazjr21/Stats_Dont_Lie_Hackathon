@@ -13,8 +13,10 @@ import java.util.Objects;
 public class SharedPrefUtil {
     private static SharedPreferences sharedPreferences;
 
-    SharedPrefUtil(Application application){
-        sharedPreferences = application.getSharedPreferences(BDLAppConstants.SHARED_PREFS, Context.MODE_PRIVATE);
+    public SharedPrefUtil(Application application){
+        if(sharedPreferences == null) {
+            sharedPreferences = application.getSharedPreferences(BDLAppConstants.SHARED_PREFS, Context.MODE_PRIVATE);
+        }
     }
 
     public static void savePlayerAverageModelList(List<PlayerAverageModel> playerAverageModels) {
@@ -23,6 +25,7 @@ public class SharedPrefUtil {
     }
 
     public static boolean checkSharedPrefs() {
+
         return Objects.equals(sharedPreferences.getString(BDLAppConstants.PLAYER_KEY_SHARED_PREFS, ""), "");
     }
 
