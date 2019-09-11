@@ -31,44 +31,19 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
 
     @SuppressLint("CheckResult")
     private void viewModelSetUp() {
-<<<<<<< HEAD
         NewViewModel viewModel = NewViewModel.getInstance(this);
 
         viewModel.callBDLResponseClient()
 
           .subscribe(playerAverageModel -> {
-                playerAverageModels.add(playerAverageModel);
+              //add directly to the database
+                viewModel.getDatabaseRepository().addPlayerData(playerAverageModel);
                 Log.d("TAG", "List<PlayerAverageModel> size: " + playerAverageModels.size());
-=======
-
-
-
-        if(viewModel.getPlayerAverageModels() == null) {
-            viewModel.callBDLResponseClient()
-                    .subscribe(playerAverageModel -> {
-                        viewModel.getDatabaseRepository().addPlayerData(playerAverageModel);
-                        Log.d("TAG", "List<PlayerAverageModel> size: " + playerAverageModels.size());
-                    },
-                            throwable -> {},
-                            () -> {
-                        Log.d("complete", "OnComplete - List<PlayerAverageModel> size: " + playerAverageModels.size());
-                        displayMenuFragment();
-                    });
-            Log.d("TAG", "List<Single<PlayerAverageModel>> size: " + viewModel.getPlayerAverageModels().size());
->>>>>>> integrating database, list returns empty
 
             }, throwable -> {},
 
-<<<<<<< HEAD
             () -> Log.d("TAG", "OnComplete - List<PlayerAverageModel> size: " + playerAverageModels.size()));
-=======
-            for (int i = 0; i < viewModel.getPlayerAverageModels().size(); i++) {
-                Log.d("TAG", "iteration: " + i);
-            }
-        }else{
-            displayMenuFragment();
-        }
->>>>>>> integrating database, list returns empty
+        displayMenuFragment();
     }
 
     @Override

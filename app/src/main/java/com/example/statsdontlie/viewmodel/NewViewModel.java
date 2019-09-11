@@ -8,12 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 
 import com.example.statsdontlie.constants.BDLAppConstants;
-<<<<<<< HEAD
-=======
-import com.example.statsdontlie.localdb.BDLDatabase;
 import com.example.statsdontlie.localdb.BDLDatabaseRepositoryImpl;
-import com.example.statsdontlie.model.BDLResponse;
->>>>>>> integrating database, list returns empty
 import com.example.statsdontlie.model.PlayerAverageModel;
 import com.example.statsdontlie.network.RetrofitSingleton;
 import com.example.statsdontlie.repository.BDLRepository;
@@ -34,7 +29,7 @@ public class NewViewModel extends AndroidViewModel {
     public NewViewModel(@NonNull Application application) {
         super(application);
         repository = new BDLRepository(RetrofitSingleton.getSingleService());
-        databaseRepository = new BDLDatabaseRepositoryImpl(application);
+        databaseRepository = BDLDatabaseRepositoryImpl.getInstance(application);
     }
 
     public static NewViewModel getInstance(AppCompatActivity activity) {
@@ -49,18 +44,14 @@ public class NewViewModel extends AndroidViewModel {
             playerIdLists.add(playerIds);
         }
 
-
         return Observable.fromIterable(playerIdLists)
-<<<<<<< HEAD
-          .map(playerId -> repository.callBDLResponseClient(playerId))
-
-          .map(response -> {
-              GameStatUtil gameStatUtil = new GameStatUtil(response.blockingGet());
-=======
                 .map(playerId -> repository.callBDLResponseClient(playerId))
+
                 .map(response -> {
                     GameStatUtil gameStatUtil = new GameStatUtil(response.blockingGet());
+
                     PlayerModelCreator.calculatePlayerAvg(gameStatUtil);
+
                     PlayerAverageModel playerAverageModel = PlayerModelCreator.createPlayerModel(
                             response.blockingGet().getData().get(0).getPlayer().getId(),
                             PlayerUtil.createPlayerPhoto(
@@ -69,32 +60,15 @@ public class NewViewModel extends AndroidViewModel {
                             ),
                             gameStatUtil);
 
-//                    playerAverageModels.add(playerAverageModel);
+                    playerAverageModels.add(playerAverageModel);
 
-                    Log.d("TAG", "Season Avg size: " + gameStatUtil.playerSeasonAverages().size());
-                    Log.d("TAG", "Response size: " + response.blockingGet().getData().get(0).getPlayer());
-//                    databaseRepository.addPlayerData(playerAverageModel);
->>>>>>> integrating database, list returns empty
-
-              PlayerModelCreator.calculatePlayerAvg(gameStatUtil);
-
-              PlayerAverageModel playerAverageModel = PlayerModelCreator.createPlayerModel(0, null, gameStatUtil);
-
-              playerAverageModels.add(playerAverageModel);
-
-              return playerAverageModel;
+                    return playerAverageModel;
 
           });
     }
 
-
-<<<<<<< HEAD
     public List<PlayerAverageModel> getPlayerAverageModels() {
-=======
-    public List<PlayerAverageModel> getPlayerAverageModels(){
-
->>>>>>> integrating database, list returns empty
-        return playerAverageModels;
+        return databaseRepository.getPlayerAverageModelList();
     }
 
     public BDLDatabaseRepositoryImpl getDatabaseRepository(){
