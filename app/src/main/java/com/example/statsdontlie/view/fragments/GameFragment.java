@@ -155,7 +155,7 @@ public class GameFragment extends Fragment {
           .load(PlayerUtil.getPlayerPhotoUrl(player1.getFirstName(), player1.getLastName()))
           .into(playerOneImage);
         Picasso.get()
-          .load(PlayerUtil.getPlayerPhotoUrl(player2.getFirstName(), player2.getFirstName()))
+          .load(PlayerUtil.getPlayerPhotoUrl(player2.getFirstName(), player2.getLastName()))
           .into(playerTwoImage);
         getRandomQuestion();
 //        playerOneCardView.startAnimation(Animations.getFadeIn(playerOneCardView));
