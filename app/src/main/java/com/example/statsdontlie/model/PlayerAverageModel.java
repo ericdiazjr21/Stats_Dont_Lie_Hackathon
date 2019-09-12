@@ -48,7 +48,7 @@ public final class PlayerAverageModel {
     }
 
     public Long getPlayerID() {
-        return getPlayerID();
+        return playerID;
     }
 
     public String getFirstName() {

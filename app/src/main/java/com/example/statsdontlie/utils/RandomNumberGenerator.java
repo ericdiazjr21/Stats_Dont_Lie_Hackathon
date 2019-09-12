@@ -6,8 +6,7 @@ public final class RandomNumberGenerator {
 
     private static int random1;
 
-    private RandomNumberGenerator() {
-    }
+    private RandomNumberGenerator() {}
 
     public static int getRandomNumber1() {
         Random random = new Random();
