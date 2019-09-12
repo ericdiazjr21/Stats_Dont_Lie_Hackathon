@@ -2,13 +2,15 @@ package com.example.statsdontlie.viewmodel;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
-import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.ViewModelProviders;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.example.statsdontlie.constants.BDLAppConstants;
 import com.example.statsdontlie.localdb.BDLDatabaseRepositoryImpl;
+import com.example.statsdontlie.model.BDLResponse;
 import com.example.statsdontlie.model.PlayerAverageModel;
 import com.example.statsdontlie.network.RetrofitSingleton;
 import com.example.statsdontlie.repository.BDLRepository;
@@ -45,24 +47,25 @@ public class NewViewModel extends AndroidViewModel {
         }
 
         return Observable.fromIterable(playerIdLists)
-                .map(playerId -> repository.callBDLResponseClient(playerId))
+          .map(playerId -> repository.callBDLResponseClient(playerId))
 
-                .map(response -> {
-                    GameStatUtil gameStatUtil = new GameStatUtil(response.blockingGet());
+          .map(response -> {
+              GameStatUtil gameStatUtil = new GameStatUtil(response.blockingGet().getData());
 
-                    PlayerModelCreator.calculatePlayerAvg(gameStatUtil);
+              PlayerModelCreator.calculatePlayerAvg(gameStatUtil);
 
-                    PlayerAverageModel playerAverageModel = PlayerModelCreator.createPlayerModel(
-                            response.blockingGet().getData().get(0).getPlayer().getId(),
-                            PlayerUtil.getPlayerPhotoUrl(
-                                    response.blockingGet().getData().get(0).getPlayer().getFirstName(),
-                                    response.blockingGet().getData().get(0).getPlayer().getLastName()
-                            ),
-                            gameStatUtil);
+              BDLResponse.GameStats.Player currentPlayer = response.blockingGet().getData().get(0).getPlayer();
 
-                    playerAverageModels.add(playerAverageModel);
+              PlayerAverageModel playerAverageModel = PlayerModelCreator.createPlayerModel(
+                currentPlayer.getId(),
+                currentPlayer.getFirstName(),
+                currentPlayer.getLastName(),
+                PlayerUtil.getPlayerPhotoUrl(currentPlayer.getFirstName(), currentPlayer.getLastName()),
+                gameStatUtil);
 
-                    return playerAverageModel;
+              playerAverageModels.add(playerAverageModel);
+
+              return playerAverageModel;
 
           });
     }
@@ -71,7 +74,7 @@ public class NewViewModel extends AndroidViewModel {
         return databaseRepository.getPlayerAverageModelList();
     }
 
-    public BDLDatabaseRepositoryImpl getDatabaseRepository(){
+    public BDLDatabaseRepositoryImpl getDatabaseRepository() {
         return databaseRepository;
     }
 }

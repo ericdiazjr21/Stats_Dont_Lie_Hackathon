@@ -5,7 +5,7 @@ import com.example.statsdontlie.model.PlayerAverageModel;
 public class PlayerModelCreator {
 
     public static void calculatePlayerAvg(GameStatUtil gameStatUtil) {
-        gameStatUtil.calculateOverallStats();
+        gameStatUtil.sumTotalOverallStats();
         gameStatUtil.calculatePtsAvg();
         gameStatUtil.calculatePlayerAssistAvg();
         gameStatUtil.calculatePlayerBlkAvg();
@@ -14,11 +14,15 @@ public class PlayerModelCreator {
         gameStatUtil.calculatePlayer3pAttempted();
     }
 
-    public static PlayerAverageModel createPlayerModel(int playerID, String image, GameStatUtil gameStatUtil) {
+    public static PlayerAverageModel createPlayerModel(int playerID,
+                                                       String firstName,
+                                                       String lastName,
+                                                       String image,
+                                                       GameStatUtil gameStatUtil) {
         return new PlayerAverageModel(
           Long.valueOf(playerID),
-          gameStatUtil.playerSeasonAverages().get(0).getPlayer().getFirstName(),
-          gameStatUtil.playerSeasonAverages().get(0).getPlayer().getLastName(),
+          firstName,
+          lastName,
           image,
           gameStatUtil.getPointsAverage(),
           gameStatUtil.getPlayerAssistAvg(),
