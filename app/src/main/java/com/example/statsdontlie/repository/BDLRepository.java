@@ -1,7 +1,7 @@
 package com.example.statsdontlie.repository;
 
 import android.annotation.SuppressLint;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.example.statsdontlie.model.BDLResponse;
 import com.example.statsdontlie.network.BDLService;

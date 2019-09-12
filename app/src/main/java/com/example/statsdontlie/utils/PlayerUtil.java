@@ -1,6 +1,6 @@
 package com.example.statsdontlie.utils;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 /**
  * Last Updated - 9/11/19

@@ -2,10 +2,10 @@ package com.example.statsdontlie.viewmodel;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
-import android.arch.lifecycle.AndroidViewModel;
-import android.arch.lifecycle.ViewModelProviders;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.statsdontlie.constants.BDLAppConstants;
 import com.example.statsdontlie.localdb.BDLDatabaseRepositoryImpl;
