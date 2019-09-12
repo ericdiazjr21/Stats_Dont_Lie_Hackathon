@@ -152,10 +152,10 @@ public class GameFragment extends Fragment {
         Log.d(TAG, "setViews: " + player1.toString());
         Log.d(TAG, "setViews: " + player2.toString());
         Picasso.get()
-          .load(PlayerUtil.createPlayerPhoto(player1.getFirstName(), player1.getLastName()))
+          .load(PlayerUtil.getPlayerPhotoUrl(player1.getFirstName(), player1.getLastName()))
           .into(playerOneImage);
         Picasso.get()
-          .load(PlayerUtil.createPlayerPhoto(player2.getFirstName(), player2.getLastName()))
+          .load(PlayerUtil.getPlayerPhotoUrl(player2.getFirstName(), player2.getLastName()))
           .into(playerTwoImage);
         getRandomQuestion();
 //        playerOneCardView.startAnimation(Animations.getFadeIn(playerOneCardView));

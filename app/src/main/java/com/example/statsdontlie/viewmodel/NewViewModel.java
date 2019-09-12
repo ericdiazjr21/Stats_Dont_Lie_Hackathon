@@ -54,7 +54,7 @@ public class NewViewModel extends AndroidViewModel {
 
                     PlayerAverageModel playerAverageModel = PlayerModelCreator.createPlayerModel(
                             response.blockingGet().getData().get(0).getPlayer().getId(),
-                            PlayerUtil.createPlayerPhoto(
+                            PlayerUtil.getPlayerPhotoUrl(
                                     response.blockingGet().getData().get(0).getPlayer().getFirstName(),
                                     response.blockingGet().getData().get(0).getPlayer().getLastName()
                             ),
