@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import com.example.sql.NBAPlayerQueries;
 import com.example.statsdontlie.Database;
 import com.example.statsdontlie.app.DatabaseImplKt;
+import com.example.statsdontlie.model.PlayerAverageModel;
 import com.squareup.sqldelight.android.AndroidSqliteDriver;
 import com.squareup.sqldelight.db.SqlDriver;
 
@@ -19,7 +20,7 @@ public final class BDLDatabase {
 
     private BDLDatabase(@NonNull Context context) {
         database = getDatabase(context);
-        nbaPlayerQueries = database.getNBAPlayerQueries();
+
     }
 
     public static BDLDatabase getInstance(@NonNull Context context) {
@@ -38,8 +39,24 @@ public final class BDLDatabase {
         return database;
     }
 
-    public final NBAPlayerQueries getNBAPlayerQueries() {
+    public final NBAPlayerQueries getNBAPlayerQueries(){
+        nbaPlayerQueries = database.getNBAPlayerQueries();
         return nbaPlayerQueries;
+    }
+
+    public final void addNBAPlayers(PlayerAverageModel playerAverageModel){
+        database.getNBAPlayerQueries().insertOrReplace(
+                playerAverageModel.getPlayerID(),
+                playerAverageModel.getFirstName(),
+                playerAverageModel.getLastName(),
+                playerAverageModel.getImage(),
+                playerAverageModel.getPlayerPointAvg(),
+                playerAverageModel.getPlayerAssistAvg(),
+                playerAverageModel.getPlayerBlocksAvg(),
+                playerAverageModel.getPlayerDefRebAvg(),
+                playerAverageModel.getPlayer3PM(),
+                playerAverageModel.getPlayer3PA()
+        );
     }
 
 }

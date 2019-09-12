@@ -1,5 +1,6 @@
 package com.example.statsdontlie.view.fragments;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -22,7 +23,7 @@ import com.example.statsdontlie.model.PlayerAverageModel;
 import com.example.statsdontlie.utils.GameJudger;
 import com.example.statsdontlie.utils.PlayerUtil;
 import com.example.statsdontlie.utils.RandomNumberGenerator;
-import com.example.statsdontlie.viewmodel.BDLViewModel;
+import com.example.statsdontlie.viewmodel.NewViewModel;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
@@ -42,7 +43,7 @@ public class GameFragment extends Fragment {
     private TextView displayQuestionTextView;
     private PlayerAverageModel player1;
     private PlayerAverageModel player2;
-    private BDLViewModel viewModel;
+    private NewViewModel viewModel;
     private int playerCorrectGuesses = 0;
     private int playerInCorrectGuesses = 0;
     private CountDownTimer countDownTimer;
@@ -75,17 +76,22 @@ public class GameFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_game, container, false);
     }
 
-//    @Override
-//    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-//        findViews(view);
-//        setCountDownTimer();
-//        setViewModel();
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        findViews(view);
+        setViewModel();
+        this.playerAverageModels = viewModel.getPlayerAverageModels();
+        setCountDownTimer();
+
+        setRandomPlayers(playerAverageModels);
+        setViews();
+
 //        observeViewModel();
-////        playerOneCardView.startAnimation(Animations.getFadeIn(playerOneCardView));
-////        playerTwoCardView.startAnimation(Animations.getFadeIn(playerTwoCardView));
-//        setPlayer1CardView();
-//        setPlayer2CardView();
-//    }
+//        playerOneCardView.startAnimation(Animations.getFadeIn(playerOneCardView));
+//        playerTwoCardView.startAnimation(Animations.getFadeIn(playerTwoCardView));
+        setPlayer1CardView();
+        setPlayer2CardView();
+    }
 
     private void findViews(@NonNull View view) {
         playerOneCardView = view.findViewById(R.id.player_one);
@@ -125,18 +131,14 @@ public class GameFragment extends Fragment {
         countDownTimer.start();
     }
 
-//    private void setViewModel() {
-//        viewModel = ViewModelProviders.of(this).get(BDLViewModel.class);
-//        viewModel.makeNetworkCall();
-//    }
+    private void setViewModel() {
+        viewModel = ViewModelProviders.of(this).get(NewViewModel.class);
+//        viewModel.callBDLResponseClient();
+    }
 //
-//    private void observeViewModel() {
-//        viewModel.getPlayerList().observe(this, playerAverageModels -> {
-//            this.playerAverageModels = playerAverageModels;
-//            setRandomPlayers(playerAverageModels);
-//            setViews();
-//        });
-//    }
+    private void observeViewModel() {
+            this.playerAverageModels = viewModel.getPlayerAverageModels();
+    }
 
     private void setRandomPlayers(List<PlayerAverageModel> playerAverageModels) {
         player1 = playerAverageModels.get(RandomNumberGenerator.getRandomNumber1());
@@ -153,7 +155,7 @@ public class GameFragment extends Fragment {
           .load(PlayerUtil.createPlayerPhoto(player1.getFirstName(), player1.getLastName()))
           .into(playerOneImage);
         Picasso.get()
-          .load(PlayerUtil.createPlayerPhoto(player2.getFirstName(), player2.getFirstName()))
+          .load(PlayerUtil.createPlayerPhoto(player2.getFirstName(), player2.getLastName()))
           .into(playerTwoImage);
         getRandomQuestion();
 //        playerOneCardView.startAnimation(Animations.getFadeIn(playerOneCardView));

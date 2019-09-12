@@ -8,11 +8,13 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 
 import com.example.statsdontlie.constants.BDLAppConstants;
+import com.example.statsdontlie.localdb.BDLDatabaseRepositoryImpl;
 import com.example.statsdontlie.model.PlayerAverageModel;
 import com.example.statsdontlie.network.RetrofitSingleton;
 import com.example.statsdontlie.repository.BDLRepository;
 import com.example.statsdontlie.utils.GameStatUtil;
 import com.example.statsdontlie.utils.PlayerModelCreator;
+import com.example.statsdontlie.utils.PlayerUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,12 +22,14 @@ import java.util.List;
 import io.reactivex.Observable;
 
 public class NewViewModel extends AndroidViewModel {
+    private BDLDatabaseRepositoryImpl databaseRepository;
     private BDLRepository repository;
     private List<PlayerAverageModel> playerAverageModels = new ArrayList<>();
 
     public NewViewModel(@NonNull Application application) {
         super(application);
         repository = new BDLRepository(RetrofitSingleton.getSingleService());
+        databaseRepository = BDLDatabaseRepositoryImpl.getInstance(application);
     }
 
     public static NewViewModel getInstance(AppCompatActivity activity) {
@@ -41,25 +45,34 @@ public class NewViewModel extends AndroidViewModel {
         }
 
         return Observable.fromIterable(playerIdLists)
-          .map(playerId -> repository.callBDLResponseClient(playerId))
+                .map(playerId -> repository.callBDLResponseClient(playerId))
 
-          .map(response -> {
-              GameStatUtil gameStatUtil = new GameStatUtil(response.blockingGet());
+                .map(response -> {
+                    GameStatUtil gameStatUtil = new GameStatUtil(response.blockingGet());
 
-              PlayerModelCreator.calculatePlayerAvg(gameStatUtil);
+                    PlayerModelCreator.calculatePlayerAvg(gameStatUtil);
 
-              PlayerAverageModel playerAverageModel = PlayerModelCreator.createPlayerModel(0, null, gameStatUtil);
+                    PlayerAverageModel playerAverageModel = PlayerModelCreator.createPlayerModel(
+                            response.blockingGet().getData().get(0).getPlayer().getId(),
+                            PlayerUtil.createPlayerPhoto(
+                                    response.blockingGet().getData().get(0).getPlayer().getFirstName(),
+                                    response.blockingGet().getData().get(0).getPlayer().getLastName()
+                            ),
+                            gameStatUtil);
 
-              playerAverageModels.add(playerAverageModel);
+                    playerAverageModels.add(playerAverageModel);
 
-              return playerAverageModel;
+                    return playerAverageModel;
 
           });
     }
 
-
     public List<PlayerAverageModel> getPlayerAverageModels() {
-        return playerAverageModels;
+        return databaseRepository.getPlayerAverageModelList();
+    }
+
+    public BDLDatabaseRepositoryImpl getDatabaseRepository(){
+        return databaseRepository;
     }
 }
 

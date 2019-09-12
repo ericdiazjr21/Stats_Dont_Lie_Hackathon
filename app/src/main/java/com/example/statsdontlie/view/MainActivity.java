@@ -18,13 +18,15 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements OnFragmentInteractionListener {
     private List<PlayerAverageModel> playerAverageModels = new ArrayList<>();
-
+    NewViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        viewModel = NewViewModel.getInstance(this);
         viewModelSetUp();
+
     }
 
     @SuppressLint("CheckResult")
@@ -34,12 +36,14 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         viewModel.callBDLResponseClient()
 
           .subscribe(playerAverageModel -> {
-                playerAverageModels.add(playerAverageModel);
+              //add directly to the database
+                viewModel.getDatabaseRepository().addPlayerData(playerAverageModel);
                 Log.d("TAG", "List<PlayerAverageModel> size: " + playerAverageModels.size());
 
             }, throwable -> {},
 
             () -> Log.d("TAG", "OnComplete - List<PlayerAverageModel> size: " + playerAverageModels.size()));
+        displayMenuFragment();
     }
 
     @Override
