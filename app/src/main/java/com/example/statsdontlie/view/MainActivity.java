@@ -1,155 +1,80 @@
 package com.example.statsdontlie.view;
 
-import android.media.MediaPlayer;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.statsdontlie.OnFragmentInteractionListener;
 import com.example.statsdontlie.R;
-import com.example.statsdontlie.constants.BDLAppConstants;
+import com.example.statsdontlie.model.PlayerAverageModel;
 import com.example.statsdontlie.view.fragments.GameFragment;
 import com.example.statsdontlie.view.fragments.MenuFragment;
 import com.example.statsdontlie.view.fragments.ResultFragment;
-import com.example.statsdontlie.viewmodel.BDLViewModel;
+import com.example.statsdontlie.viewmodel.NewViewModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements OnFragmentInteractionListener {
-    private ImageView mainImage;
-    private ImageView titleImage;
-    private ImageView leftCornerImage;
-    private ImageView rightCornerImage;
-
-
-    private BDLViewModel viewModel;
+    private List<PlayerAverageModel> playerAverageModels = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mainImage = findViewById(R.id.splash_main);
-        titleImage = findViewById(R.id.splash_title);
-        leftCornerImage = findViewById(R.id.splash_left);
-        rightCornerImage = findViewById(R.id.splash_right);
-
-        viewModel = BDLViewModel.getInstance(this);
-        viewModel.makeNetworkCall();
-        viewModel.getPlayerList().observe(this, playerAverageModels ->
-                Log.d(BDLAppConstants.MAIN_ACTIVITY_TAG, "onChanged: " + playerAverageModels.toString()));
-
-        Animation shakePieceLeft = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.shake_pieces);
-        Animation shakePieceRight = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.shake_pieces);
-        Animation shakePieceTop = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.shake_pieces);
-        final Animation shatterLeft = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.shatter_left);
-        final Animation shatterRight = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.shatter_right);
-        final Animation shatterTop = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.shatter_top);
-
-        titleImage.startAnimation(shakePieceTop);
-        leftCornerImage.startAnimation(shakePieceLeft);
-        rightCornerImage.startAnimation(shakePieceRight);
-
-        shatterTop.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-                MediaPlayer mp = MediaPlayer.create(getApplicationContext(),R.raw.balldontlie);
-                mp.start();
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                displayMenuFragment();
-                mainImage.setVisibility(View.INVISIBLE);
-                titleImage.setVisibility(View.INVISIBLE);
-                leftCornerImage.setVisibility(View.INVISIBLE);
-                rightCornerImage.setVisibility(View.INVISIBLE);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-
-        shakePieceLeft.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                leftCornerImage.startAnimation(shatterLeft);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-
-        shakePieceRight.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                rightCornerImage.startAnimation(shatterRight);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-
-        shakePieceTop.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                titleImage.startAnimation(shatterTop);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-
+        viewModelSetUp();
     }
 
+    @SuppressLint("CheckResult")
+    private void viewModelSetUp() {
+        NewViewModel viewModel = NewViewModel.getInstance(this);
 
+        if (viewModel.getPlayerAverageModels() == null) {
+            viewModel.callBDLResponseClient()
+                    .subscribe(playerAverageModel -> {
+                                //add directly to the database
+                                viewModel.getDatabaseRepository().addPlayerData(playerAverageModel);
+
+                                Log.d("TAG", "List<PlayerAverageModel> size: " + playerAverageModels.size());
+                                Log.d("TAG", "List<PlayerAverageModel> size: " + viewModel.getPlayerAverageModels().size());
+
+                            }, throwable -> Log.d("TAG", throwable.toString()),
+
+                            () -> {
+                                Log.d("TAG", "OnComplete - List<PlayerAverageModel> size: " + playerAverageModels.size());
+                                playerAverageModels = viewModel.getPlayerAverageModels();
+                            });
+        } else {
+            playerAverageModels = viewModel.getPlayerAverageModels();
+        }
+
+        displayMenuFragment(playerAverageModels);
+    }
 
     @Override
-    public void displayMenuFragment() {
+    public void displayMenuFragment(List<PlayerAverageModel> playerAverageModels) {
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.main_container, MenuFragment.newInstance())
+                .replace(R.id.main_container, MenuFragment.newInstance(playerAverageModels))
                 .commit();
     }
 
     @Override
-    public void displayGameFragment() {
+    public void displayGameFragment(List<PlayerAverageModel> playerAverageModels) {
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.main_container, GameFragment.newInstance(),"game")
+                .replace(R.id.main_container, GameFragment.newInstance(playerAverageModels), "game")
                 .addToBackStack(null)
                 .commit();
     }
 
     @Override
-    public void displayResultFragment(int playerCorrectGuesses, int playerIncorrectGuesses) {
+    public void displayResultFragment(int playerCorrectGuesses, int playerIncorrectGuesses, List<PlayerAverageModel> playerAverageModels) {
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.main_container, ResultFragment.newInstance(playerCorrectGuesses, playerIncorrectGuesses))
+                .replace(R.id.main_container, ResultFragment.newInstance(playerCorrectGuesses, playerIncorrectGuesses, playerAverageModels))
                 .commit();
     }
 

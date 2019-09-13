@@ -1,0 +1,38 @@
+CREATE TABLE NBAPlayer (
+    playerID INTEGER NOT NULL UNIQUE PRIMARY KEY,
+    firstName TEXT NOT NULL,
+    lastName TEXT NOT NULL,
+    image TEXT NOT NULL,
+    playerPointAvg REAL,
+    playerAssistAvg REAL,
+    playerBlocksAvg REAL,
+    playerDefRebAvg REAL,
+    player3PM REAL,
+    player3PA REAL
+    );
+
+selectAll:
+SELECT * FROM NBAPlayer;
+
+insertOrReplace:
+INSERT OR REPLACE INTO NBAPlayer(
+    playerID,
+    firstName,
+    lastName,
+    image,
+    playerPointAvg,
+    playerAssistAvg,
+    playerBlocksAvg,
+    playerDefRebAvg,
+    player3PM,
+    player3PA
+)
+
+VALUES(?,?,?,?,?,?,?,?,?,?);
+
+selectById:
+SELECT * FROM NBAPlayer WHERE playerID = ?;
+
+
+
+

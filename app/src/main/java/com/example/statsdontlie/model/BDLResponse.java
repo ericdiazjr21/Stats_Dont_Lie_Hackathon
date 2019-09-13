@@ -5,13 +5,13 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class BDLResponse {
-    List<GameStats> data;
+    private List<GameStats> data;
 
     public List<GameStats> getData() {
         return data;
     }
 
-    public class GameStats{
+    public class GameStats {
         private int pts;
         private double fg_pct;
         private double fg3_pct;
@@ -58,16 +58,16 @@ public class BDLResponse {
             return player;
         }
 
-        public class Player{
+        public class Player {
+            private int id;
             @SerializedName("first_name")
             private String firstName;
             @SerializedName("last_name")
             private String lastName;
 
+            public int getId() { return id; }
 
-            public String getFirstName() {
-                return firstName;
-            }
+            public String getFirstName() { return firstName; }
 
             public String getLastName() {
                 return lastName;

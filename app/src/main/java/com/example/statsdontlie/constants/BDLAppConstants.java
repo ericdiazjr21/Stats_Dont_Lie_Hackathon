@@ -43,19 +43,17 @@ public class BDLAppConstants {
     private static final int MIKE_CONLEY = 104;
 
     public static final int[] PLAYER_ARRAY_CONSTANTS = {JAMES_HARDEN, PAUL_GEORGE,
-            GIANNIS_ANTETOKOUNMPO, JOEL_EMBIID, STEPHEN_CURRY, KAWHI_LEONARD, DEVIN_BOOKER,
-            KEVIN_DURANT, DAMIAN_LILLARD, KEMBA_WALKER, BRADLEY_BEAL, BLAKE_GRIFFIN, KARL_ANTHONY_TOWNS,
-            KYRIE_IRVING, DONOVAN_MITCHELL, ZACH_LAVINE, RUSSELL_WESTBROOK, KLAY_THOMPSON,
-            JULIUS_RANDLE, LAMARCUS_ALDRIDGE, DEMAR_DEROZAN, LEBRON_JAMES, JRUE_HOLIDAY, D_ANGELO_RUSSELL,
-            MIKE_CONLEY};
-
+      GIANNIS_ANTETOKOUNMPO, JOEL_EMBIID, STEPHEN_CURRY, KAWHI_LEONARD, DEVIN_BOOKER,
+      KEVIN_DURANT, DAMIAN_LILLARD, KEMBA_WALKER, BRADLEY_BEAL, BLAKE_GRIFFIN, KARL_ANTHONY_TOWNS,
+      KYRIE_IRVING, DONOVAN_MITCHELL, ZACH_LAVINE, RUSSELL_WESTBROOK, KLAY_THOMPSON,
+      JULIUS_RANDLE, LAMARCUS_ALDRIDGE, DEMAR_DEROZAN, LEBRON_JAMES, JRUE_HOLIDAY, D_ANGELO_RUSSELL};
 
     public static final String[] QUESTIONS_ARRAY = {
-            "Who has a higher point-per-game average?",
-            "Who has a higher assist-per-game average?",
-            "Who averages more blocks per game?",
-            "Who averages more defensive rebounds per game?",
-            "Who makes more 3 point shots on average?",
-            "Who attempts more 3 point shots on average?",
+      "Who has a higher point-per-game average?",
+      "Who has a higher assist-per-game average?",
+      "Who averages more blocks per game?",
+      "Who averages more defensive rebounds per game?",
+      "Who makes more 3 point shots on average?",
+      "Who attempts more 3 point shots on average?",
     };
 }
