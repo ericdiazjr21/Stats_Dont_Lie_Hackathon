@@ -1,24 +1,22 @@
 package com.example.statsdontlie.utils;
 
+import androidx.annotation.NonNull;
+
 import com.example.statsdontlie.model.PlayerAverageModel;
 
 public class PlayerModelCreator {
 
-    public static void calculatePlayerAvg(GameStatUtil gameStatUtil) {
-        gameStatUtil.calculateOverallStats();
-        gameStatUtil.calculatePtsAvg();
-        gameStatUtil.calculatePlayerAssistAvg();
-        gameStatUtil.calculatePlayerBlkAvg();
-        gameStatUtil.calculateDefRbnAvg();
-        gameStatUtil.calculatePlayer3pMade();
-        gameStatUtil.calculatePlayer3pAttempted();
-    }
+    private PlayerModelCreator() {}
 
-    public static PlayerAverageModel createPlayerModel(int playerID, String image, GameStatUtil gameStatUtil) {
+    public static PlayerAverageModel createPlayerModel(final long playerID,
+                                                       @NonNull final String firstName,
+                                                       @NonNull final String lastName,
+                                                       @NonNull final String image,
+                                                       @NonNull final GameStatUtil gameStatUtil) {
         return new PlayerAverageModel(
-          Long.valueOf(playerID),
-          gameStatUtil.playerSeasonAverages().get(0).getPlayer().getFirstName(),
-          gameStatUtil.playerSeasonAverages().get(0).getPlayer().getLastName(),
+          playerID,
+          firstName,
+          lastName,
           image,
           gameStatUtil.getPointsAverage(),
           gameStatUtil.getPlayerAssistAvg(),

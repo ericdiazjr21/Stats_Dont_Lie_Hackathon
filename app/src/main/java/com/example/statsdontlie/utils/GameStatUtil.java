@@ -4,52 +4,27 @@ import com.example.statsdontlie.model.BDLResponse;
 
 import java.util.List;
 
-public class GameStatUtil {
+public final class GameStatUtil {
+
     private double pointsAverage = 0;
     private double playerAssistAvg = 0;
     private double playerBlocksAvg = 0;
     private double playerDefRebAvg = 0;
     private double player3pMade = 0;
     private double player3pAttempted = 0;
-    private double playerFpgAvg = 0;
-    private BDLResponse response;
 
+    private List<BDLResponse.GameStats> playerGameStatsList;
+    private int playerGameStatsListSize;
 
-    public GameStatUtil(BDLResponse response) {
-        this.response = response;
+    public GameStatUtil(List<BDLResponse.GameStats> playerGameStatsList) {
+        this.playerGameStatsList = playerGameStatsList;
+        playerGameStatsListSize = playerGameStatsList.size();
+        calculateAllStatsTotals();
+        calculateAllStatsAverages();
     }
 
-
-    public void calculatePtsAvg() {
-        pointsAverage = pointsAverage / playerSeasonAverages().size();
-    }
-
-    public void calculatePlayerAssistAvg() {
-        playerAssistAvg = playerAssistAvg / playerSeasonAverages().size();
-    }
-
-    public void calculatePlayerBlkAvg() {
-        playerBlocksAvg = playerBlocksAvg / playerSeasonAverages().size();
-    }
-
-    public void calculateDefRbnAvg() {
-        playerDefRebAvg = playerDefRebAvg / playerSeasonAverages().size();
-    }
-
-    public void calculatePlayer3pMade() {
-        player3pMade = player3pMade / playerSeasonAverages().size();
-    }
-
-    public void calculatePlayer3pAttempted() {
-        player3pAttempted = player3pAttempted / playerSeasonAverages().size();
-    }
-
-    public List<BDLResponse.GameStats> playerSeasonAverages() {
-        return response.getData();
-    }
-
-    public void calculateOverallStats() {
-        for (BDLResponse.GameStats gameStat : playerSeasonAverages()) {
+    private void calculateAllStatsTotals() {
+        for (BDLResponse.GameStats gameStat : playerGameStatsList) {
             pointsAverage += gameStat.getPts();
             playerAssistAvg += gameStat.getAst();
             playerBlocksAvg += gameStat.getBlk();
@@ -59,27 +34,61 @@ public class GameStatUtil {
         }
     }
 
-    public double getPointsAverage() {
+    private void calculateAllStatsAverages() {
+        calculatePtsAvg();
+        calculatePlayerAssistAvg();
+        calculatePlayerBlkAvg();
+        calculateDefRbnAvg();
+        calculatePlayer3pMade();
+        calculatePlayer3pAttempted();
+    }
+
+    private void calculatePtsAvg() {
+        pointsAverage /= playerGameStatsListSize;
+    }
+
+    private void calculatePlayerAssistAvg() {
+        playerAssistAvg /= playerGameStatsListSize;
+    }
+
+    private void calculatePlayerBlkAvg() {
+        playerBlocksAvg /= playerGameStatsListSize;
+    }
+
+    private void calculateDefRbnAvg() {
+        playerDefRebAvg /= playerGameStatsListSize;
+    }
+
+    private void calculatePlayer3pMade() {
+        player3pMade /= playerGameStatsListSize;
+    }
+
+    private void calculatePlayer3pAttempted() {
+        player3pAttempted /= playerGameStatsListSize;
+    }
+
+
+    double getPointsAverage() {
         return pointsAverage;
     }
 
-    public double getPlayerAssistAvg() {
+    double getPlayerAssistAvg() {
         return playerAssistAvg;
     }
 
-    public double getPlayerBlocksAvg() {
+    double getPlayerBlocksAvg() {
         return playerBlocksAvg;
     }
 
-    public double getPlayerDefRebAvg() {
+    double getPlayerDefRebAvg() {
         return playerDefRebAvg;
     }
 
-    public double getPlayer3pMade() {
+    double getPlayer3pMade() {
         return player3pMade;
     }
 
-    public double getPlayer3pAttempted() {
+    double getPlayer3pAttempted() {
         return player3pAttempted;
     }
 }
