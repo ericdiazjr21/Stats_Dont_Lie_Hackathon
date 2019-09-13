@@ -19,6 +19,7 @@ import com.example.statsdontlie.utils.PlayerModelCreator;
 import com.example.statsdontlie.utils.PlayerUtil;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -51,8 +52,6 @@ public class NewViewModel extends AndroidViewModel {
 
           .map(response -> {
               GameStatUtil gameStatUtil = new GameStatUtil(response.blockingGet().getData());
-
-              PlayerModelCreator.calculatePlayerAvg(gameStatUtil);
 
               BDLResponse.GameStats.Player currentPlayer = response.blockingGet().getData().get(0).getPlayer();
 

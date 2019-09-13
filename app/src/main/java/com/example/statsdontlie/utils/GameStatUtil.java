@@ -19,10 +19,11 @@ public final class GameStatUtil {
     public GameStatUtil(List<BDLResponse.GameStats> playerGameStatsList) {
         this.playerGameStatsList = playerGameStatsList;
         playerGameStatsListSize = playerGameStatsList.size();
-        sumTotalOverallStats();
+        calculateAllStatsTotals();
+        calculateAllStatsAverages();
     }
 
-    public void sumTotalOverallStats() {
+    private void calculateAllStatsTotals() {
         for (BDLResponse.GameStats gameStat : playerGameStatsList) {
             pointsAverage += gameStat.getPts();
             playerAssistAvg += gameStat.getAst();
@@ -33,52 +34,61 @@ public final class GameStatUtil {
         }
     }
 
-    public void calculatePtsAvg() {
-        pointsAverage = pointsAverage / playerGameStatsListSize;
+    private void calculateAllStatsAverages() {
+        calculatePtsAvg();
+        calculatePlayerAssistAvg();
+        calculatePlayerBlkAvg();
+        calculateDefRbnAvg();
+        calculatePlayer3pMade();
+        calculatePlayer3pAttempted();
     }
 
-    public void calculatePlayerAssistAvg() {
-        playerAssistAvg = playerAssistAvg / playerGameStatsListSize;
+    private void calculatePtsAvg() {
+        pointsAverage /= playerGameStatsListSize;
     }
 
-    public void calculatePlayerBlkAvg() {
-        playerBlocksAvg = playerBlocksAvg / playerGameStatsListSize;
+    private void calculatePlayerAssistAvg() {
+        playerAssistAvg /= playerGameStatsListSize;
     }
 
-    public void calculateDefRbnAvg() {
-        playerDefRebAvg = playerDefRebAvg / playerGameStatsListSize;
+    private void calculatePlayerBlkAvg() {
+        playerBlocksAvg /= playerGameStatsListSize;
     }
 
-    public void calculatePlayer3pMade() {
-        player3pMade = player3pMade / playerGameStatsListSize;
+    private void calculateDefRbnAvg() {
+        playerDefRebAvg /= playerGameStatsListSize;
     }
 
-    public void calculatePlayer3pAttempted() {
-        player3pAttempted = player3pAttempted / playerGameStatsListSize;
+    private void calculatePlayer3pMade() {
+        player3pMade /= playerGameStatsListSize;
+    }
+
+    private void calculatePlayer3pAttempted() {
+        player3pAttempted /= playerGameStatsListSize;
     }
 
 
-    public double getPointsAverage() {
+    double getPointsAverage() {
         return pointsAverage;
     }
 
-    public double getPlayerAssistAvg() {
+    double getPlayerAssistAvg() {
         return playerAssistAvg;
     }
 
-    public double getPlayerBlocksAvg() {
+    double getPlayerBlocksAvg() {
         return playerBlocksAvg;
     }
 
-    public double getPlayerDefRebAvg() {
+    double getPlayerDefRebAvg() {
         return playerDefRebAvg;
     }
 
-    public double getPlayer3pMade() {
+    double getPlayer3pMade() {
         return player3pMade;
     }
 
-    public double getPlayer3pAttempted() {
+    double getPlayer3pAttempted() {
         return player3pAttempted;
     }
 }
