@@ -1,33 +1,49 @@
 package com.example.statsdontlie.view.fragments;
 
 import android.app.ProgressDialog;
-import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import com.example.statsdontlie.OnFragmentInteractionListener;
 import com.example.statsdontlie.R;
-import com.example.statsdontlie.viewmodel.NewViewModel;
+import com.example.statsdontlie.model.PlayerAverageModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MenuFragment extends Fragment {
+    public static final String NBA_PLAYER_LIST = "NBAPlayerList";
+    private List<PlayerAverageModel> playerAverageModels;
     private OnFragmentInteractionListener listener;
     private Button playButton;
     private ProgressDialog progressDialog;
-    private NewViewModel viewModel;
 
-    public MenuFragment() {
+    public MenuFragment() {}
+
+    public static MenuFragment newInstance(List<PlayerAverageModel> playerAverageModels) {
+        MenuFragment menuFragment = new MenuFragment();
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList(NBA_PLAYER_LIST, (ArrayList<? extends Parcelable>) playerAverageModels);
+        menuFragment.setArguments(bundle);
+        return menuFragment;
     }
 
-    public static MenuFragment newInstance() {
-        return new MenuFragment();
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if(getArguments() != null){
+            playerAverageModels = getArguments().getParcelableArrayList(NBA_PLAYER_LIST);
+        }
     }
 
     @Override
@@ -37,6 +53,7 @@ public class MenuFragment extends Fragment {
             listener = (OnFragmentInteractionListener) context;
         }
 
+
         if (getFragmentManager().findFragmentByTag("game") != null) {
             getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentByTag("game"));
         }
@@ -45,7 +62,6 @@ public class MenuFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        viewModel = ViewModelProviders.of(this).get(NewViewModel.class);
         return inflater.inflate(R.layout.fragment_menu,container,false);
     }
 
@@ -53,7 +69,7 @@ public class MenuFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         playButton = view.findViewById(R.id.play_button);
 
-        playButton.setOnClickListener(v -> listener.displayGameFragment());
+        playButton.setOnClickListener(v -> listener.displayGameFragment(playerAverageModels));
     }
 
     public void showProgressDialog() {

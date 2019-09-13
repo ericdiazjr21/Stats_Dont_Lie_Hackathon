@@ -1,6 +1,9 @@
 package com.example.statsdontlie.model;
 
-public final class PlayerAverageModel {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public final class PlayerAverageModel implements Parcelable {
 
     private final long playerID;
     private final String firstName;
@@ -34,6 +37,31 @@ public final class PlayerAverageModel {
         this.player3PM = player3PM;
         this.player3PA = player3PA;
     }
+
+    protected PlayerAverageModel(Parcel in) {
+        playerID = in.readLong();
+        firstName = in.readString();
+        lastName = in.readString();
+        image = in.readString();
+        playerPointAvg = in.readDouble();
+        playerAssistAvg = in.readDouble();
+        playerBlocksAvg = in.readDouble();
+        playerDefRebAvg = in.readDouble();
+        player3PM = in.readDouble();
+        player3PA = in.readDouble();
+    }
+
+    public static final Creator<PlayerAverageModel> CREATOR = new Creator<PlayerAverageModel>() {
+        @Override
+        public PlayerAverageModel createFromParcel(Parcel in) {
+            return new PlayerAverageModel(in);
+        }
+
+        @Override
+        public PlayerAverageModel[] newArray(int size) {
+            return new PlayerAverageModel[size];
+        }
+    };
 
     public double getPlayerAssistAvg() {
         return playerAssistAvg;
@@ -110,5 +138,24 @@ public final class PlayerAverageModel {
           ", player3PM=" + player3PM +
           ", player3PA=" + player3PA +
           '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(playerID);
+        dest.writeString(firstName);
+        dest.writeString(lastName);
+        dest.writeString(image);
+        dest.writeDouble(playerPointAvg);
+        dest.writeDouble(playerAssistAvg);
+        dest.writeDouble(playerBlocksAvg);
+        dest.writeDouble(playerDefRebAvg);
+        dest.writeDouble(player3PM);
+        dest.writeDouble(player3PA);
     }
 }

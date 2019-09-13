@@ -1,19 +1,20 @@
 package com.example.statsdontlie.view.fragments;
 
-import androidx.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.cardview.widget.CardView;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
 
 import com.example.statsdontlie.Animations;
 import com.example.statsdontlie.OnFragmentInteractionListener;
@@ -23,13 +24,14 @@ import com.example.statsdontlie.model.PlayerAverageModel;
 import com.example.statsdontlie.utils.GameJudger;
 import com.example.statsdontlie.utils.PlayerUtil;
 import com.example.statsdontlie.utils.RandomNumberGenerator;
-import com.example.statsdontlie.viewmodel.NewViewModel;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GameFragment extends Fragment {
+    public static final String NBA_PLAYER_LIST = "NBA PLAYER LIST";
     private OnFragmentInteractionListener listener;
     private CardView playerOneCardView;
     private CardView playerTwoCardView;
@@ -43,7 +45,6 @@ public class GameFragment extends Fragment {
     private TextView displayQuestionTextView;
     private PlayerAverageModel player1;
     private PlayerAverageModel player2;
-    private NewViewModel viewModel;
     private int playerCorrectGuesses = 0;
     private int playerInCorrectGuesses = 0;
     private CountDownTimer countDownTimer;
@@ -58,8 +59,21 @@ public class GameFragment extends Fragment {
     public GameFragment() {
     }
 
-    public static GameFragment newInstance() {
-        return new GameFragment();
+    public static GameFragment newInstance(List<PlayerAverageModel> playerAverageModels) {
+        GameFragment gameFragment = new GameFragment();
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList(NBA_PLAYER_LIST, (ArrayList<? extends Parcelable>) playerAverageModels);
+        gameFragment.setArguments(bundle);
+        return gameFragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if(getArguments() != null){
+            playerAverageModels = getArguments().getParcelableArrayList(NBA_PLAYER_LIST);
+        }
     }
 
     @Override
@@ -80,7 +94,6 @@ public class GameFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         findViews(view);
         setViewModel();
-        this.playerAverageModels = viewModel.getPlayerAverageModels();
         setCountDownTimer();
 
         setRandomPlayers(playerAverageModels);
@@ -125,21 +138,16 @@ public class GameFragment extends Fragment {
 //                correct.clearAnimation();
 //                handler.removeCallbacksAndMessages(null);
 //                handler2.removeCallbacksAndMessages(null);
-                listener.displayResultFragment(playerCorrectGuesses, playerInCorrectGuesses);
+                listener.displayResultFragment(playerCorrectGuesses, playerInCorrectGuesses, playerAverageModels);
             }
         };
         countDownTimer.start();
     }
 
     private void setViewModel() {
-        viewModel = ViewModelProviders.of(this).get(NewViewModel.class);
 //        viewModel.callBDLResponseClient();
     }
 //
-    private void observeViewModel() {
-            this.playerAverageModels = viewModel.getPlayerAverageModels();
-    }
-
     private void setRandomPlayers(List<PlayerAverageModel> playerAverageModels) {
         player1 = playerAverageModels.get(RandomNumberGenerator.getRandomNumber1());
         player2 = playerAverageModels.get(RandomNumberGenerator.getRandomNumber2());

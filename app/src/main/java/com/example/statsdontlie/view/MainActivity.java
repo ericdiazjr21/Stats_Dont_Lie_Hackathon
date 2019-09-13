@@ -2,8 +2,9 @@ package com.example.statsdontlie.view;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.statsdontlie.OnFragmentInteractionListener;
 import com.example.statsdontlie.R;
@@ -18,59 +19,63 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements OnFragmentInteractionListener {
     private List<PlayerAverageModel> playerAverageModels = new ArrayList<>();
-    NewViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        viewModel = NewViewModel.getInstance(this);
         viewModelSetUp();
-
     }
 
     @SuppressLint("CheckResult")
     private void viewModelSetUp() {
         NewViewModel viewModel = NewViewModel.getInstance(this);
 
-        viewModel.callBDLResponseClient()
+        if (viewModel.getPlayerAverageModels() == null) {
+            viewModel.callBDLResponseClient()
+                    .subscribe(playerAverageModel -> {
+                                //add directly to the database
+                                viewModel.getDatabaseRepository().addPlayerData(playerAverageModel);
 
-          .subscribe(playerAverageModel -> {
-              //add directly to the database
-                viewModel.getDatabaseRepository().addPlayerData(playerAverageModel);
-                playerAverageModels.add(playerAverageModel);
+                                Log.d("TAG", "List<PlayerAverageModel> size: " + playerAverageModels.size());
+                                Log.d("TAG", "List<PlayerAverageModel> size: " + viewModel.getPlayerAverageModels().size());
 
-                Log.d("TAG", "List<PlayerAverageModel> size: " + playerAverageModels.size());
+                            }, throwable -> Log.d("TAG", throwable.toString()),
 
-            }, throwable -> Log.d("TAG", throwable.toString()),
+                            () -> {
+                                Log.d("TAG", "OnComplete - List<PlayerAverageModel> size: " + playerAverageModels.size());
+                                playerAverageModels = viewModel.getPlayerAverageModels();
+                            });
+        } else {
+            playerAverageModels = viewModel.getPlayerAverageModels();
+        }
 
-            () -> Log.d("TAG", "OnComplete - List<PlayerAverageModel> size: " + playerAverageModels.size()));
-        displayMenuFragment();
+        displayMenuFragment(playerAverageModels);
     }
 
     @Override
-    public void displayMenuFragment() {
+    public void displayMenuFragment(List<PlayerAverageModel> playerAverageModels) {
         getSupportFragmentManager()
-          .beginTransaction()
-          .replace(R.id.main_container, MenuFragment.newInstance())
-          .commit();
+                .beginTransaction()
+                .replace(R.id.main_container, MenuFragment.newInstance(playerAverageModels))
+                .commit();
     }
 
     @Override
-    public void displayGameFragment() {
+    public void displayGameFragment(List<PlayerAverageModel> playerAverageModels) {
         getSupportFragmentManager()
-          .beginTransaction()
-          .replace(R.id.main_container, GameFragment.newInstance(), "game")
-          .addToBackStack(null)
-          .commit();
+                .beginTransaction()
+                .replace(R.id.main_container, GameFragment.newInstance(playerAverageModels), "game")
+                .addToBackStack(null)
+                .commit();
     }
 
     @Override
-    public void displayResultFragment(int playerCorrectGuesses, int playerIncorrectGuesses) {
+    public void displayResultFragment(int playerCorrectGuesses, int playerIncorrectGuesses, List<PlayerAverageModel> playerAverageModels) {
         getSupportFragmentManager()
-          .beginTransaction()
-          .replace(R.id.main_container, ResultFragment.newInstance(playerCorrectGuesses, playerIncorrectGuesses))
-          .commit();
+                .beginTransaction()
+                .replace(R.id.main_container, ResultFragment.newInstance(playerCorrectGuesses, playerIncorrectGuesses, playerAverageModels))
+                .commit();
     }
 
 }
