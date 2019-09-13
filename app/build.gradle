@@ -47,9 +47,10 @@ dependencies {
     annotationProcessor 'com.google.dagger:dagger-compiler:2.24'
 
     // For Networking
-    implementation 'com.squareup.retrofit2:retrofit:2.6.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.6.1'
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.1'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.14.0'
 
     //For SQLDelight
     implementation "com.squareup.sqldelight:android-driver:1.2.0"
@@ -57,7 +58,7 @@ dependencies {
     //For Test
     testImplementation 'junit:junit:4.12'
     testImplementation "com.squareup.sqldelight:sqlite-driver:1.2.0"
-    androidTestImplementation 'androidx.test:runner:1.1.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
 }

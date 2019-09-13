@@ -38,9 +38,11 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
           .subscribe(playerAverageModel -> {
               //add directly to the database
                 viewModel.getDatabaseRepository().addPlayerData(playerAverageModel);
+                playerAverageModels.add(playerAverageModel);
+
                 Log.d("TAG", "List<PlayerAverageModel> size: " + playerAverageModels.size());
 
-            }, throwable -> {},
+            }, throwable -> Log.d("TAG", throwable.toString()),
 
             () -> Log.d("TAG", "OnComplete - List<PlayerAverageModel> size: " + playerAverageModels.size()));
         displayMenuFragment();
